@@ -3,10 +3,10 @@ navname: HomePage
 
 # navigatior items
 nav:
-  Posts: /archives
-  Categories: /category
-  Tags: /tag
-  About: /about
+  文章: /archives
+  类别: /category
+  标签: /tag
+  关于: /about
 
 # favicon
 favicon: /favicon.ico
