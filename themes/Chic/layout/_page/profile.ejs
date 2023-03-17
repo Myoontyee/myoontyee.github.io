@@ -1,0 +1,35 @@
+<!-- 这个文件是首页 -->
+<!-- 先要引用这个icon库 -->
+<link rel="stylesheet" href="../fonts/iconfont2/iconfont.css"> 
+<!-- 再进行代码编写 -->
+<div class="container profile-container">
+    <div class="intro">
+        <!-- <div class="avatar"> -->
+            <!-- <a href="<%- url_for(theme.nav.Posts) %>"><img src="<%- url_for(theme.avatar) %>"></a> -->
+            <!-- <a href="<%- url_for(theme.nav.Posts) %>"><img src="<%- url_for(theme.avatar) %>"></a> -->
+        <!-- </div> -->
+        <div class="nickname"><%- theme.nickname %></div>
+        <div class="description"><%- markdown(theme.description) %></div>
+        <div class="links">
+            <% if (theme.links !== undefined) { %>
+                <% for (var key in theme.links){ %>
+                    <a class="link-item" title="<%- key %>" href="<%= theme.links[key] %>">
+                        
+                        <% if(theme.links_text_enable) { %>
+                            <%= key %>
+                        <%}%>
+                        <%if(theme.links_icon_enable){ %>
+                            <i class="iconfont icon-<%- key.toLowerCase() %>"></i>
+                        <%}%>
+                    </a>
+                <% } %>
+            <% } %>
+        </div>
+        
+        <div class="friends_link">
+            <!-- 友链: -->
+        <a href="https://cyw1001.github.io/"><i class="iconfont icon-youlian"></i></a>
+        <a href="https://zero1248.github.io/"><i class="iconfont icon-youlian"></i></a>
+        </div>
+    </div>
+</div>

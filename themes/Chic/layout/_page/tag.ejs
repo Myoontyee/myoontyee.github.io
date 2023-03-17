@@ -1,0 +1,9 @@
+<%# single tag page%>
+
+<div class="container">
+    <div class="post-wrap tags">
+        <!-- <h2 class="post-title">-&nbsp;Tag&nbsp;·&nbsp;<%-page.tag%>-</h2> -->
+        <h2 class="post-title">-&nbsp;<i class="iconfont icon-biaoqian-" style="font-size: 1em;"></i>标签&nbsp;·&nbsp;<%-page.tag%>-</h2>
+    </div>
+    <%- partial('archive', {pagination: config.tag, index: true}) %>
+</div>

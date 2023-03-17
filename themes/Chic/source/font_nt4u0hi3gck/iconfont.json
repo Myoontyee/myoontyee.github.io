@@ -1,0 +1,16 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "5278056",
+      "name": "航空航天-aerospace-地球月球-",
+      "font_class": "hangkonghangtian-aerospace-diqiuyueqiu-",
+      "unicode": "e670",
+      "unicode_decimal": 58992
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+<% if(config.search && config.search.enable ) { %>
+    <div class="search ">
+        <div class="search-btn" onClick="searchToggle()">
+            <img src="<%- url_for(theme.searchImg) %>" class="search-btn-img" />
+        </div>
+        <form class="form-search">
+            <input class="input" placeholder="点此搜索" autocomplete="off" id="<%= name %>-search-input"/>
+        </form>
+    </div>
+<% } %>

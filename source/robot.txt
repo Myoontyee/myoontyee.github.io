@@ -1,0 +1,4 @@
+# hexo robots.txt
+
+Sitemap: https://myoontyee.github.io/sitemap.xml
+Sitemap: https://myoontyee.github.io/baidusitemap.xml
