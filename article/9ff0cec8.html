@@ -557,20 +557,17 @@
             <br><strong>⚠️警告：博客文章禁止一切形式的非授权非法转载！</strong>
             <br><strong>⚠️Attention: All forms of unauthorized illegal reposts are prohibited !</strong> 
             <hr>
-<p><strong>创建时间</strong>：2022年4月4日12:01:09<br>
-<strong>最新更新</strong>：2022年4月5日12:36:37</p>
+<p><strong>创建时间</strong>：2022年4月4日12:01:09<br><strong>最新更新</strong>：2022年4月5日12:36:37</p>
 <hr>
 <p><strong>Problem Description</strong>：Hexo + Chic category page three-dot omission scheme for long blog post names</p>
 <p><strong>核心思路</strong>：</p>
 <ul>
 <li>参考<a href="./321a7025.html">Hexo + Chic过长博文名如何实现省略，过长博文名，实现三个点省略方案</a>，添加个<code>&lt;li&gt;&lt;/li&gt;</code>样式</li>
-<li>将<code>themes\Chic\layout\category.ejs</code>与<code>themes\Chic\layout\_page\category.ejs</code>的显示逻辑分开写
-<ul>
+<li>将<code>themes\Chic\layout\category.ejs</code>与<code>themes\Chic\layout\_page\category.ejs</code>的显示逻辑分开写<ul>
 <li><code>themes\Chic\layout\_page\category.ejs</code>显示逻辑要重写</li>
 </ul>
 </li>
-<li>用<code>.findOne</code>函数确认存在这个<code>category</code>的博文
-<ul>
+<li>用<code>.findOne</code>函数确认存在这个<code>category</code>的博文<ul>
 <li><code>var posts = site.categories.findOne({name: page.category}).posts</code></li>
 </ul>
 </li>
@@ -581,10 +578,8 @@
 </ul>
 <img src="/article/9ff0cec8/image-20220404133308060.png" class="" title="image-20220404133308060">
 <img src="/article/9ff0cec8/image-20220405124016537.png" class="" title="image-20220405124016537">
-<h1 id="修改卡片页样式"><a class="markdownIt-Anchor" href="#修改卡片页样式"></a> 修改卡片页样式</h1>
-<ul>
-<li>用代码编辑器打开<code>themes\Chic\layout\category.ejs</code>
-<ul>
+<h1 id="修改卡片页样式"><a href="#修改卡片页样式" class="headerlink" title="修改卡片页样式"></a>修改卡片页样式</h1><ul>
+<li>用代码编辑器打开<code>themes\Chic\layout\category.ejs</code><ul>
 <li>使用<code>&lt;li&gt;</code></li>
 <li>添加<code>&lt;li&gt;</code>样式</li>
 </ul>
@@ -610,19 +605,17 @@
 </div>
 # 修改单category页面显示逻辑与样式
 * 用代码编辑器打开`themes\Chic\layout\_page\category.ejs`
-	* 修改显示逻辑
-	* 添加对应样式
-<ul>
-<li>添加的显示逻辑如下</li>
-</ul>
+    * 修改显示逻辑
+    * 添加对应样式
+
+* 添加的显示逻辑如下
 <figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 2022年4月5日 对单页的样式进行单独设置 --&gt;</span><br><span class="line">&lt;!-- 2022年4月5日 每页条数 --&gt;</span><br><span class="line">&lt;% var perPage = config.top_generator.per_page %&gt;</span><br><span class="line">&lt;% var currentPage = url.match(/page\/(.*)\//) ? url.match(/page\/(.*)\//)[1] : 1 %&gt;</span><br><span class="line">&lt;% var last_year = ''; %&gt;</span><br><span class="line">&lt;% var posts = site.categories.findOne({name: page.category}).posts %&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 按date逆序排序 --&gt;</span><br><span class="line">&lt;% posts.data = posts.data.sort((a, b) =&gt; b.date - a.date) %&gt;</span><br><span class="line">&lt;% posts.slice((currentPage - 1) * perPage, currentPage * perPage ).each(function (post) { %&gt;</span><br><span class="line">        &lt;% var cur_year = post.date.year(); %&gt;</span><br><span class="line">        &lt;% if(last_year !== cur_year){ %&gt;</span><br><span class="line">            &lt;h3&gt;&lt;%- cur_year %&gt;&lt;/h3&gt;</span><br><span class="line">        &lt;% last_year = cur_year; } %&gt;</span><br><span class="line">        &lt;article class="archive-item"&gt;</span><br><span class="line">            </span><br><span class="line">            &lt;a class="archive-item-link" href="&lt;%- url_for(post.path) %&gt;"&gt;</span><br><span class="line">            &lt;li class="category-page-post"&gt;</span><br><span class="line">                &lt;%= post.title %&gt;</span><br><span class="line">            &lt;/li&gt;</span><br><span class="line">            &lt;/a&gt;</span><br><span class="line">            </span><br><span class="line">            &lt;span class="archive-item-date"&gt;&lt;%- date(post.date, theme.date_format) %&gt;&lt;/span&gt;</span><br><span class="line">        &lt;/article&gt;</span><br><span class="line">&lt;% }) %&gt;</span><br><span class="line"></span><br><span class="line">&lt;% if(Math.ceil(posts.length /  perPage) &gt; 1) { %&gt;</span><br><span class="line">&lt;nav class="pagination"&gt;</span><br><span class="line">    &lt;%- paginator({</span><br><span class="line">        prev_next: false,</span><br><span class="line">        end_size: 1,</span><br><span class="line">        mid_size: 2,</span><br><span class="line">        total: Math.ceil(posts.length /  perPage)</span><br><span class="line">    }) %&gt;</span><br><span class="line">&lt;/nav&gt;</span><br><span class="line"></span><br><span class="line">    &lt;% } %&gt;</span><br><span class="line">&lt;!-- 2022年4月5日 对单页的样式进行单独设置如上 --&gt;				</span><br></pre></td></tr></tbody></table></figure>
-<ul>
-<li>添加的样式如下</li>
-</ul>
+
+* 添加的样式如下
 <figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 2022年4月5日 添加过长博文名省略 --&gt;</span><br><span class="line">&lt;style&gt;</span><br><span class="line">    .category-page-post{</span><br><span class="line">        width: 650px;</span><br><span class="line">        height: 24.2px;</span><br><span class="line">        /*不换行*/</span><br><span class="line">        white-space: nowrap;</span><br><span class="line">        /*溢出的话，隐藏*/</span><br><span class="line">        overflow: hidden;</span><br><span class="line">        /*文本溢出时，是否....*/</span><br><span class="line">        text-overflow: ellipsis;</span><br><span class="line">    }</span><br><span class="line">&lt;/style&gt;</span><br></pre></td></tr></tbody></table></figure>
-<ul>
-<li><code>themes\Chic\layout\_page\category.ejs</code>修改前后对比如下</li>
-</ul>
+
+* `themes\Chic\layout\_page\category.ejs`修改前后对比如下
+
 <div style="overflow:auto;width:100%"> <table width="auto" style="white-space:nowrap">
 <tbody><tr>
 <td> <div align="center"> <strong>修改前</strong></div> </td> <td> <div align="center"> <strong>修改后</strong></div> </td>
@@ -636,8 +629,8 @@
 </td>
 </tr></tbody></table>
 </div>
-<h1 id="ref"><a class="markdownIt-Anchor" href="#ref"></a> Ref</h1>
-<ul>
+
+<h1 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h1><ul>
 <li><a target="_blank" rel="noopener" href="https://printempw.github.io/get-hexo-posts-by-category-or-tag/">Hexo 获取特定分类或标签下的文章</a></li>
 <li><a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues/2975">Getting a list of posts in a specific category</a></li>
 </ul>

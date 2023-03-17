@@ -528,7 +528,7 @@
                         
                             <span class="post-count">
                             📑字数:
-                            <a href="">409</a>  
+                            <a href="">405</a>  
                             </span>
                         
 
@@ -557,17 +557,13 @@
             <br><strong>⚠️警告：博客文章禁止一切形式的非授权非法转载！</strong>
             <br><strong>⚠️Attention: All forms of unauthorized illegal reposts are prohibited !</strong> 
             <hr>
-<p><strong>创建时间</strong>：2022年3月23日10:09:53<br>
-<strong>最新更新</strong>：2022年3月23日10:28:35</p>
+<p><strong>创建时间</strong>：2022年3月23日10:09:53<br><strong>最新更新</strong>：2022年3月23日10:28:35</p>
 <hr>
 <p><strong>核心思路</strong>：<code>uproot</code>和<code>uproot3</code>是两个库，<code>uproot</code>库好用点，用<code>uproot</code>库读一下数据，转换成<code>DataFrame</code></p>
 <hr>
-<h1 id="导入库"><a class="markdownIt-Anchor" href="#导入库"></a> 导入库</h1>
-<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> uproot</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br></pre></td></tr></tbody></table></figure>
-<h1 id="读取root文件"><a class="markdownIt-Anchor" href="#读取root文件"></a> 读取.root文件</h1>
-<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file = uproot.<span class="built_in">open</span>(<span class="string">'./test.root'</span>)</span><br></pre></td></tr></tbody></table></figure>
-<h1 id="查看索引"><a class="markdownIt-Anchor" href="#查看索引"></a> 查看索引</h1>
-<ul>
+<h1 id="导入库"><a href="#导入库" class="headerlink" title="导入库"></a>导入库</h1><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> uproot</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br></pre></td></tr></tbody></table></figure>
+<h1 id="读取-root文件"><a href="#读取-root文件" class="headerlink" title="读取.root文件"></a>读取.root文件</h1><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file = uproot.<span class="built_in">open</span>(<span class="string">'./test.root'</span>)</span><br></pre></td></tr></tbody></table></figure>
+<h1 id="查看索引"><a href="#查看索引" class="headerlink" title="查看索引"></a>查看索引</h1><ul>
 <li>查看索引与你设计的数据存储形式有关</li>
 <li>假设的文件结构如下</li>
 </ul>
@@ -591,61 +587,52 @@ B1--&gt;C1
 C1--&gt;D1
 B1--&gt;C2
 C1--&gt;D2</pre>
-<h2 id="查看根级索引"><a class="markdownIt-Anchor" href="#查看根级索引"></a> 查看根级索引</h2>
-<ul>
-<li>查看根层级下的索引</li>
+
+
+
+
+
+<h2 id="查看根级索引"><a href="#查看根级索引" class="headerlink" title="查看根级索引"></a>查看根级索引</h2><ul>
+<li>查看根层级下的索引<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file.keys()</span><br></pre></td></tr></tbody></table></figure></li>
+<li>示例的返回<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">'B1;1'</span>,</span><br><span class="line"> <span class="string">'B2;1'</span>,</span><br><span class="line"> <span class="string">'B3;1'</span>,</span><br><span class="line"> <span class="string">'B4;1'</span>,</span><br><span class="line"> <span class="string">'B5;1'</span>,]</span><br></pre></td></tr></tbody></table></figure>
+</li>
 </ul>
-<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file.keys()</span><br></pre></td></tr></tbody></table></figure>
-<ul>
-<li>示例的返回</li>
-</ul>
-<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">'B1;1'</span>,</span><br><span class="line"> <span class="string">'B2;1'</span>,</span><br><span class="line"> <span class="string">'B3;1'</span>,</span><br><span class="line"> <span class="string">'B4;1'</span>,</span><br><span class="line"> <span class="string">'B5;1'</span>,]</span><br></pre></td></tr></tbody></table></figure>
-<h2 id="查看子级索引"><a class="markdownIt-Anchor" href="#查看子级索引"></a> 查看子级索引</h2>
-<ul>
-<li>类似<code>pandas</code>的用法</li>
-</ul>
-<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file[<span class="string">'B1;1'</span>].keys()</span><br></pre></td></tr></tbody></table></figure>
-<ul>
-<li>示例的返回</li>
-</ul>
+<h2 id="查看子级索引"><a href="#查看子级索引" class="headerlink" title="查看子级索引"></a>查看子级索引</h2><ul>
+<li>类似<code>pandas</code>的用法<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file[<span class="string">'B1;1'</span>].keys()</span><br></pre></td></tr></tbody></table></figure></li>
+<li><p>示例的返回</p>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">'C1;1'</span>,</span><br><span class="line"> <span class="string">'C2;1'</span>,]</span><br></pre></td></tr></tbody></table></figure>
-<ul>
-<li>更下一级的查看，可以使用以下形式</li>
+</li>
+<li><p>更下一级的查看，可以使用以下形式</p>
+</li>
 </ul>
 <figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file[<span class="string">'B1;1'</span>][<span class="string">'C1;1'</span>]</span><br></pre></td></tr></tbody></table></figure>
 <ul>
-<li>示例的返回</li>
+<li>示例的返回<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">'D1;1'</span>,</span><br><span class="line"> <span class="string">'D2;1'</span>,]</span><br></pre></td></tr></tbody></table></figure>
+</li>
 </ul>
-<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">'D1;1'</span>,</span><br><span class="line"> <span class="string">'D2;1'</span>,]</span><br></pre></td></tr></tbody></table></figure>
-<h1 id="查看对应目录下的数据"><a class="markdownIt-Anchor" href="#查看对应目录下的数据"></a> 查看对应目录下的数据</h1>
-<ul>
+<h1 id="查看对应目录下的数据"><a href="#查看对应目录下的数据" class="headerlink" title="查看对应目录下的数据"></a>查看对应目录下的数据</h1><ul>
 <li>两种方法</li>
 </ul>
-<h2 id="法1"><a class="markdownIt-Anchor" href="#法1"></a> 法1</h2>
-<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file[<span class="string">'B2;1'</span>].arrays()</span><br></pre></td></tr></tbody></table></figure>
+<h2 id="法1"><a href="#法1" class="headerlink" title="法1"></a>法1</h2><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file[<span class="string">'B2;1'</span>].arrays()</span><br></pre></td></tr></tbody></table></figure>
 <ul>
 <li>示例的返回</li>
 </ul>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Array [{Energy: 10}] <span class="built_in">type</span>=<span class="string">'1 * {"Energy": float64}'</span>&gt;</span><br></pre></td></tr></tbody></table></figure>
-<h2 id="法2"><a class="markdownIt-Anchor" href="#法2"></a> 法2</h2>
-<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file[<span class="string">'B2;1'</span>].array()</span><br></pre></td></tr></tbody></table></figure>
+<h2 id="法2"><a href="#法2" class="headerlink" title="法2"></a>法2</h2><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">file[<span class="string">'B2;1'</span>].array()</span><br></pre></td></tr></tbody></table></figure>
 <ul>
-<li>示例的返回</li>
+<li>示例的返回<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Array [10] <span class="built_in">type</span>=<span class="string">'1 * float64'</span>&gt;</span><br></pre></td></tr></tbody></table></figure>
+</li>
 </ul>
-<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Array [10] <span class="built_in">type</span>=<span class="string">'1 * float64'</span>&gt;</span><br></pre></td></tr></tbody></table></figure>
-<h1 id="批量转换为dataframe格式"><a class="markdownIt-Anchor" href="#批量转换为dataframe格式"></a> 批量转换为DataFrame格式</h1>
-<ul>
-<li>下述代码将根层级下的<code>B2</code>，<code>B3</code>，<code>B4</code>，<code>B5</code>批量导出转换为<code>DataFrame</code>形式</li>
-</ul>
+<h1 id="批量转换为DataFrame格式"><a href="#批量转换为DataFrame格式" class="headerlink" title="批量转换为DataFrame格式"></a>批量转换为DataFrame格式</h1><ul>
+<li><p>下述代码将根层级下的<code>B2</code>，<code>B3</code>，<code>B4</code>，<code>B5</code>批量导出转换为<code>DataFrame</code>形式</p>
 <figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">df = pd.DataFrame(file.arrays(   </span><br><span class="line">        [<span class="string">'B2;1'</span>,</span><br><span class="line">         <span class="string">'B3;1'</span>,</span><br><span class="line">         <span class="string">'B4;1'</span>,</span><br><span class="line">         <span class="string">'B5;1'</span>,],</span><br><span class="line">      		library=<span class="string">"pd"</span>))</span><br></pre></td></tr></tbody></table></figure>
-<ul>
-<li>下述代码将<code>B1</code>子层级下的<code>C1</code>，<code>C2</code>批量导出转换为<code>DataFrame</code>格式</li>
-</ul>
+</li>
+<li><p>下述代码将<code>B1</code>子层级下的<code>C1</code>，<code>C2</code>批量导出转换为<code>DataFrame</code>格式</p>
 <figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">df = pd.DataFrame(file[<span class="string">'B1;1'</span>].arrays(   </span><br><span class="line">        [<span class="string">'C1;1'</span>,</span><br><span class="line">         <span class="string">'C2;1'</span>,],</span><br><span class="line">      		library=<span class="string">"pd"</span>))</span><br></pre></td></tr></tbody></table></figure>
-<h1 id="整体代码"><a class="markdownIt-Anchor" href="#整体代码"></a> 整体代码</h1>
-<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> uproot</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">file.keys()</span><br><span class="line"></span><br><span class="line">df = pd.DataFrame()</span><br><span class="line">df = pd.DataFrame(file.arrays(   </span><br><span class="line">        [<span class="string">'B2;1'</span>,</span><br><span class="line">         <span class="string">'B3;1'</span>,</span><br><span class="line">         <span class="string">'B4;1'</span>,</span><br><span class="line">         <span class="string">'B5;1'</span>,],</span><br><span class="line">      		library=<span class="string">"pd"</span>))</span><br><span class="line"></span><br><span class="line">df.to_csv(<span class="string">'./test.csv'</span>)</span><br></pre></td></tr></tbody></table></figure>
-<h1 id="ref"><a class="markdownIt-Anchor" href="#ref"></a> Ref</h1>
-<ul>
+</li>
+</ul>
+<h1 id="整体代码"><a href="#整体代码" class="headerlink" title="整体代码"></a>整体代码</h1><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> uproot</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">file.keys()</span><br><span class="line"></span><br><span class="line">df = pd.DataFrame()</span><br><span class="line">df = pd.DataFrame(file.arrays(   </span><br><span class="line">        [<span class="string">'B2;1'</span>,</span><br><span class="line">         <span class="string">'B3;1'</span>,</span><br><span class="line">         <span class="string">'B4;1'</span>,</span><br><span class="line">         <span class="string">'B5;1'</span>,],</span><br><span class="line">      		library=<span class="string">"pd"</span>))</span><br><span class="line"></span><br><span class="line">df.to_csv(<span class="string">'./test.csv'</span>)</span><br></pre></td></tr></tbody></table></figure>
+<h1 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h1><ul>
 <li><a target="_blank" rel="noopener" href="https://uproot.readthedocs.io/en/latest/basic.html">uproot document</a></li>
 </ul>
 
@@ -715,6 +702,11 @@ C1--&gt;D2</pre>
                 <span class="tag">
                     
                     
+                        <!-- <a href="/tags/CERN-ROOT/"># CERN ROOT</a> -->
+                        <!-- <a href="/tags/CERN-ROOT/">🏷️CERN ROOT</a> -->
+                        <a href="/tags/CERN-ROOT/"><i class="iconfont icon-biaoqian-" style="font-size: 1em;"></i>CERN ROOT </a>
+                        
+                    
                         <!-- <a href="/tags/Geant4/"># Geant4</a> -->
                         <!-- <a href="/tags/Geant4/">🏷️Geant4</a> -->
                         <a href="/tags/Geant4/"><i class="iconfont icon-biaoqian-" style="font-size: 1em;"></i>Geant4 </a>
@@ -723,11 +715,6 @@ C1--&gt;D2</pre>
                         <!-- <a href="/tags/B5/"># B5</a> -->
                         <!-- <a href="/tags/B5/">🏷️B5</a> -->
                         <a href="/tags/B5/"><i class="iconfont icon-biaoqian-" style="font-size: 1em;"></i>B5 </a>
-                        
-                    
-                        <!-- <a href="/tags/CERN-ROOT/"># CERN ROOT</a> -->
-                        <!-- <a href="/tags/CERN-ROOT/">🏷️CERN ROOT</a> -->
-                        <a href="/tags/CERN-ROOT/"><i class="iconfont icon-biaoqian-" style="font-size: 1em;"></i>CERN ROOT </a>
                         
                     
                         <!-- <a href="/tags/Python/"># Python</a> -->

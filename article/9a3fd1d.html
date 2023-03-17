@@ -565,8 +565,7 @@
 <li>运行，预览</li>
 </ul>
 <hr>
-<h1 id="挑icon下载并放到对应文件夹"><a class="markdownIt-Anchor" href="#挑icon下载并放到对应文件夹"></a> 挑icon，下载并放到对应文件夹</h1>
-<ul>
+<h1 id="挑icon，下载并放到对应文件夹"><a href="#挑icon，下载并放到对应文件夹" class="headerlink" title="挑icon，下载并放到对应文件夹"></a>挑icon，下载并放到对应文件夹</h1><ul>
 <li>打开<a target="_blank" rel="noopener" href="https://www.iconfont.cn">iconfont+</a>，登录后搜索想要的icon→选中喜欢的→<code>添加入库</code>→去购物车→<code>下载代码</code></li>
 </ul>
 <img src="/article/9a3fd1d/image-20220315201653220.png" class="" title="image-20220315201653220">
@@ -577,10 +576,8 @@
 <li>进入<code>themes\Chic\source\fonts</code>，解压上面下载的压缩包至该路径下，可以起名为<code>iconfont2</code></li>
 </ul>
 <img src="/article/9a3fd1d/image-20220315201723107.png" class="" title="image-20220315201723107">
-<h1 id="看iconfont代码进行配置"><a class="markdownIt-Anchor" href="#看iconfont代码进行配置"></a> 看iconfont代码，进行配置</h1>
-<ul>
-<li><code>iconfont2</code>文件夹下有个文件，<code>demo_index.html</code>，相对路径是<code>themes\Chic\source\fonts\iconfont2\demo_index.html</code>，双击打开这个文件→在浏览器中打开→点击<code>Font class</code>→查看代码，为下下图画红色箭头的部分
-<ul>
+<h1 id="看iconfont代码，进行配置"><a href="#看iconfont代码，进行配置" class="headerlink" title="看iconfont代码，进行配置"></a>看iconfont代码，进行配置</h1><ul>
+<li><code>iconfont2</code>文件夹下有个文件，<code>demo_index.html</code>，相对路径是<code>themes\Chic\source\fonts\iconfont2\demo_index.html</code>，双击打开这个文件→在浏览器中打开→点击<code>Font class</code>→查看代码，为下下图画红色箭头的部分<ul>
 <li>此处代码指的是<code>icon-</code>后面的字母，如<code>youlian</code>、<code>jianshu</code>、<code>csdn</code>，要注意大小写</li>
 </ul>
 </li>
@@ -588,34 +585,30 @@
 <img src="/article/9a3fd1d/image-20220315201729195.png" class="" title="image-20220315201729195">
 <img src="/article/9a3fd1d/image-20220315201746814.png" class="" title="image-20220315201746814">
 <ul>
-<li>
-<p>接下来，比如要在<code>themes\Chic\_config.yml</code>的<code>links</code>内添加并使用<code>jianshu</code>这个icon，我们需要配置如下文件</p>
+<li><p>接下来，比如要在<code>themes\Chic\_config.yml</code>的<code>links</code>内添加并使用<code>jianshu</code>这个icon，我们需要配置如下文件</p>
 <ul>
 <li><code>themes\Chic\source\css\style.styl</code>引用<code>iconfont2</code>的<code>iconfont.css</code></li>
 <li><code>themes\Chic\layout\_page\profile.ejs</code>引用<code>iconfont2</code>的<code>iconfont.css</code></li>
 <li><code>themes\Chic\_config.yml</code>的<code>links</code></li>
 </ul>
 </li>
-<li>
-<p>一步一步来，打开<code>themes\Chic\source\css\style.styl</code>，输入如下代码，注意是<code>iconfont2</code></p>
+<li><p>一步一步来，打开<code>themes\Chic\source\css\style.styl</code>，输入如下代码，注意是<code>iconfont2</code></p>
 </li>
 </ul>
 <figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@import "../fonts/iconfont2/iconfont.css"  // CSDN、简书、友链</span><br></pre></td></tr></tbody></table></figure>
 <ul>
-<li>打开<code>themes\Chic\layout\_page\profile.ejs</code>，在最上方添加如下代码，注意是<code>iconfont2</code></li>
-</ul>
+<li><p>打开<code>themes\Chic\layout\_page\profile.ejs</code>，在最上方添加如下代码，注意是<code>iconfont2</code></p>
 <figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 先要引用这个icon库 --&gt;</span><br><span class="line">&lt;link rel="stylesheet" href="../fonts/iconfont2/iconfont.css"&gt; </span><br><span class="line">&lt;!-- 再进行代码编写 --&gt;</span><br></pre></td></tr></tbody></table></figure>
-<ul>
-<li>打开<code>themes\Chic\_config.yml</code>，在<code>links</code>内添加对应的内容，比如下面内容</li>
+</li>
+<li><p>打开<code>themes\Chic\_config.yml</code>，在<code>links</code>内添加对应的内容，比如下面内容</p>
+</li>
 </ul>
 <figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">links:</span><br><span class="line">  jianshu: https://github.com/</span><br><span class="line">  csdn: https://github.com/</span><br></pre></td></tr></tbody></table></figure>
-<h1 id="部署预览"><a class="markdownIt-Anchor" href="#部署预览"></a> 部署预览</h1>
-<ul>
+<h1 id="部署预览"><a href="#部署预览" class="headerlink" title="部署预览"></a>部署预览</h1><ul>
 <li>打开<code>Git-Bash</code>，输入<code>hexo clean</code>，<code>hexo s -g</code>，进入<code>localhost:4000</code>看一下页面，可以正常使用这些新添加的icon了</li>
 </ul>
 <img src="/article/9a3fd1d/image-20220315201758140.png" class="" title="image-20220315201758140">
-<h1 id="ref"><a class="markdownIt-Anchor" href="#ref"></a> Ref</h1>
-<ul>
+<h1 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h1><ul>
 <li><a target="_blank" rel="noopener" href="https://github.com/Siricee/hexo-theme-Chic/issues/5">关于文章标题 markdown语法 “##”关键字创建的标题，为什么渲染后的页面还会出现“#”？</a></li>
 <li><a target="_blank" rel="noopener" href="https://github.com/Siricee/hexo-theme-Chic/issues/69">关于图标iconfont的疑惑</a></li>
 </ul>
