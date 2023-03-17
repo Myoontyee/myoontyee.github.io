@@ -528,7 +528,7 @@
                         
                             <span class="post-count">
                             📑字数:
-                            <a href="">314</a>  
+                            <a href="">370</a>  
                             </span>
                         
 
@@ -558,10 +558,22 @@
             <br><strong>⚠️Attention: All forms of unauthorized illegal reposts are prohibited !</strong> 
             <hr>
 <p><strong>创建时间</strong>：2023年3月17日10:38:41<br>
-<strong>最新更新</strong>：2023年3月17日10:56:45</p>
+<strong>最新更新</strong>：2023年3月17日22:44:00</p>
 <hr>
 <p><strong>Problem Description</strong>：How to Clear Commits in GitHub+Hexo Code Warehouse to Avoid Information Leakage?</p>
-<p><strong>核心思路</strong>：清空代码仓分支并覆盖，注意本教程针对的是基于<a href="./f338e400.html">GitHub+Hexo的个人博客，blog，GitHub Page如何实现一个分支作为博客源码，一个分支用于全部源码备份？</a>教程的部署情况</p>
+<p><strong>核心思路</strong>：</p>
+<ul>
+<li>方法1
+<ul>
+<li>清空代码仓分支并覆盖，注意本教程针对的是基于<a href="./f338e400.html">GitHub+Hexo的个人博客，blog，GitHub Page如何实现一个分支作为博客源码，一个分支用于全部源码备份？</a>教程的部署情况</li>
+</ul>
+</li>
+<li>方法2
+<ul>
+<li>删<code>.deploy_git</code>文件夹后重新部署提交</li>
+</ul>
+</li>
+</ul>
 <hr>
 <ul>
 <li>最终实现效果</li>
@@ -612,9 +624,16 @@
 <li>为了确保网页部署，可以在<code>bash</code>内进行如下指令</li>
 </ul>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></tbody></table></figure>
+<h1 id="方法2"><a class="markdownIt-Anchor" href="#方法2"></a> 方法2</h1>
+<ul>
+<li>删除Blog代码目录下<code>.deploy_git</code>文件夹</li>
+<li>在bash内输入如下指令</li>
+</ul>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></tbody></table></figure>
 <h1 id="ref"><a class="markdownIt-Anchor" href="#ref"></a> Ref</h1>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1987447">删除 GitHub 所有 Commit 记录</a></li>
+<li><a target="_blank" rel="noopener" href="https://ouoholly.github.io/post/hexo-delete-commit-history-in-github/#%E6%96%B9%E6%B3%95">Hexo 刪除 github 的 commit 歷史記錄</a></li>
 </ul>
 
         </div>
