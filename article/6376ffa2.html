@@ -557,32 +557,40 @@
             <br><strong>⚠️警告：博客文章禁止一切形式的非授权非法转载！</strong>
             <br><strong>⚠️Attention: All forms of unauthorized illegal reposts are prohibited !</strong> 
             <hr>
-<p><strong>创建时间</strong>：2022年3月29日23:27:31<br><strong>最新更新</strong>：2022年3月29日23:27:37</p>
+<p><strong>创建时间</strong>：2022年3月29日23:27:31<br>
+<strong>最新更新</strong>：2022年3月29日23:27:37</p>
 <hr>
 <p><strong>核心思路</strong>：</p>
 <ul>
-<li><p>hexo new page`+页面名</p>
+<li>
+<p>hexo new page`+页面名</p>
 <ul>
 <li>如<code>hexo new page about</code></li>
 </ul>
 </li>
-<li><p>配置Blog源码根目录下<code>_config.yml</code>文件</p>
+<li>
+<p>配置Blog源码根目录下<code>_config.yml</code>文件</p>
 </li>
-<li><p>配置Blog使用的模板目录下的<code>_config.yml</code>文件</p>
+<li>
+<p>配置Blog使用的模板目录下的<code>_config.yml</code>文件</p>
 </li>
-<li><p>配置对应页面内容</p>
+<li>
+<p>配置对应页面内容</p>
 </li>
 </ul>
 <hr>
-<h1 id="新建页面"><a href="#新建页面" class="headerlink" title="新建页面"></a>新建页面</h1><ul>
-<li>以管理员模式打开<code>Git-Bash</code>，进入到存放Blog源码文件的根目录，输入<code>hexo new page</code>+页面名<ul>
+<h1 id="新建页面"><a class="markdownIt-Anchor" href="#新建页面"></a> 新建页面</h1>
+<ul>
+<li>以管理员模式打开<code>Git-Bash</code>，进入到存放Blog源码文件的根目录，输入<code>hexo new page</code>+页面名
+<ul>
 <li>如<code>hexo new page aboutMe</code></li>
 </ul>
 </li>
 </ul>
 <img src="/article/6376ffa2/image-20220329232954785.png" class="" title="image-20220329232954785">
 <ul>
-<li>用代码编辑器打开对应的文件夹，此处以<code>Chic</code>主题为例，打开<code>./themes/Chic/_config.yml</code>（注意<strong>不是</strong>根目录下的<code>_config.yml</code>），按下图方式配置，<code>nav:</code>后添加<code>AboutMe: /aboutMe</code><ul>
+<li>用代码编辑器打开对应的文件夹，此处以<code>Chic</code>主题为例，打开<code>./themes/Chic/_config.yml</code>（注意<strong>不是</strong>根目录下的<code>_config.yml</code>），按下图方式配置，<code>nav:</code>后添加<code>AboutMe: /aboutMe</code>
+<ul>
 <li>前面那个<code>AboutMe</code>代表首页可以看到的栏目名，也就是下下图右上角那个</li>
 <li>后面那个<code>aboutMe</code>代表对应文件存放的路径，我们要做具体修改，<strong>要注意大小写</strong></li>
 </ul>
@@ -590,7 +598,8 @@
 </ul>
 <img src="/article/6376ffa2/image-20220329233011588.png" class="" title="image-20220329233011588">
 <img src="/article/6376ffa2/image-20220329233018140.png" class="" title="image-20220329233018140">
-<h1 id="配置页面内容"><a href="#配置页面内容" class="headerlink" title="配置页面内容"></a>配置页面内容</h1><ul>
+<h1 id="配置页面内容"><a class="markdownIt-Anchor" href="#配置页面内容"></a> 配置页面内容</h1>
+<ul>
 <li>在代码编译器内，打开<code>./source/aboutMe/index.md</code>，添加<code>type:</code>行，如此处<code>type: about</code>，当然也可以有别的<code>type</code>，比如<code>tag</code>，按你希望的来。添加部分内容，保存，本地效果如下图</li>
 </ul>
 <img src="/article/6376ffa2/image-20220329233026160.png" class="" title="image-20220329233026160">
@@ -598,7 +607,8 @@
 <ul>
 <li>可以推送到对应的代码仓了</li>
 </ul>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ul>
+<h1 id="参考"><a class="markdownIt-Anchor" href="#参考"></a> 参考</h1>
+<ul>
 <li><a target="_blank" rel="noopener" href="https://www.playpi.org/2017050701.html">Hexo 框架 Next 主题添加自定义 Page</a></li>
 </ul>
 

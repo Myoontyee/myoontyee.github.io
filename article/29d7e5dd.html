@@ -560,7 +560,8 @@
             <br><strong>⚠️警告：博客文章禁止一切形式的非授权非法转载！</strong>
             <br><strong>⚠️Attention: All forms of unauthorized illegal reposts are prohibited !</strong> 
             <hr>
-<p><strong>创建时间</strong>：2022年4月30日14:16:55<br><strong>最新更新</strong>：2022年5月1日13:10:21</p>
+<p><strong>创建时间</strong>：2022年4月30日14:16:55<br>
+<strong>最新更新</strong>：2022年5月1日13:10:21</p>
 <hr>
 <p><strong>Problem Description</strong>：Overleaf + Docker local configuration tutorial</p>
 <p><strong>核心思路</strong>：</p>
@@ -571,20 +572,29 @@
 <li>添加中文样式支持</li>
 </ul>
 <hr>
-<h1 id="拉镜像，配环境"><a href="#拉镜像，配环境" class="headerlink" title="拉镜像，配环境"></a>拉镜像，配环境</h1><ul>
-<li>启动<code>Docker</code>服务（我就直接打开他GUI端，因为我平常禁止他自启动）<ul>
-<li><img src="/article/29d7e5dd/image-20220430174444975.png" class="" title="image-20220430174444975"></li>
+<h1 id="拉镜像配环境"><a class="markdownIt-Anchor" href="#拉镜像配环境"></a> 拉镜像，配环境</h1>
+<ul>
+<li>启动<code>Docker</code>服务（我就直接打开他GUI端，因为我平常禁止他自启动）
+<ul>
+<li>
+<img src="/article/29d7e5dd/image-20220430174444975.png" class="" title="image-20220430174444975">
+</li>
 </ul>
 </li>
-<li>打开<code>WSL</code>的<code>Bash</code>，输入<code>docker pull sharelatex/sharelatex</code>，等待<code>pull</code>完成<ul>
-<li><img src="/article/29d7e5dd/image-20220430174449057.png" class="" title="image-20220430174449057"></li>
+<li>打开<code>WSL</code>的<code>Bash</code>，输入<code>docker pull sharelatex/sharelatex</code>，等待<code>pull</code>完成
+<ul>
+<li>
+<img src="/article/29d7e5dd/image-20220430174449057.png" class="" title="image-20220430174449057">
+</li>
 </ul>
 </li>
-<li>在<code>Bash</code>内输入<code>mkdir ~/sharelatex/ ~/sharelatex_data/ ~/mongo_data/ ~/redis_data/</code>创建4个文件夹到<code>\\wsl$\Ubuntu-20.04\root</code>下头<ul>
+<li>在<code>Bash</code>内输入<code>mkdir ~/sharelatex/ ~/sharelatex_data/ ~/mongo_data/ ~/redis_data/</code>创建4个文件夹到<code>\\wsl$\Ubuntu-20.04\root</code>下头
+<ul>
 <li>这一步据说是为了根据官网创建了文件夹来挂载容器中的文件夹</li>
 </ul>
 </li>
-<li>下载这个<code>docker-compose.yml</code>到<code>~/sharelatex</code>里头，就上面创建的那个<ul>
+<li>下载这个<code>docker-compose.yml</code>到<code>~/sharelatex</code>里头，就上面创建的那个
+<ul>
 <li>修改<code>~/sharelatex</code>里头第15行，改为不冲突的端口，我改为<code>8080</code>，即如下表，记得保存</li>
 </ul>
 </li>
@@ -602,73 +612,103 @@
 </td>
 </tr></tbody></table>
 </div>
-
 <ul>
 <li>在<code>bash</code>内进入到<code>\\wsl$\Ubuntu-20.04\root\sharelatex</code>这个文件夹</li>
-<li>输入<code>docker-compose up -d</code>下载对应的东西<ul>
-<li><img src="/article/29d7e5dd/image-20220430174456918.png" class="" title="image-20220430174456918">
+<li>输入<code>docker-compose up -d</code>下载对应的东西
+<ul>
+<li>
+<img src="/article/29d7e5dd/image-20220430174456918.png" class="" title="image-20220430174456918">
 </li>
 </ul>
 </li>
 </ul>
-<h1 id="试着用一下！"><a href="#试着用一下！" class="headerlink" title="试着用一下！"></a>试着用一下！</h1><ul>
-<li>在浏览器里打开<code>http://127.0.0.1:8080/launchpad</code>注册管理员账号<ul>
-<li><img src="/article/29d7e5dd/image-20220430174502797.png" class="" title="image-20220430174502797"></li>
-</ul>
-</li>
-<li>然后可以先开个项目试试看，点<code>Start Using Overleaf Community Edition</code>→<code>New Project</code>→<code>Example Project</code>→起个你喜欢的名儿→<code>Create</code><ul>
-<li><img src="/article/29d7e5dd/image-20220430174508326.png" class="" title="image-20220430174508326"></li>
-<li><img src="/article/29d7e5dd/image-20220430174512527.png" class="" title="image-20220430174512527"></li>
-<li><img src="/article/29d7e5dd/image-20220430174521573.png" class="" title="image-20220430174521573"></li>
-</ul>
-</li>
-<li>如下图，看着很棒，那么我们进一步配置，安装更完整的环境<ul>
-<li><img src="/article/29d7e5dd/image-20220430174529619.png" class="" title="image-20220430174529619">
+<h1 id="试着用一下"><a class="markdownIt-Anchor" href="#试着用一下"></a> 试着用一下！</h1>
+<ul>
+<li>在浏览器里打开<code>http://127.0.0.1:8080/launchpad</code>注册管理员账号
+<ul>
+<li>
+<img src="/article/29d7e5dd/image-20220430174502797.png" class="" title="image-20220430174502797">
 </li>
 </ul>
 </li>
+<li>然后可以先开个项目试试看，点<code>Start Using Overleaf Community Edition</code>→<code>New Project</code>→<code>Example Project</code>→起个你喜欢的名儿→<code>Create</code>
+<ul>
+<li>
+<img src="/article/29d7e5dd/image-20220430174508326.png" class="" title="image-20220430174508326">
+</li>
+<li>
+<img src="/article/29d7e5dd/image-20220430174512527.png" class="" title="image-20220430174512527">
+</li>
+<li>
+<img src="/article/29d7e5dd/image-20220430174521573.png" class="" title="image-20220430174521573">
+</li>
 </ul>
-<h1 id="进一步配置"><a href="#进一步配置" class="headerlink" title="进一步配置"></a>进一步配置</h1><h2 id="完善你的环境，完整宏包支持（完整版TexLive）"><a href="#完善你的环境，完整宏包支持（完整版TexLive）" class="headerlink" title="完善你的环境，完整宏包支持（完整版TexLive）"></a>完善你的环境，完整宏包支持（完整版TexLive）</h2><ul>
-<li>这一步我们要先进入容器的<code>Bash</code><ul>
+</li>
+<li>如下图，看着很棒，那么我们进一步配置，安装更完整的环境
+<ul>
+<li>
+<img src="/article/29d7e5dd/image-20220430174529619.png" class="" title="image-20220430174529619">
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="进一步配置"><a class="markdownIt-Anchor" href="#进一步配置"></a> 进一步配置</h1>
+<h2 id="完善你的环境完整宏包支持完整版texlive"><a class="markdownIt-Anchor" href="#完善你的环境完整宏包支持完整版texlive"></a> 完善你的环境，完整宏包支持（完整版TexLive）</h2>
+<ul>
+<li>这一步我们要先进入容器的<code>Bash</code>
+<ul>
 <li>在<code>WSL</code>的<code>Bash</code>内输入</li>
 </ul>
 </li>
 </ul>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it sharelatex bash</span><br></pre></td></tr></tbody></table></figure>
 <ul>
-<li>进完容器的<code>Bash</code>，再进入容器的<code>TexLive</code>所在文件夹<ul>
+<li>进完容器的<code>Bash</code>，再进入容器的<code>TexLive</code>所在文件夹
+<ul>
 <li>在<code>Bash</code>内输入</li>
 </ul>
 </li>
 </ul>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/local/texlive</span><br></pre></td></tr></tbody></table></figure>
 <ul>
-<li>上2步操作如下图<ul>
+<li>上2步操作如下图
+<ul>
 <li></li>
-<li><img src="/article/29d7e5dd/image-20220430174555045.png" class="" title="image-20220430174555045"></li>
+<li>
+<img src="/article/29d7e5dd/image-20220430174555045.png" class="" title="image-20220430174555045">
+</li>
 </ul>
 </li>
-<li>执行以下命令，开始更新<ul>
+<li>执行以下命令，开始更新
+<ul>
 <li>下面这些命令我直接搬运的<a target="_blank" rel="noopener" href="https://www.zhang-hb.com/2022/01/01/%E5%9C%A8%E8%87%AA%E5%B7%B1%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E9%85%8Doverleaf/">这个小伙子的</a></li>
 </ul>
 </li>
 </ul>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 下载并运行升级脚本</span></span><br><span class="line">wget http://mirror.ctan.org/systems/texlive/tlnet/update-tlmgr-latest.sh</span><br><span class="line">sh update-tlmgr-latest.sh -- --upgrade</span><br><span class="line"></span><br><span class="line"><span class="comment"># 更换texlive的下载源</span></span><br><span class="line">tlmgr option repository https://mirrors.sustech.edu.cn/CTAN/systems/texlive/tlnet/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 升级tlmgr</span></span><br><span class="line">tlmgr update --self --all</span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装完整版texlive（漫长的等待，不要让shell断开）</span></span><br><span class="line">tlmgr install scheme-full</span><br><span class="line"></span><br><span class="line"><span class="comment"># 退出sharelatex的命令行界面</span></span><br><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></tbody></table></figure>
 <ul>
-<li><p>如下图，要蛮久的，特别那个装<code>TexLive</code>，可以睡一觉！</p>
+<li>
+<p>如下图，要蛮久的，特别那个装<code>TexLive</code>，可以睡一觉！</p>
 <ul>
-<li><img src="/article/29d7e5dd/image-20220430174621694.png" class="" title="image-20220430174621694">
+<li>
+<img src="/article/29d7e5dd/image-20220430174621694.png" class="" title="image-20220430174621694">
 </li>
 </ul>
 </li>
-<li><p>在<code>Bash</code>内输入如下指令重启<code>sharelatex</code>容器</p>
+<li>
+<p>在<code>Bash</code>内输入如下指令重启<code>sharelatex</code>容器</p>
+</li>
+</ul>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker restart sharelatex</span><br></pre></td></tr></tbody></table></figure>
-</li>
-</ul>
-<h2 id="支持中文字体，省的学位论文哭爹喊娘"><a href="#支持中文字体，省的学位论文哭爹喊娘" class="headerlink" title="支持中文字体，省的学位论文哭爹喊娘"></a>支持中文字体，省的学位论文哭爹喊娘</h2><h3 id="创建文件夹"><a href="#创建文件夹" class="headerlink" title="创建文件夹"></a>创建文件夹</h3><ul>
-<li>先进入<code>sharelatex</code>这个容器，创建一个文件夹<code>/usr/share/fonts/windows</code><ul>
-<li>在<code>WSL</code>的<code>Bash</code>内输入如下指令，进入<code>sharelatex</code>这个容器的<code>bash</code><ul>
-<li><img src="/article/29d7e5dd/image-20220430174628371.png" class="" title="image-20220430174628371">
+<h2 id="支持中文字体省的学位论文哭爹喊娘"><a class="markdownIt-Anchor" href="#支持中文字体省的学位论文哭爹喊娘"></a> 支持中文字体，省的学位论文哭爹喊娘</h2>
+<h3 id="创建文件夹"><a class="markdownIt-Anchor" href="#创建文件夹"></a> 创建文件夹</h3>
+<ul>
+<li>先进入<code>sharelatex</code>这个容器，创建一个文件夹<code>/usr/share/fonts/windows</code>
+<ul>
+<li>在<code>WSL</code>的<code>Bash</code>内输入如下指令，进入<code>sharelatex</code>这个容器的<code>bash</code>
+<ul>
+<li>
+<img src="/article/29d7e5dd/image-20220430174628371.png" class="" title="image-20220430174628371">
 </li>
 </ul>
 </li>
@@ -680,18 +720,23 @@
 <li>创建文件夹，在<code>sharelatex</code>这个容器的<code>bash</code>内输入</li>
 </ul>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/share/fonts</span><br><span class="line"><span class="built_in">mkdir</span> windows</span><br></pre></td></tr></tbody></table></figure>
-<h3 id="复制字体样式"><a href="#复制字体样式" class="headerlink" title="复制字体样式"></a>复制字体样式</h3><ul>
-<li>在<code>Bash</code>内输入如下指令退出容器<ul>
-<li><img src="/article/29d7e5dd/image-20220430174632990.png" class="" title="image-20220430174632990">
+<h3 id="复制字体样式"><a class="markdownIt-Anchor" href="#复制字体样式"></a> 复制字体样式</h3>
+<ul>
+<li>在<code>Bash</code>内输入如下指令退出容器
+<ul>
+<li>
+<img src="/article/29d7e5dd/image-20220430174632990.png" class="" title="image-20220430174632990">
 </li>
 </ul>
 </li>
 </ul>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">exit</span></span><br></pre></td></tr></tbody></table></figure>
 <ul>
-<li>在<code>Bash</code>内输入如下指令看一下<code>sharelatex/sharelatex</code>对应的<code>CONTAINER ID</code><ul>
+<li>在<code>Bash</code>内输入如下指令看一下<code>sharelatex/sharelatex</code>对应的<code>CONTAINER ID</code>
+<ul>
 <li>比如我对应的<code>CONTAINER ID</code>是<code>a4868411d7e0</code></li>
-<li><img src="/article/29d7e5dd/image-20220430174637996.png" class="" title="image-20220430174637996">
+<li>
+<img src="/article/29d7e5dd/image-20220430174637996.png" class="" title="image-20220430174637996">
 </li>
 </ul>
 </li>
@@ -705,26 +750,33 @@
 <li>比如我的是</li>
 </ul>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker <span class="built_in">cp</span> /mnt/c/Windows/Fonts a4868411d7e0:/usr/share/fonts/windows</span><br></pre></td></tr></tbody></table></figure>
-<h3 id="安装并检查"><a href="#安装并检查" class="headerlink" title="安装并检查"></a>安装并检查</h3><ul>
+<h3 id="安装并检查"><a class="markdownIt-Anchor" href="#安装并检查"></a> 安装并检查</h3>
+<ul>
 <li>在<code>Bash</code>内输入如下指令，进入<code>sharelatex</code>这个容器的<code>bash</code>，安装字体文件</li>
 </ul>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it sharelatex bash </span><br><span class="line"><span class="built_in">cd</span> /usr/share/fonts/windows</span><br><span class="line">fc-cache</span><br></pre></td></tr></tbody></table></figure>
 <ul>
-<li>检查有没有安装成功，在<code>Bash</code>内输入以下指令，像下图这样就成了，可以上<code>Overleaf</code>里头冲浪了<ul>
-<li><img src="/article/29d7e5dd/image-20220430174647505.png" class="" title="image-20220430174647505">
+<li>检查有没有安装成功，在<code>Bash</code>内输入以下指令，像下图这样就成了，可以上<code>Overleaf</code>里头冲浪了
+<ul>
+<li>
+<img src="/article/29d7e5dd/image-20220430174647505.png" class="" title="image-20220430174647505">
+</li>
+</ul>
+</li>
+</ul>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fc-list | grep windows</span><br></pre></td></tr></tbody></table></figure>
+<h1 id="关了重开咋整"><a class="markdownIt-Anchor" href="#关了重开咋整"></a> 关了重开咋整</h1>
+<ul>
+<li>在<code>Docker</code>的<code>Containers/Apps</code>页面，如下图，平常不用关掉，下次要用时候这4个挨个<code>START</code>就行
+<ul>
+<li>
+<img src="/article/29d7e5dd/image-20220430175936472.png" class="" title="image-20220430175936472">
 </li>
 </ul>
 </li>
 </ul>
-<h1 id="关了重开咋整"><a href="#关了重开咋整" class="headerlink" title="关了重开咋整"></a>关了重开咋整</h1><ul>
-<li>在<code>Docker</code>的<code>Containers/Apps</code>页面，如下图，平常不用关掉，下次要用时候这4个挨个<code>START</code>就行<ul>
-<li><img src="/article/29d7e5dd/image-20220430175936472.png" class="" title="image-20220430175936472">
-</li>
-</ul>
-</li>
-</ul>
-<h1 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h1><ul>
+<h1 id="ref"><a class="markdownIt-Anchor" href="#ref"></a> Ref</h1>
+<ul>
 <li><a target="_blank" rel="noopener" href="https://www.zhang-hb.com/2022/01/01/%E5%9C%A8%E8%87%AA%E5%B7%B1%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E9%85%8Doverleaf/">在自己的服务器上配overleaf</a></li>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/xtfge0915/article/details/52169445">如何在docker和宿主机之间复制文件</a></li>
 </ul>
@@ -795,14 +847,14 @@
                 <span class="tag">
                     
                     
-                        <!-- <a href="/tags/LaTeX/"># LaTeX</a> -->
-                        <!-- <a href="/tags/LaTeX/">🏷️LaTeX</a> -->
-                        <a href="/tags/LaTeX/"><i class="iconfont icon-biaoqian-" style="font-size: 1em;"></i>LaTeX </a>
-                        
-                    
                         <!-- <a href="/tags/Overleaf/"># Overleaf</a> -->
                         <!-- <a href="/tags/Overleaf/">🏷️Overleaf</a> -->
                         <a href="/tags/Overleaf/"><i class="iconfont icon-biaoqian-" style="font-size: 1em;"></i>Overleaf </a>
+                        
+                    
+                        <!-- <a href="/tags/LaTeX/"># LaTeX</a> -->
+                        <!-- <a href="/tags/LaTeX/">🏷️LaTeX</a> -->
+                        <a href="/tags/LaTeX/"><i class="iconfont icon-biaoqian-" style="font-size: 1em;"></i>LaTeX </a>
                         
                     
                         <!-- <a href="/tags/Docker/"># Docker</a> -->

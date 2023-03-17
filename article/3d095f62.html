@@ -596,7 +596,8 @@
             <br><strong>⚠️警告：博客文章禁止一切形式的非授权非法转载！</strong>
             <br><strong>⚠️Attention: All forms of unauthorized illegal reposts are prohibited !</strong> 
             <hr>
-<p><strong>创建时间</strong>：2022年4月8日10:26:23<br><strong>最新更新</strong>：2022年4月8日21:24:31</p>
+<p><strong>创建时间</strong>：2022年4月8日10:26:23<br>
+<strong>最新更新</strong>：2022年4月8日21:24:31</p>
 <hr>
 <p><strong>Problem Description</strong>：How does Hexo + Chic support mathematical formulas, especially complex LaTeX formulas, the formulas will be displayed repeatedly, the local preview of LaTeX formulas can display the deploy and cannot display the solution</p>
 <p><strong>核心思路</strong>：</p>
@@ -605,23 +606,32 @@
 <li>注意写法，多加空格</li>
 </ul>
 <hr>
-<h1 id="装插件"><a href="#装插件" class="headerlink" title="装插件"></a>装插件</h1><ul>
-<li><p>打开<code>Git-Bash</code>，进入Blog源码对应目录，输入以下指令</p>
-<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm uninstall hexo-renderer-marked</span><br><span class="line">npm install hexo-renderer-markdown-it-plus</span><br></pre></td></tr></tbody></table></figure>
-</li>
-<li><p>配置不用动</p>
-</li>
+<h1 id="装插件"><a class="markdownIt-Anchor" href="#装插件"></a> 装插件</h1>
+<ul>
+<li>打开<code>Git-Bash</code>，进入Blog源码对应目录，输入以下指令</li>
 </ul>
-<h1 id="文件头启用mathjax"><a href="#文件头启用mathjax" class="headerlink" title="文件头启用mathjax"></a>文件头启用mathjax</h1><ul>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm uninstall hexo-renderer-marked</span><br><span class="line">npm install hexo-renderer-markdown-it-plus</span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li>配置不用动</li>
+</ul>
+<h1 id="文件头启用mathjax"><a class="markdownIt-Anchor" href="#文件头启用mathjax"></a> 文件头启用mathjax</h1>
+<ul>
 <li>文件头记得启用<code>mathjax: true</code></li>
 </ul>
 <img src="/article/3d095f62/image-20220408193332562.png" class="" title="image-20220408193332562">
-<h1 id="LaTeX公式写法"><a href="#LaTeX公式写法" class="headerlink" title="LaTeX公式写法"></a>LaTeX公式写法</h1><h2 id="重复显示咋搞？"><a href="#重复显示咋搞？" class="headerlink" title="重复显示咋搞？"></a>重复显示咋搞？</h2><ul>
-<li><code>0范数$L_{0}$</code>这么写会重复显示，如下<br>0范数$L_{0}$<br>放个图：<img src="/article/3d095f62/image-20220408191320294.png" class="" title="image-20220408191320294"></li>
-<li>要改成<code>0范数 $ L_{ 0 } $</code>，即尽可能的加空格，特别是多个<code>}</code>，如<code>}}</code>，要写成<code>} }</code>，显示效果如下<br>0范数 $ L_{ 0 } $ </li>
+<h1 id="latex公式写法"><a class="markdownIt-Anchor" href="#latex公式写法"></a> LaTeX公式写法</h1>
+<h2 id="重复显示咋搞"><a class="markdownIt-Anchor" href="#重复显示咋搞"></a> 重复显示咋搞？</h2>
+<ul>
+<li><code>0范数$L_{0}$</code>这么写会重复显示，如下<br>
+0范数<span class="katex"><span class="katex-mathml"><math><semantics><mrow><msub><mi>L</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">L_{0}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">0</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span><br>
+放个图：<img src="/article/3d095f62/image-20220408191320294.png" class="" title="image-20220408191320294"></li>
+<li>要改成<code>0范数 $ L_{ 0 } $</code>，即尽可能的加空格，特别是多个<code>}</code>，如<code>}}</code>，要写成<code>} }</code>，显示效果如下<br>
+0范数 $ L_{ 0 } $</li>
 </ul>
-<h2 id="复杂公式咋搞？"><a href="#复杂公式咋搞？" class="headerlink" title="复杂公式咋搞？"></a>复杂公式咋搞？</h2><ul>
-<li>前面加个<code>\begin{equation}</code>，末尾加个<code>\end{equation}$$</code><ul>
+<h2 id="复杂公式咋搞"><a class="markdownIt-Anchor" href="#复杂公式咋搞"></a> 复杂公式咋搞？</h2>
+<ul>
+<li>前面加个<code>\begin{equation}</code>，末尾加个<code>\end{equation}$$</code>
+<ul>
 <li>想定义具体序号就在<code>\begin{equation}</code>后加<code>\label{eq1}</code>，不然会自动按序生成序号</li>
 <li>注意花式加空格</li>
 </ul>
@@ -631,9 +641,12 @@
 <ul>
 <li>显示如下</li>
 </ul>
-<script type="math/tex; mode=display">\begin{equation} \label{eq1}
+<p class="katex-block katex-error" title="ParseError: KaTeX parse error: No such environment: equation at position 8:  \begin{̲e̲q̲u̲a̲t̲i̲o̲n̲}̲ \label{eq1}
+\|…"> \begin{equation} \label{eq1}
 \| \mathbf{ x } \|_{0} = \lim _{ p \rightarrow 0 } \| \mathbf{ x } \|_{ p }^{ p } = \lim_{ p \rightarrow 0 } \sum_{ k=1 }^{ m } \left | x_{ k } \right |^{ p } = \# \left\{ i: x _{ i } \neq 0 \right\}
-\end{equation}</script><h1 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h1><ul>
+\end{equation} </p>
+<h1 id="ref"><a class="markdownIt-Anchor" href="#ref"></a> Ref</h1>
+<ul>
 <li><a target="_blank" rel="noopener" href="https://github.com/theme-next/hexo-theme-next/blob/master/docs/zh-CN/MATH.md">数学公式</a></li>
 <li><a target="_blank" rel="noopener" href="https://github.com/Siricee/hexo-theme-Chic/issues/79">关于数学公式</a></li>
 </ul>

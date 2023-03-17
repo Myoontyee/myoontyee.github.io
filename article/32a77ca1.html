@@ -557,22 +557,26 @@
             <br><strong>⚠️警告：博客文章禁止一切形式的非授权非法转载！</strong>
             <br><strong>⚠️Attention: All forms of unauthorized illegal reposts are prohibited !</strong> 
             <hr>
-<p><strong>创建时间</strong>：2022年3月20日23:42:21<br><strong>最新更新</strong>：2022年3月28日22:12:55</p>
+<p><strong>创建时间</strong>：2022年3月20日23:42:21<br>
+<strong>最新更新</strong>：2022年3月28日22:12:55</p>
 <hr>
 <p><strong>核心思路</strong>：下<code>icon</code>，全局调样式</p>
 <hr>
 <ul>
-<li>参考<a href="./9a3fd1d.html">Hexo + Chic如何添在link处加新的icon（svg）图标</a>，完成下述步骤<ul>
+<li>参考<a href="./9a3fd1d.html">Hexo + Chic如何添在link处加新的icon（svg）图标</a>，完成下述步骤
+<ul>
 <li>挑icon，下载并放到对应文件夹</li>
 <li>看iconfont代码，挑选需要的icon</li>
 </ul>
 </li>
 </ul>
-<h1 id="icon配置"><a href="#icon配置" class="headerlink" title="icon配置"></a>icon配置</h1><ul>
+<h1 id="icon配置"><a class="markdownIt-Anchor" href="#icon配置"></a> icon配置</h1>
+<ul>
 <li>用代码编辑器（如<code>Visual Studio Code</code>）打开<code>themes\Chic\_config.yml</code>，添加对应的样式文件如<code>../fonts/iconfont3/iconfont.css</code></li>
 </ul>
 <figure class="highlight yml"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">stylesheets:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">/css/style.css</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">../fonts/iconfont2/iconfont.css</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">../fonts/iconfont3/iconfont.css</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css</span> <span class="comment"># 访客量的旋转等待logo</span></span><br></pre></td></tr></tbody></table></figure>
-<h1 id="首页布局"><a href="#首页布局" class="headerlink" title="首页布局"></a>首页布局</h1><ul>
+<h1 id="首页布局"><a class="markdownIt-Anchor" href="#首页布局"></a> 首页布局</h1>
+<ul>
 <li>用代码编辑器打开<code>themes\Chic\layout\_page\profile.ejs</code>，添加以下样式</li>
 </ul>
 <figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class="friends_link"&gt;</span><br><span class="line">&lt;a href="https://www.github.com/"&gt;&lt;i class="iconfont icon-youlian"&gt;&lt;/i&gt;&lt;/a&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></tbody></table></figure>
@@ -592,11 +596,8 @@
 </td>
 </tr></tbody></table>
 </div>
-
-
-
-
-<h1 id="定义样式"><a href="#定义样式" class="headerlink" title="定义样式"></a>定义样式</h1><ul>
+<h1 id="定义样式"><a class="markdownIt-Anchor" href="#定义样式"></a> 定义样式</h1>
+<ul>
 <li>用代码编辑器打开<code>themes\Chic\source\css\_page\profile.styl</code>，添加<code>friends_link</code>样式如下（可以直接复制<code>links</code>的样式）</li>
 </ul>
 <figure class="highlight styl"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.friends_link</span></span><br><span class="line">  <span class="selector-tag">a</span></span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">0</span> <span class="number">5px</span></span><br><span class="line">    <span class="selector-pseudo">&amp;:hover</span></span><br><span class="line">      <span class="attribute">background-color</span>: transparent</span><br><span class="line">  <span class="selector-class">.iconfont</span></span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">2em</span>				</span><br></pre></td></tr></tbody></table></figure>
@@ -616,8 +617,8 @@
 </td>
 </tr></tbody></table>
 </div>
-
-<h1 id="部署，预览"><a href="#部署，预览" class="headerlink" title="部署，预览"></a>部署，预览</h1><ul>
+<h1 id="部署预览"><a class="markdownIt-Anchor" href="#部署预览"></a> 部署，预览</h1>
+<ul>
 <li>效果如下，蓝色是鼠标移动上去的效果</li>
 </ul>
 <img src="/article/32a77ca1/image-20220328221140288.png" class="" title="image-20220328221140288">

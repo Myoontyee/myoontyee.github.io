@@ -557,17 +557,20 @@
             <br><strong>⚠️警告：博客文章禁止一切形式的非授权非法转载！</strong>
             <br><strong>⚠️Attention: All forms of unauthorized illegal reposts are prohibited !</strong> 
             <hr>
-<p><strong>创建时间</strong>：2022年4月30日12:45:27<br><strong>最新更新</strong>：2022年4月30日12:50:02</p>
+<p><strong>创建时间</strong>：2022年4月30日12:45:27<br>
+<strong>最新更新</strong>：2022年4月30日12:50:02</p>
 <hr>
-<p><strong>Problem Description</strong>：Hexo reports ssh: connect to host github.com port 22: Connection timed out error solution</p>
+<p><strong>Problem Description</strong>：Hexo reports ssh: connect to host <a target="_blank" rel="noopener" href="http://github.com">github.com</a> port 22: Connection timed out error solution</p>
 <p><strong>核心思路</strong>：<code>ssh</code>部署不上去，换<code>https</code></p>
 <hr>
 <ul>
 <li>很骚，我在实验室的网就行，用热点也行，神特么到寝室就不行了</li>
 <li>简单来说，<code>ssh</code>部署不上去，咱们就不走<code>ssh</code>，换<code>https</code>，妈妈的</li>
 </ul>
-<h1 id="报错全文"><a href="#报错全文" class="headerlink" title="报错全文"></a>报错全文</h1><figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">ssh: connect to host github.com port 22: Connection timed out</span><br><span class="line">fatal: Could not <span class="built_in">read</span> from remote repository.</span><br><span class="line"></span><br><span class="line">Please make sure you have the correct access rights</span><br><span class="line">and the repository exists.</span><br><span class="line">FATAL {</span><br><span class="line">  err: Error: Spawn failed</span><br><span class="line">      at ChildProcess.&lt;anonymous&gt; (..\node_modules\hexo-util\lib\spawn.js:51:21)</span><br><span class="line">      at ChildProcess.emit (node:events:520:28)</span><br><span class="line">      at ChildProcess.cp.emit (..\node_modules\cross-spawn\lib\enoent.js:34:29)</span><br><span class="line">      at Process.ChildProcess._handle.onexit (node:internal/child_process:291:12) {</span><br><span class="line">    code: 128</span><br><span class="line">  }</span><br><span class="line">} Something<span class="string">'s wrong. Maybe you can find the solution here: %s https://hexo.io/docs/troubleshooting.html</span></span><br></pre></td></tr></tbody></table></figure>
-<h1 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h1><ul>
+<h1 id="报错全文"><a class="markdownIt-Anchor" href="#报错全文"></a> 报错全文</h1>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">ssh: connect to host github.com port 22: Connection timed out</span><br><span class="line">fatal: Could not <span class="built_in">read</span> from remote repository.</span><br><span class="line"></span><br><span class="line">Please make sure you have the correct access rights</span><br><span class="line">and the repository exists.</span><br><span class="line">FATAL {</span><br><span class="line">  err: Error: Spawn failed</span><br><span class="line">      at ChildProcess.&lt;anonymous&gt; (..\node_modules\hexo-util\lib\spawn.js:51:21)</span><br><span class="line">      at ChildProcess.emit (node:events:520:28)</span><br><span class="line">      at ChildProcess.cp.emit (..\node_modules\cross-spawn\lib\enoent.js:34:29)</span><br><span class="line">      at Process.ChildProcess._handle.onexit (node:internal/child_process:291:12) {</span><br><span class="line">    code: 128</span><br><span class="line">  }</span><br><span class="line">} Something<span class="string">'s wrong. Maybe you can find the solution here: %s https://hexo.io/docs/troubleshooting.html</span></span><br></pre></td></tr></tbody></table></figure>
+<h1 id="解决"><a class="markdownIt-Anchor" href="#解决"></a> 解决</h1>
+<ul>
 <li>用代码编辑器打开<code>_config.yml</code>，你项目根目录下的，有<code>deploy</code>的那个，将<code>repo</code>后面的<code>ssh</code>路径改为<code>https</code>路径，比如<code>https://github.com/</code>+<code>你的仓名</code></li>
 </ul>
 <div style="overflow:auto;width:100%"> <table width="auto" style="white-space:nowrap">
@@ -583,10 +586,8 @@
 </td>
 </tr></tbody></table>
 </div>
-
-
-
-<h1 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h1><ul>
+<h1 id="ref"><a class="markdownIt-Anchor" href="#ref"></a> Ref</h1>
+<ul>
 <li><a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues/3339">Win10使用ssh的hexo deploy到github報錯</a></li>
 </ul>
 

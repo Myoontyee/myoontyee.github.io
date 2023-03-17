@@ -596,28 +596,33 @@
             <br><strong>⚠️警告：博客文章禁止一切形式的非授权非法转载！</strong>
             <br><strong>⚠️Attention: All forms of unauthorized illegal reposts are prohibited !</strong> 
             <hr>
-<p><strong>创建时间</strong>：2022年4月22日17:20:27<br><strong>最新更新</strong>：2022年4月22日17:23:12</p>
+<p><strong>创建时间</strong>：2022年4月22日17:20:27<br>
+<strong>最新更新</strong>：2022年4月22日17:23:12</p>
 <hr>
 <p><strong>Problem Description</strong>：How can Geant4 turn off the display of secondary particles in the GUI?</p>
 <p><strong>核心思路</strong>：用宏指令~</p>
 <hr>
 <ul>
-<li>效果是红色的和绿色的粒子都会关闭显示，仅保留显示蓝色粒子<ul>
+<li>效果是红色的和绿色的粒子都会关闭显示，仅保留显示蓝色粒子
+<ul>
 <li>红色表示负电荷</li>
 <li>绿色表示中性电荷（如伽马射线）</li>
 <li>蓝色表示正电荷（如质子、$ e^{ + } $等）</li>
 </ul>
 </li>
 </ul>
-<h1 id="关闭次级粒子显示"><a href="#关闭次级粒子显示" class="headerlink" title="关闭次级粒子显示"></a>关闭次级粒子显示</h1><ul>
+<h1 id="关闭次级粒子显示"><a class="markdownIt-Anchor" href="#关闭次级粒子显示"></a> 关闭次级粒子显示</h1>
+<ul>
 <li>在GUI内输入以下指令</li>
 </ul>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/vis/filtering/trajectories/create/attributeFilter secondaries</span><br><span class="line">/vis/filtering/trajectories/secondaries/setAttribute PID</span><br><span class="line">/vis/filtering/trajectories/secondaries/addValue 0</span><br></pre></td></tr></tbody></table></figure>
-<h1 id="在此之后想再打开次级粒子的显示"><a href="#在此之后想再打开次级粒子的显示" class="headerlink" title="在此之后想再打开次级粒子的显示"></a>在此之后想再打开次级粒子的显示</h1><ul>
+<h1 id="在此之后想再打开次级粒子的显示"><a class="markdownIt-Anchor" href="#在此之后想再打开次级粒子的显示"></a> 在此之后想再打开次级粒子的显示</h1>
+<ul>
 <li>在GUI内输入以下指令</li>
 </ul>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/vis/filtering/trajectories/secondaries/invert <span class="literal">true</span></span><br></pre></td></tr></tbody></table></figure>
-<h1 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h1><ul>
+<h1 id="ref"><a class="markdownIt-Anchor" href="#ref"></a> Ref</h1>
+<ul>
 <li><a target="_blank" rel="noopener" href="https://geant4-forum.web.cern.ch/t/filter-primary-particles/4327">Filter primary particles</a></li>
 </ul>
 

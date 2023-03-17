@@ -560,12 +560,14 @@
             <br><strong>⚠️警告：博客文章禁止一切形式的非授权非法转载！</strong>
             <br><strong>⚠️Attention: All forms of unauthorized illegal reposts are prohibited !</strong> 
             <hr>
-<p><strong>创建时间</strong>：2022年4月20日10:47:11<br><strong>最新更新</strong>：2022年4月20日10:58:46</p>
+<p><strong>创建时间</strong>：2022年4月20日10:47:11<br>
+<strong>最新更新</strong>：2022年4月20日10:58:46</p>
 <hr>
 <p><strong>Problem Description</strong>：Geant4 prompts <code>adding row has failed</code> solution</p>
 <p><strong>核心思路</strong>：<code>column</code>这个表头名字缩短点就行，比如<code>worldPos_LD_2_EmCal_Hits</code>改成<code>LD.2_Hits</code></p>
 <hr>
-<h1 id="背景故事"><a href="#背景故事" class="headerlink" title="背景故事"></a>背景故事</h1><ul>
+<h1 id="背景故事"><a class="markdownIt-Anchor" href="#背景故事"></a> 背景故事</h1>
+<ul>
 <li>我代码写的开开心心的，列数＞19列就报错，说没法添加新的行</li>
 <li>一开始以为是哪里限定了<code>ntuple</code>的最大列数，但是19这个数字又怪怪的，搜源码又搜不到</li>
 <li>骚就骚在，导说那既然是<code>ntuple</code>的问题，咱们新建一个<code>ntuple</code>，再往里头放另外的19列不就好了咩，我一试，好家伙，一样的错</li>
@@ -575,18 +577,22 @@
 <li>好家伙，然后我才头一次正式复现了我的BUG，发现是<strong>列名太长的问题</strong></li>
 <li>Well，总之大家也明白解决方法了，如果不太明白，可以看下面的具体操作</li>
 </ul>
-<h1 id="报错信息"><a href="#报错信息" class="headerlink" title="报错信息"></a>报错信息</h1><ul>
-<li><p>报错信息如下</p>
+<h1 id="报错信息"><a class="markdownIt-Anchor" href="#报错信息"></a> 报错信息</h1>
+<ul>
+<li>报错信息如下
 <ul>
 <li>这个报错信息意味着生成数据表时添加新的一行发生错误</li>
-<li>对应的代码是<code>src/B5EventAction.cc</code>中<code>void B5EventAction::EndOfEventAction(const G4Event *event)</code>的<code>analysisManager-&gt;AddNtupleRow();</code><ul>
-<li>意思就是<code>AddNtupleRow()</code>这个函数执行过程中出错了<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">-------- WWWW ------- G4Exception-START -------- WWWW -------</span><br><span class="line">*** G4Exception : Analysis_W022</span><br><span class="line">      issued by : G4RootPNtupleManager::AddNtupleRow()</span><br><span class="line">       ntupleId 0adding row has failed.</span><br><span class="line">*** This is just a warning message. ***</span><br><span class="line">-------- WWWW -------- G4Exception-END --------- WWWW -------</span><br></pre></td></tr></tbody></table></figure>
-</li>
+<li>对应的代码是<code>src/B5EventAction.cc</code>中<code>void B5EventAction::EndOfEventAction(const G4Event *event)</code>的<code>analysisManager-&gt;AddNtupleRow();</code>
+<ul>
+<li>意思就是<code>AddNtupleRow()</code>这个函数执行过程中出错了</li>
 </ul>
 </li>
 </ul>
 </li>
-<li><p>另外我还测试了，是否是数据表生成时的问题？</p>
+</ul>
+<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">-------- WWWW ------- G4Exception-START -------- WWWW -------</span><br><span class="line">*** G4Exception : Analysis_W022</span><br><span class="line">      issued by : G4RootPNtupleManager::AddNtupleRow()</span><br><span class="line">       ntupleId 0adding row has failed.</span><br><span class="line">*** This is just a warning message. ***</span><br><span class="line">-------- WWWW -------- G4Exception-END --------- WWWW -------</span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li>另外我还测试了，是否是数据表生成时的问题？
 <ul>
 <li>对应的是<code>src/B5RunAction.cc</code>中<code>B5RunAction::B5RunAction(B5EventAction* eventAction) : G4UserRunAction(), fEventAction(eventAction)</code>的<code>analysisManager-&gt;CreateNtuple("B5", "Hits"); // ntuple Id = 0</code>及下面的<code>analysisManager-&gt;CreateNtupleIColumn</code>部分</li>
 </ul>
@@ -594,15 +600,18 @@
 <li>测试完发现这部分代码是能正常运行的</li>
 <li>即报错对应的是<code>src/B5EventAction.cc</code>中的代码</li>
 <li>错误实际上发生在<code>src/B5RunAction.cc</code>中</li>
-<li>咋测试的？<ul>
+<li>咋测试的？
+<ul>
 <li><code>G4cout</code>在代码块的头和尾部打印看看能不能正常执行</li>
 <li>不能正常执行肯定就没法<code>G4cout</code>了</li>
 </ul>
 </li>
 </ul>
-<h1 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h1><ul>
+<h1 id="解决办法"><a class="markdownIt-Anchor" href="#解决办法"></a> 解决办法</h1>
+<ul>
 <li>核心问题是表头的名字太长了，估计超出了啥变量类型的上限，溢出了，炸了</li>
-<li>原本的列名如下<ul>
+<li>原本的列名如下
+<ul>
 <li>我添加了别的列，此处是部分切片</li>
 <li>原本B5只有不到10列，我加七七八八加到21多列</li>
 </ul>
@@ -629,9 +638,8 @@
 </td>
 </tr></tbody></table>
 </div>
-
-
-<h1 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h1><ul>
+<h1 id="ref"><a class="markdownIt-Anchor" href="#ref"></a> Ref</h1>
+<ul>
 <li><a target="_blank" rel="noopener" href="https://geant4-forum.web.cern.ch/t/when-columns-id-19-addntuplerow-gets-failed/7698/5">When columns ID &gt;19 , AddNtupleRow gets failed!</a></li>
 </ul>
 
@@ -701,11 +709,6 @@
                 <span class="tag">
                     
                     
-                        <!-- <a href="/tags/CERN-ROOT/"># CERN ROOT</a> -->
-                        <!-- <a href="/tags/CERN-ROOT/">🏷️CERN ROOT</a> -->
-                        <a href="/tags/CERN-ROOT/"><i class="iconfont icon-biaoqian-" style="font-size: 1em;"></i>CERN ROOT </a>
-                        
-                    
                         <!-- <a href="/tags/Geant4/"># Geant4</a> -->
                         <!-- <a href="/tags/Geant4/">🏷️Geant4</a> -->
                         <a href="/tags/Geant4/"><i class="iconfont icon-biaoqian-" style="font-size: 1em;"></i>Geant4 </a>
@@ -714,6 +717,11 @@
                         <!-- <a href="/tags/B5/"># B5</a> -->
                         <!-- <a href="/tags/B5/">🏷️B5</a> -->
                         <a href="/tags/B5/"><i class="iconfont icon-biaoqian-" style="font-size: 1em;"></i>B5 </a>
+                        
+                    
+                        <!-- <a href="/tags/CERN-ROOT/"># CERN ROOT</a> -->
+                        <!-- <a href="/tags/CERN-ROOT/">🏷️CERN ROOT</a> -->
+                        <a href="/tags/CERN-ROOT/"><i class="iconfont icon-biaoqian-" style="font-size: 1em;"></i>CERN ROOT </a>
                         
                     
                         

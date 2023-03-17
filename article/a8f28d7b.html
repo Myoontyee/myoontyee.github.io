@@ -500,7 +500,8 @@
 <p><strong>针对情况</strong>：此处解决方法主要针对非root身份打开Jupyter Notebook时候存在的问题，在Win10早期版本、老电脑中安装可能遇上</p>
 <hr>
 <ul>
-<li>找到根目录<ul>
+<li>找到根目录
+<ul>
 <li>Linux系统文件路径：<code>./rootfs/root/.jupyter/jupyer_notebook_config.py</code></li>
 <li>Windows系统文件路径：</li>
 </ul>
@@ -509,7 +510,8 @@
 </ul>
 <figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> webbrowser</span><br><span class="line">webbrowser.register(<span class="string">"chrome"</span>, <span class="literal">None</span>, webbrowser.GenericBrowser(<span class="string">u"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe"</span>))</span><br><span class="line">c.NotebookApp.browser = <span class="string">'chrome'</span></span><br></pre></td></tr></tbody></table></figure>
 <ul>
-<li>将<code>c.NotebookApp.allow_root</code>取消注释，并改为True<ul>
+<li>将<code>c.NotebookApp.allow_root</code>取消注释，并改为True
+<ul>
 <li>意味着是否允许用户以root身份运行笔记本。</li>
 </ul>
 </li>

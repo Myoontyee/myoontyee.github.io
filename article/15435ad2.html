@@ -560,7 +560,8 @@
             <br><strong>⚠️警告：博客文章禁止一切形式的非授权非法转载！</strong>
             <br><strong>⚠️Attention: All forms of unauthorized illegal reposts are prohibited !</strong> 
             <hr>
-<p><strong>创建时间</strong>：2022年4月11日09:23:44<br><strong>最新更新</strong>：2022年4月11日10:00:47</p>
+<p><strong>创建时间</strong>：2022年4月11日09:23:44<br>
+<strong>最新更新</strong>：2022年4月11日10:00:47</p>
 <hr>
 <p><strong>Problem Description</strong>：How does WSL and WSL2 realize that as soon as bash is opened, it is possible to interactively choose whether to visualize or not visualize the configuration through VcXsrv?</p>
 <p><strong>核心思路</strong>：参考<a href="./54e1736e.html">WSL，WSL2多个想source的环境变量，如何在.bashrc内基于if-else进而在bash内可交互式进行选择？而不用每次使用复杂指令</a></p>
@@ -568,13 +569,17 @@
 <li><code>if-else</code>判选+<code>read</code>获取值+<code>echo</code>打印</li>
 </ul>
 <hr>
-<h1 id="可视化配置"><a href="#可视化配置" class="headerlink" title="可视化配置"></a>可视化配置</h1><ul>
+<h1 id="可视化配置"><a class="markdownIt-Anchor" href="#可视化配置"></a> 可视化配置</h1>
+<ul>
 <li>用代码编辑器，如<code>Notepad++</code>打开<code>\\wsl$\Ubuntu-20.04\root\.bashrc</code>，在最下方添加以下内容</li>
 </ul>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 可视化</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">""</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">""</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"=================================================="</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"Please input the visible mode you want to choose :"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"1. Default: Just Print Here"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"2. Display through VcXsrv"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"=================================================="</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"The visible mode you want to choose is :"</span></span><br><span class="line"><span class="built_in">read</span> visType</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"=================================================="</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"Processing ..."</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"=================================================="</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"The environment you choose is :"</span></span><br><span class="line"><span class="keyword">if</span> ((visType == 1)); <span class="keyword">then</span>   </span><br><span class="line">  <span class="built_in">echo</span> <span class="string">"1. Default: Just Print Here"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">elif</span> ((visType == 2)); <span class="keyword">then</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">"2. Display through VcXsrv"</span></span><br><span class="line">  <span class="built_in">export</span> DISPLAY=`<span class="built_in">cat</span> /etc/resolv.conf | grep nameserver | awk <span class="string">'{print $2}'</span>`:0 <span class="comment"># 这是WSL2的可视化配置</span></span><br><span class="line">  </span><br><span class="line"><span class="keyword">else</span>   </span><br><span class="line">  <span class="built_in">echo</span> <span class="string">"Type Error !"</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"=================================================="</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"Activating ..."</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"=================================================="</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"Display mode activate succeed !"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"=================================================="</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">""</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">""</span></span><br></pre></td></tr></tbody></table></figure>
-<h1 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h1><ul>
-<li>如下图<ul>
-<li><img src="/article/15435ad2/image-20220419104919350.png" class="" title="image-20220419104919350">
+<h1 id="效果"><a class="markdownIt-Anchor" href="#效果"></a> 效果</h1>
+<ul>
+<li>如下图
+<ul>
+<li>
+<img src="/article/15435ad2/image-20220419104919350.png" class="" title="image-20220419104919350">
 </li>
 </ul>
 </li>
@@ -646,14 +651,14 @@
                 <span class="tag">
                     
                     
-                        <!-- <a href="/tags/CERN-ROOT/"># CERN ROOT</a> -->
-                        <!-- <a href="/tags/CERN-ROOT/">🏷️CERN ROOT</a> -->
-                        <a href="/tags/CERN-ROOT/"><i class="iconfont icon-biaoqian-" style="font-size: 1em;"></i>CERN ROOT </a>
-                        
-                    
                         <!-- <a href="/tags/Geant4/"># Geant4</a> -->
                         <!-- <a href="/tags/Geant4/">🏷️Geant4</a> -->
                         <a href="/tags/Geant4/"><i class="iconfont icon-biaoqian-" style="font-size: 1em;"></i>Geant4 </a>
+                        
+                    
+                        <!-- <a href="/tags/CERN-ROOT/"># CERN ROOT</a> -->
+                        <!-- <a href="/tags/CERN-ROOT/">🏷️CERN ROOT</a> -->
+                        <a href="/tags/CERN-ROOT/"><i class="iconfont icon-biaoqian-" style="font-size: 1em;"></i>CERN ROOT </a>
                         
                     
                         <!-- <a href="/tags/WSL2/"># WSL2</a> -->

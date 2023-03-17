@@ -557,30 +557,37 @@
             <br><strong>⚠️警告：博客文章禁止一切形式的非授权非法转载！</strong>
             <br><strong>⚠️Attention: All forms of unauthorized illegal reposts are prohibited !</strong> 
             <hr>
-<p><strong>创建时间</strong>：2022年3月30日20:15:06<br><strong>最新更新</strong>：2022年3月30日20:15:12</p>
+<p><strong>创建时间</strong>：2022年3月30日20:15:06<br>
+<strong>最新更新</strong>：2022年3月30日20:15:12</p>
 <hr>
 <ul>
-<li>思路<ul>
+<li>
+<p>思路</p>
+<ul>
 <li><code>OAuth</code>的页面上，<code>Homepage URL</code>要和<code>Authorization callback URL</code>一样，直接从blog首页页面地址栏复制粘贴过去</li>
 <li>配置文件里，<code>repo</code>得是仓库名</li>
 <li>打开博文地址不能有中文</li>
 </ul>
 </li>
+<li>
+<p>配置<code>Gitalk</code>，见[[Chic配置Gitalk，添加评论区]]</p>
+</li>
 </ul>
+<h1 id="oauth-app设置"><a class="markdownIt-Anchor" href="#oauth-app设置"></a> OAuth APP设置</h1>
 <ul>
-<li>配置<code>Gitalk</code>，见[[Chic配置Gitalk，添加评论区]]</li>
-</ul>
-<h1 id="OAuth-APP设置"><a href="#OAuth-APP设置" class="headerlink" title="OAuth APP设置"></a>OAuth APP设置</h1><ul>
 <li><a target="_blank" rel="noopener" href="https://github.com/settings/applications/1848830">页面</a>内确保<code>Homepage URL</code>和<code>Authorization callback URL</code>一致，直接从blog首页复制粘贴过来</li>
 </ul>
 <img src="/article/eab12f60/image-20220330201537146.png" class="" title="image-20220330201537146">
-<h1 id="主题配置"><a href="#主题配置" class="headerlink" title="主题配置"></a>主题配置</h1><ul>
+<h1 id="主题配置"><a class="markdownIt-Anchor" href="#主题配置"></a> 主题配置</h1>
+<ul>
 <li>用代码编辑器，如<code>Visual Studio Code</code>打开<code>themes\Chic\_config.yml</code>，找到<code>gitalk</code>，其中<code>repo</code>得配置仓库名，如此处是<code>myoontyee.github.io</code></li>
 </ul>
 <img src="/article/eab12f60/image-20220330201600613.png" class="" title="image-20220330201600613">
-<h1 id="博文地址配置"><a href="#博文地址配置" class="headerlink" title="博文地址配置"></a>博文地址配置</h1><ul>
+<h1 id="博文地址配置"><a class="markdownIt-Anchor" href="#博文地址配置"></a> 博文地址配置</h1>
+<ul>
 <li>博文链接地址如果是<code>https:://xxx.xxx.xx/中文</code>这样的，在点击<code>使用GitHub登录</code>后会返回blog首页，需要修改博文地址，最好没有空格</li>
-<li>可以使用<code>abbrlink</code>解决<ul>
+<li>可以使用<code>abbrlink</code>解决
+<ul>
 <li>如使用后文章生成了<code>abbrlink</code>为<code>60762</code></li>
 <li>则对应博文地址会变为<code>https://[你的网站域名]/article/60762.html</code>，即可正常登录Gitalk与评论</li>
 </ul>
@@ -589,16 +596,18 @@
 </ul>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-abbrlink --save</span><br></pre></td></tr></tbody></table></figure>
 <ul>
-<li><p>用代码编辑器打开根目录下的<code>_config.yml</code>，修改并添加如下配置</p>
-<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"># permalink: :year/:month/:day/:title/</span><br><span class="line"># permalink: article/:title/</span><br><span class="line">permalink: article/:abbrlink.html</span><br><span class="line">abbrlink:</span><br><span class="line">  alg: crc32  # 算法：crc16(default) and crc32</span><br><span class="line">  rep: hex    # 进制：dec(default) and hex</span><br><span class="line">permalink_defaults:</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
-</li>
-<li><p>现在再通过<code>hexo new</code>生成新的文章，如<code>hexo new test</code>时，生成的<code>test.md</code>博文会在头部自带一个<code>abbrlink</code>，对应部署后的<code>abbrlink</code></p>
-</li>
+<li>用代码编辑器打开根目录下的<code>_config.yml</code>，修改并添加如下配置</li>
 </ul>
-<h1 id="初次评论初始化"><a href="#初次评论初始化" class="headerlink" title="初次评论初始化"></a>初次评论初始化</h1><ul>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"># permalink: :year/:month/:day/:title/</span><br><span class="line"># permalink: article/:title/</span><br><span class="line">permalink: article/:abbrlink.html</span><br><span class="line">abbrlink:</span><br><span class="line">  alg: crc32  # 算法：crc16(default) and crc32</span><br><span class="line">  rep: hex    # 进制：dec(default) and hex</span><br><span class="line">permalink_defaults:</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li>现在再通过<code>hexo new</code>生成新的文章，如<code>hexo new test</code>时，生成的<code>test.md</code>博文会在头部自带一个<code>abbrlink</code>，对应部署后的<code>abbrlink</code></li>
+</ul>
+<h1 id="初次评论初始化"><a class="markdownIt-Anchor" href="#初次评论初始化"></a> 初次评论初始化</h1>
+<ul>
 <li>初次评论需要先登录管理员账号，点击初始化即可</li>
 </ul>
-<h1 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h1><ul>
+<h1 id="ref"><a class="markdownIt-Anchor" href="#ref"></a> Ref</h1>
+<ul>
 <li><a target="_blank" rel="noopener" href="https://github.com/gitalk/gitalk/issues/162">登录报错/?error=redirect_uri_mismatch&amp;</a></li>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42780289/article/details/102662091">Hexo：修改永久链接的默认格式</a></li>
 </ul>

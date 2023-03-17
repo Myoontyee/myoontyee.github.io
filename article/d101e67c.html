@@ -558,7 +558,8 @@
             <br><strong>⚠️Attention: All forms of unauthorized illegal reposts are prohibited !</strong> 
             <hr>
 <p><strong>核心思路</strong>：</p>
-<p><strong>区别</strong>：<br>思路二更麻烦，思路一省个在<code>Typora</code>内批量替换图片路径的活儿</p>
+<p><strong>区别</strong>：<br>
+思路二更麻烦，思路一省个在<code>Typora</code>内批量替换图片路径的活儿</p>
 <p><strong>思路一（推荐）</strong>：</p>
 <ul>
 <li>装<code>hexo-image-link</code></li>
@@ -578,7 +579,9 @@
 <ul>
 <li>图片引用路径检查，见<a href="./b9c842e3.html">Hexo deploy部署后的页面图片引用路径如何检查？</a></li>
 </ul>
-<h1 id="思路一（推荐）"><a href="#思路一（推荐）" class="headerlink" title="思路一（推荐）"></a>思路一（推荐）</h1><h2 id="装插件"><a href="#装插件" class="headerlink" title="装插件"></a>装插件</h2><ul>
+<h1 id="思路一推荐"><a class="markdownIt-Anchor" href="#思路一推荐"></a> 思路一（推荐）</h1>
+<h2 id="装插件"><a class="markdownIt-Anchor" href="#装插件"></a> 装插件</h2>
+<ul>
 <li>打开<code>Git-Bash</code>，进入放置Blog源码的根目录，输入以下代码，安装<code>hexo-image-link</code>插件</li>
 </ul>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-image-link --save</span><br></pre></td></tr></tbody></table></figure>
@@ -586,16 +589,20 @@
 <li>如果<code>Git-Bash</code>内在安装后出现如下提示，则在<code>Git-Bash</code>内输入<code>npm install --no-audit</code>，见[[Hexo安装插件遇上5 vulnerabilities (2 moderate, 2 high, 1 critical)类似的报错，让使用npm fund寻求更多细节，如何解决]]</li>
 </ul>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">run `npm audit fix` to fix them, or `npm audit` <span class="keyword">for</span> details</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
-<h2 id="配置Hexo"><a href="#配置Hexo" class="headerlink" title="配置Hexo"></a>配置Hexo</h2><ul>
+<h2 id="配置hexo"><a class="markdownIt-Anchor" href="#配置hexo"></a> 配置Hexo</h2>
+<ul>
 <li>打开<code>Hexo</code>根目录下的<code>_config.yml</code>，修改<code>post_asset_folder</code>为`true</li>
 </ul>
 <figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo-asset-folder: true # 图片 for hexo-image-link</span><br></pre></td></tr></tbody></table></figure>
-<h2 id="配置Typora"><a href="#配置Typora" class="headerlink" title="配置Typora"></a>配置Typora</h2><ul>
+<h2 id="配置typora"><a class="markdownIt-Anchor" href="#配置typora"></a> 配置Typora</h2>
+<ul>
 <li>打开图片配置，<code>文件</code>→<code>偏好设置</code>→<code>图像</code>，进行设置如下图</li>
 </ul>
 <img src="/article/d101e67c/image-20220312173544300.png" class="" title="image-20220312173544300">
 <img src="/article/d101e67c/image-20220312173554132.png" class="" title="image-20220312173554132">
-<h1 id="思路二"><a href="#思路二" class="headerlink" title="思路二"></a>思路二</h1><h2 id="装插件-1"><a href="#装插件-1" class="headerlink" title="装插件"></a>装插件</h2><ul>
+<h1 id="思路二"><a class="markdownIt-Anchor" href="#思路二"></a> 思路二</h1>
+<h2 id="装插件-2"><a class="markdownIt-Anchor" href="#装插件-2"></a> 装插件</h2>
+<ul>
 <li>打开<code>Git-Bash</code>，进入放置Blog源码的根目录，输入以下代码，安装<code>hexo-asset-image</code>插件</li>
 </ul>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-asset-image --save</span><br></pre></td></tr></tbody></table></figure>
@@ -603,16 +610,19 @@
 <li>如果<code>Git-Bash</code>内在安装后出现如下提示，则在<code>Git-Bash</code>内输入<code>npm install --no-audit</code>，见[[Hexo安装插件遇上5 vulnerabilities (2 moderate, 2 high, 1 critical)类似的报错，让使用npm fund寻求更多细节，如何解决]]</li>
 </ul>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">run `npm audit fix` to fix them, or `npm audit` <span class="keyword">for</span> details</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
-<h2 id="配置Hexo-1"><a href="#配置Hexo-1" class="headerlink" title="配置Hexo"></a>配置Hexo</h2><ul>
+<h2 id="配置hexo-2"><a class="markdownIt-Anchor" href="#配置hexo-2"></a> 配置Hexo</h2>
+<ul>
 <li>打开<code>Hexo</code>根目录下的<code>_config.yml</code>，修改<code>post_asset_folder</code>为`true</li>
 </ul>
 <figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">post_asset_folder: true # 图片</span><br></pre></td></tr></tbody></table></figure>
-<h2 id="配置Typora-1"><a href="#配置Typora-1" class="headerlink" title="配置Typora"></a>配置Typora</h2><ul>
+<h2 id="配置typora-2"><a class="markdownIt-Anchor" href="#配置typora-2"></a> 配置Typora</h2>
+<ul>
 <li>打开图片配置，<code>文件</code>→<code>偏好设置</code>→<code>图像</code>，进行设置如下图</li>
 </ul>
 <img src="/article/d101e67c/image-20220312173607265.png" class="" title="image-20220312173607265">
 <img src="/article/d101e67c/image-20220312173614527.png" class="" title="image-20220312173614527">
-<h2 id="Typora内文章批量替换路径"><a href="#Typora内文章批量替换路径" class="headerlink" title="Typora内文章批量替换路径"></a>Typora内文章批量替换路径</h2><ul>
+<h2 id="typora内文章批量替换路径"><a class="markdownIt-Anchor" href="#typora内文章批量替换路径"></a> Typora内文章批量替换路径</h2>
+<ul>
 <li>直接插入的图片路径如下图，要把红线标注的部分（即文件名）批量去掉，按<code>Ctrl</code>+<code>H</code>，输入对应内容，按<code>全部</code></li>
 </ul>
 <img src="/article/d101e67c/image-20220312173623003.png" class="" title="image-20220312173623003">
@@ -620,7 +630,8 @@
 <ul>
 <li>接下来清理缓存，生成，发布即可</li>
 </ul>
-<h1 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h1><ul>
+<h1 id="ref"><a class="markdownIt-Anchor" href="#ref"></a> Ref</h1>
+<ul>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_30734435/article/details/98497054">解决Hexo图片无法显示问题</a></li>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/as3522/article/details/102972473">Hexo不显示图片,不需要插件,超简单</a></li>
 <li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/51377148/how-to-fix-npm-vulnerabilities-manually">How to fix npm vulnerabilities manually?</a></li>

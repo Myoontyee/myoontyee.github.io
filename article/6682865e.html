@@ -528,7 +528,7 @@
                         
                             <span class="post-count">
                             📑字数:
-                            <a href="">134</a>  
+                            <a href="">135</a>  
                             </span>
                         
 
@@ -557,21 +557,27 @@
             <br><strong>⚠️警告：博客文章禁止一切形式的非授权非法转载！</strong>
             <br><strong>⚠️Attention: All forms of unauthorized illegal reposts are prohibited !</strong> 
             <hr>
-<p><strong>创建时间</strong>：2022年4月9日11:37:06<br><strong>最新更新</strong>：2022年4月9日11:43:20</p>
+<p><strong>创建时间</strong>：2022年4月9日11:37:06<br>
+<strong>最新更新</strong>：2022年4月9日11:43:20</p>
 <hr>
 <p><strong>核心思路</strong>：<code>np.nan</code> or <code>np.isnan()</code></p>
 <hr>
-<p><strong>输入</strong>：数值<br><strong>输出</strong>：<code>bool</code>值，<code>true</code>或者<code>false</code></p>
+<p><strong>输入</strong>：数值<br>
+<strong>输出</strong>：<code>bool</code>值，<code>true</code>或者<code>false</code></p>
 <hr>
-<h1 id="分块"><a href="#分块" class="headerlink" title="分块"></a>分块</h1><h2 id="导入库"><a href="#导入库" class="headerlink" title="导入库"></a>导入库</h2><ul>
-<li>调用<code>numpy</code>库<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br></pre></td></tr></tbody></table></figure>
-</li>
+<h1 id="分块"><a class="markdownIt-Anchor" href="#分块"></a> 分块</h1>
+<h2 id="导入库"><a class="markdownIt-Anchor" href="#导入库"></a> 导入库</h2>
+<ul>
+<li>调用<code>numpy</code>库</li>
 </ul>
-<h2 id="进行判别"><a href="#进行判别" class="headerlink" title="进行判别"></a>进行判别</h2><ul>
-<li><p>如果<code>Num</code>是<code>NaN</code>，返回<code>true</code></p>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br></pre></td></tr></tbody></table></figure>
+<h2 id="进行判别"><a class="markdownIt-Anchor" href="#进行判别"></a> 进行判别</h2>
+<ul>
+<li>如果<code>Num</code>是<code>NaN</code>，返回<code>true</code></li>
+</ul>
 <figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Num == np.nan</span><br></pre></td></tr></tbody></table></figure>
-</li>
-<li><p>当然，也可以用<code>np.isnan()</code></p>
+<ul>
+<li>当然，也可以用<code>np.isnan()</code>
 <ul>
 <li>如果是，返回<code>true</code></li>
 <li>注意<code>np.isnan()</code>无法处理小数</li>
@@ -579,8 +585,10 @@
 </li>
 </ul>
 <figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">np.isnan(Num)</span><br></pre></td></tr></tbody></table></figure>
-<h1 id="整体代码"><a href="#整体代码" class="headerlink" title="整体代码"></a>整体代码</h1><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 导入库</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进行判别</span></span><br><span class="line"><span class="comment"># 方式1</span></span><br><span class="line">Num == np.nan</span><br><span class="line"></span><br><span class="line"><span class="comment"># 方式2</span></span><br><span class="line"><span class="comment"># 无法处理小数</span></span><br><span class="line">np.isnan(Num)</span><br></pre></td></tr></tbody></table></figure>
-<h1 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h1><ul>
+<h1 id="整体代码"><a class="markdownIt-Anchor" href="#整体代码"></a> 整体代码</h1>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 导入库</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进行判别</span></span><br><span class="line"><span class="comment"># 方式1</span></span><br><span class="line">Num == np.nan</span><br><span class="line"></span><br><span class="line"><span class="comment"># 方式2</span></span><br><span class="line"><span class="comment"># 无法处理小数</span></span><br><span class="line">np.isnan(Num)</span><br></pre></td></tr></tbody></table></figure>
+<h1 id="ref"><a class="markdownIt-Anchor" href="#ref"></a> Ref</h1>
+<ul>
 <li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/944700/how-can-i-check-for-nan-values">How can I check for NaN values?</a></li>
 </ul>
 

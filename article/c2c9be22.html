@@ -528,7 +528,7 @@
                         
                             <span class="post-count">
                             📑字数:
-                            <a href="">197</a>  
+                            <a href="">198</a>  
                             </span>
                         
 
@@ -557,27 +557,35 @@
             <br><strong>⚠️警告：博客文章禁止一切形式的非授权非法转载！</strong>
             <br><strong>⚠️Attention: All forms of unauthorized illegal reposts are prohibited !</strong> 
             <hr>
-<p><strong>创建时间</strong>：2022年4月8日21:33:34<br><strong>最新更新</strong>：2022年4月8日21:44:11</p>
+<p><strong>创建时间</strong>：2022年4月8日21:33:34<br>
+<strong>最新更新</strong>：2022年4月8日21:44:11</p>
 <hr>
 <p><strong>Problem Description</strong>：Python delete variable, free memory</p>
 <p><strong>核心思路</strong>：<code>gc</code>库，<code>del</code>+<code>gc.collect()</code></p>
 <hr>
-<p><strong>输入</strong>：任意Python内变量<br><strong>输出</strong>：对应变量删除并释放内存</p>
+<p><strong>输入</strong>：任意Python内变量<br>
+<strong>输出</strong>：对应变量删除并释放内存</p>
 <hr>
 <ul>
 <li>前提是不存在其他对象对该对象的引用</li>
 </ul>
-<h1 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h1><h2 id="导入库"><a href="#导入库" class="headerlink" title="导入库"></a>导入库</h2><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> gc</span><br></pre></td></tr></tbody></table></figure>
-<h2 id="示例数据"><a href="#示例数据" class="headerlink" title="示例数据"></a>示例数据</h2><ul>
-<li>此处可以换为任意形式的任意变量，以<code>DataFrame</code>为例<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line">val = pd.read_csv(<span class="string">'./test.csv'</span>)</span><br></pre></td></tr></tbody></table></figure>
-</li>
+<h1 id="步骤"><a class="markdownIt-Anchor" href="#步骤"></a> 步骤</h1>
+<h2 id="导入库"><a class="markdownIt-Anchor" href="#导入库"></a> 导入库</h2>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> gc</span><br></pre></td></tr></tbody></table></figure>
+<h2 id="示例数据"><a class="markdownIt-Anchor" href="#示例数据"></a> 示例数据</h2>
+<ul>
+<li>此处可以换为任意形式的任意变量，以<code>DataFrame</code>为例</li>
 </ul>
-<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><ul>
-<li>删除变量，释放空间<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">del</span> val <span class="comment"># 待删除的变量</span></span><br><span class="line">gc.collect()</span><br></pre></td></tr></tbody></table></figure>
-</li>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line">val = pd.read_csv(<span class="string">'./test.csv'</span>)</span><br></pre></td></tr></tbody></table></figure>
+<h2 id="实现"><a class="markdownIt-Anchor" href="#实现"></a> 实现</h2>
+<ul>
+<li>删除变量，释放空间</li>
 </ul>
-<h1 id="完整代码"><a href="#完整代码" class="headerlink" title="完整代码"></a>完整代码</h1><figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 导入库</span></span><br><span class="line"><span class="keyword">import</span> gc</span><br><span class="line"></span><br><span class="line"><span class="comment"># 此处可以换为任意形式的任意变量</span></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line">val = pd.read_csv(<span class="string">'./test.csv'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除变量</span></span><br><span class="line"><span class="keyword">del</span> val <span class="comment"># 待删除的变量</span></span><br><span class="line">gc.collect()</span><br></pre></td></tr></tbody></table></figure>
-<h1 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h1><ul>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">del</span> val <span class="comment"># 待删除的变量</span></span><br><span class="line">gc.collect()</span><br></pre></td></tr></tbody></table></figure>
+<h1 id="完整代码"><a class="markdownIt-Anchor" href="#完整代码"></a> 完整代码</h1>
+<figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 导入库</span></span><br><span class="line"><span class="keyword">import</span> gc</span><br><span class="line"></span><br><span class="line"><span class="comment"># 此处可以换为任意形式的任意变量</span></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line">val = pd.read_csv(<span class="string">'./test.csv'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除变量</span></span><br><span class="line"><span class="keyword">del</span> val <span class="comment"># 待删除的变量</span></span><br><span class="line">gc.collect()</span><br></pre></td></tr></tbody></table></figure>
+<h1 id="ref"><a class="markdownIt-Anchor" href="#ref"></a> Ref</h1>
+<ul>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_37966884/article/details/120195325">在Jupyter里按需删除大内存变量并且释放内存</a></li>
 </ul>
 
