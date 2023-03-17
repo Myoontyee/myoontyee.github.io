@@ -1,0 +1,2186 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="google-site-verification" content="os9wPImIjpPcEDGL25ZsjCp2wh2hzb3B7Y8E4Lm1nb0" />
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Myoontyee">
+
+
+
+
+
+<title>类别 | Myoontyee | MSF: iCT &amp; Robotic</title>
+
+
+
+    <link rel="icon" href="/rocket_favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont2/iconfont.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont3/iconfont.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont4/iconfont.css">
+    
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/jquery.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+
+
+<!-- 搜索的部分 -->
+
+
+
+    <script>
+    // function searchToggle() {
+    //     const width = $(document.body).width()
+    //     if(width > 479) {
+    //         return;
+    //     }
+    //     const search = $('.search');
+    //     const searchForm = $('.form-search')
+
+    //     if(!search.hasClass("mobile-search")) {
+    //         search.addClass("mobile-search");
+    //     } else {
+    //         search.removeClass("mobile-search");
+    //     } 
+    // }
+
+    function searchToggle() {
+        const width = $(document.body).width()
+        if(width > 479) {
+            return;
+        }
+        const search = $('.search');
+        const searchForm = $('.form-search');
+        const menuToggle = $('.menu-toggle');
+        const title = $('.navbar-header-title ');
+
+        if(!search.hasClass("mobile-search")) {
+            search.addClass("mobile-search");
+            menuToggle.addClass("open-search")
+            title.addClass("mobile-title-hidden")
+        } else {
+            search.removeClass("mobile-search");
+            menuToggle.removeClass("open-search")
+            // title.css({visibility: 'visible'})
+            title.removeClass("mobile-title-hidden")
+        } 
+    }
+
+
+
+    function search(searchInputEl, formEl, flag) {
+        const path = "/" + "search.json"; // 可以在public 下查看这个search.json
+        $(formEl).submit(function(e){
+            e.preventDefault();
+            let target = null
+            if(searchInputEl == null) {
+                const screenWidth = $(document.body).width();
+                target = screenWidth > 479 ? $('#pc-search-input') : $('#mobile-search-input');
+                console.log(target);
+            } else {
+                target = $(searchInputEl)
+            }
+
+            if(!flag && target.val() === '') {
+                return ;
+            }
+
+            $("#u-search").fadeIn(500, function() {
+                $("body > .wrapper").addClass("modal-active");
+
+                $.ajax({
+                    url: path,
+                    dataType: "json",
+                    beforeSend: function (xhr) {
+                        $input = target.val();
+                        $(".form-input").val($input);
+                        const loadingBar = $('.search-loading-bar') 
+                        loadingBar.css({
+                            width:'100%',
+                            display: 'block'
+                        });
+                    },
+                    success: function( datas ) {
+                        console.log(datas);
+                        const $resultPanel = $(".modal-body")[0];
+                        let str = `<ul class="modal-results">`;
+                        var keywords = $(".form-input").val().trim().toLowerCase().split(/[\s\-]+/);
+                        $resultPanel.innerHTML = "";
+                        let hasResult = false
+                        let text = `<div class="no-result">找不到与关键词相关的内容....</div>`;
+
+                        if ($(".form-input").val().trim().length <= 0) {
+                            // 没有结果
+                            $resultPanel.innerHTML = text;
+                            return;
+                        }
+                        datas.forEach(function (data, index) {
+                            var isMatch = true;
+                            if (!data.title || data.title.trim() === '') {
+                                data.title = "Untitled";
+                            }
+                            var data_title = data.title.trim().toLowerCase();
+                            var data_content = data.content && data.content.trim().replace(/<[^>]+>/g, "").toLowerCase() || '';
+                            var data_url = data.url;
+                            var index_title = -1;
+                            var index_content = -1;
+                            var first_occur = -1;
+                            // only match artiles with not empty contents
+                            if (data_content !== '') {
+                                keywords.forEach(function (keyword, i) {
+                                    index_title = data_title.indexOf(keyword);
+                                    index_content = data_content.indexOf(keyword);
+
+                                    if (index_title < 0 && index_content < 0) {
+                                        isMatch = false;
+                                    } else {
+                                        hasResult = true
+                                        if (index_content < 0) {
+                                            index_content = 0;
+                                        }
+                                        if (i == 0) {
+                                            first_occur = index_content;
+                                        }
+                                    }
+                                });
+                            } else {
+                                isMatch = false;
+                            }
+                            // show search results
+                            if (isMatch) {
+                                str += `<li class='result-item'><a href='${data_url}' class='result-item-detail'> <span class="title">${data_title}</span>`;
+                                var content = data.content.trim().replace(/<[^>]+>/g, "");
+                                if (first_occur >= 0) {
+                                    // cut out 200 characters
+                                    var start = first_occur - 40;
+                                    var end = first_occur + 160;
+
+                                    if (start < 0) {
+                                        start = 0;
+                                    }
+
+                                    if (start == 0) {
+                                        end = 200;
+                                    }
+
+                                    if (end > content.length) {
+                                        end = content.length;
+                                    }
+
+                                    var match_content = content.substring(start, end);
+
+                                    // highlight all keywords
+                                    keywords.forEach(function (keyword) {
+                                        var regS = new RegExp(keyword, "gi");
+                                        match_content = match_content.replace(regS, `<em class="search-keyword">${keyword}</em>`);
+                                    });
+
+                                    str += `<span class="content"> ${match_content} ...</span></a>`;
+                                }
+                                str += "</li>";
+                            }
+                        });
+                        str += "</ul>";
+                        if(hasResult) {
+                            $resultPanel.innerHTML = str;
+                        } else {
+                            $resultPanel.innerHTML = text;
+                        }
+
+                    },
+                    complete: function() {
+                        setTimeout(() => {
+                                const loadingBar = $('.search-loading-bar') 
+                                loadingBar.css({
+                                    width:'0%',
+                                    display: 'none'
+                                });
+                        }, 300)
+                    }
+                });
+            })
+
+        });
+    }
+
+    $(document).ready(function() {
+        $('.modal-close').click(function () { 
+            $("#u-search").fadeOut();
+            $("body > .wrapper").removeClass("modal-active")
+        })
+
+        $('.modal-overlay').click(function() {
+            $("#u-search").fadeOut();
+            $("body > .wrapper").removeClass("modal-active")
+        })
+        search(null, ".form-search", false)
+        search("#u-search-modal-form .form-input", ".u-search-modal-form", true)
+    })
+</script>
+
+
+
+<!-- 搜索框 -->
+<!-- 
+
+    <div class="search ">
+        <div class="search-btn" onClick="searchToggle()">
+            <img src="/image/search.png" class="search-btn-img" />
+        </div>
+        <form class="form-search">
+            <input class="input" placeholder="点此搜索" autocomplete="off" id="pc-search-input"/>
+        </form>
+    </div>
+ -->
+
+<!-- // 这里是 mobile 的menu -->
+<!-- <div class="navbar-mobile-right">
+    
+    
+    <div class="search ">
+        <div class="search-btn" onClick="searchToggle()">
+            <img src="/image/search.png" class="search-btn-img" />
+        </div>
+        <form class="form-search">
+            <input class="input" placeholder="点此搜索" autocomplete="off" id="mobile-search-input"/>
+        </form>
+    </div>
+
+    <div class="menu-toggle" onclick="mobileBtn()">&#9776; 目录</div>
+</div> -->
+
+<!-- 2022年3月19日添加 代码高亮、显示行号 -->
+<!-- <link rel="stylesheet" href="/css/prettify.css" media="screen" type="text/css"> -->
+<meta name="generator" content="Hexo 5.4.2">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <!-- 引入标签 -->
+<link rel="stylesheet" href="../fonts/iconfont3/iconfont.css"> 
+
+<header>
+    <nav class="navbar">
+        <div class="container">
+            <!-- <div class="navbar-header header-logo"><a href="/">主页</a></div> -->
+            <div class="navbar-header header-logo"><a href="/"><i class="iconfont icon-zhuye" style="font-size: 1em;"></i>主页</a></div>
+            <div class="menu navbar-right">
+                <!-- 这里表示的是pc端搜索框 -->
+                
+                
+    <div class="search ">
+        <div class="search-btn" onClick="searchToggle()">
+            <img src="/image/search.png" class="search-btn-img" />
+        </div>
+        <form class="form-search">
+            <input class="input" placeholder="点此搜索" autocomplete="off" id="pc-search-input"/>
+        </form>
+    </div>
+
+                
+                    <!-- <a class="menu-item" href="/top">博文</a> -->
+                    
+                        <a class="menu-item" href="/top"><i class="iconfont icon-wenzhang" style="font-size: 1em;"></i>博文</a>
+                    
+                    
+                    
+                    
+                    
+                    
+                
+                    <!-- <a class="menu-item" href="/category">类别</a> -->
+                    
+                    
+                        <a class="menu-item" href="/category"><i class="iconfont icon-fenlei" style="font-size: 1em;"></i>类别</a>
+                    
+                    
+                    
+                    
+                    
+                
+                    <!-- <a class="menu-item" href="/tag">标签</a> -->
+                    
+                    
+                    
+                        <a class="menu-item" href="/tag"><i class="iconfont icon-biaoqian-" style="font-size: 1em;"></i>标签</a>
+                    
+                    
+                    
+                    
+                
+                    <!-- <a class="menu-item" href="/about">关于</a> -->
+                    
+                    
+                    
+                    
+                        <a class="menu-item" href="/about"><i class="iconfont icon-guanyu1" style="font-size: 1em;"></i>关于</a>
+                    
+                    
+                    
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">主页</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="navbar-mobile-right">
+                    
+                    
+    <div class="search ">
+        <div class="search-btn" onClick="searchToggle()">
+            <img src="/image/search.png" class="search-btn-img" />
+        </div>
+        <form class="form-search">
+            <input class="input" placeholder="点此搜索" autocomplete="off" id="mobile-search-input"/>
+        </form>
+    </div>
+
+                    <div class="menu-toggle" onclick="mobileBtn()">&#9776; 目录</div>
+                </div>
+                
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/top">博文</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+    
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+
+            <div class="main">
+                <!-- 引入标签 -->
+<link rel="stylesheet" href="../fonts/iconfont3/iconfont.css"> 
+<!-- 这个文件是类别页面的布局 -->
+
+
+
+
+    <div class="container">
+        <div class="post-wrap categories">
+            <!-- <h2 class="post-title">-&nbsp;📚类别&nbsp;-</h2> -->
+            <h2 class="post-title">-&nbsp;<i class="iconfont icon-fenlei" style="font-size: 1em;"></i>类别&nbsp;-</h2>
+            <div class="categories-card">
+                
+                    
+                    <div class="card-item">
+                        <div class="categories">
+                            <a href="/categories/%E6%9F%A5%E6%89%BE%E8%A1%A8/">
+                                <h3>
+                                    <i class="iconfont icon-category" style="padding-right:3px"></i>
+                                    查找表
+                                </h3>
+                            </a>
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/210d6c4f.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           3ds Max常用操作
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/c75d34a5.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           CERN ROOT常用操作
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/ab81a167.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           WSL子系统个人常用操作
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                            
+                        </div>
+                    </div>
+                
+                    
+                    <div class="card-item">
+                        <div class="categories">
+                            <a href="/categories/Visual-Studio-Code/">
+                                <h3>
+                                    <i class="iconfont icon-category" style="padding-right:3px"></i>
+                                    Visual Studio Code
+                                </h3>
+                            </a>
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/dbacadce.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           Box Comment修复版Release——Visual Studio Code如何给注释块添加自定义的方框？如何添加带Box的美化注释块？
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/2fa93e53.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           Visual Studio Code怎么打开settings.json文件
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/abf71111.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           Visual Studio Code如何编译插件源码？二次开发咋搞？
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/18239a06.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           Visual Studio Code注释Comment插件推荐配置组合，是否能实现VS Code内代码快速跳转+多层次美观注释？
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/26810cd7.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           Visual Studio Code配置copilot方案，copilot登录在哪里？
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                                
+                                
+                            
+                            
+                                <a class="more-post-link" href="/categories/Visual-Studio-Code/">More >></a>
+                            
+                        </div>
+                    </div>
+                
+                    
+                    <div class="card-item">
+                        <div class="categories">
+                            <a href="/categories/Geant4/">
+                                <h3>
+                                    <i class="iconfont icon-category" style="padding-right:3px"></i>
+                                    Geant4
+                                </h3>
+                            </a>
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/c86dac85.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           Geant4、C++定义全局变量，如何把所有的参数都定义在头文件里？如何使用一个文件存放项目里所有参数？如何传递全局参数？——以Geant4传递射线出射坐标为例
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/ee2299fd.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           Geant4 提示 adding row has failed 解决办法
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/209412b0.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           Geant4如何在GUI中关闭次级粒子的显示？
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/bd02c9ca.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           Geant4如何开启Track的信息打印？
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/b20a8a22.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           Python如何基于uproot库读取.root文件，如何查看其内部数据，如何将其转化为DataFrame
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                                
+                                
+                            
+                                
+                                
+                            
+                            
+                                <a class="more-post-link" href="/categories/Geant4/">More >></a>
+                            
+                        </div>
+                    </div>
+                
+                    
+                    <div class="card-item">
+                        <div class="categories">
+                            <a href="/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">
+                                <h3>
+                                    <i class="iconfont icon-category" style="padding-right:3px"></i>
+                                    博客搭建
+                                </h3>
+                            </a>
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/b1784561.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           Chic配置Gitalk，添加评论区
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/321a7025.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           Chic过长博文名如何实现省略，过长博文名，如何实现三个点省略方案
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/1b2e5417.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           GitHub+Hexo代码仓如何清空Commits以避免信息泄露？
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/7faf135d.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           Git-Bash，WSL2内GitHub无法访问、443 Operation timed out，使用Clash却无法在Git-Bash内访问GitHub的解决办法
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/f338e400.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           GitHub+Hexo的个人博客，blog，GitHub Page如何实现一个分支作为博客源码，一个分支用于全部源码备份？
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                                
+                                
+                            
+                                
+                                
+                            
+                                
+                                
+                            
+                                
+                                
+                            
+                                
+                                
+                            
+                                
+                                
+                            
+                                
+                                
+                            
+                                
+                                
+                            
+                                
+                                
+                            
+                                
+                                
+                            
+                                
+                                
+                            
+                                
+                                
+                            
+                                
+                                
+                            
+                                
+                                
+                            
+                                
+                                
+                            
+                                
+                                
+                            
+                                
+                                
+                            
+                                
+                                
+                            
+                                
+                                
+                            
+                                
+                                
+                            
+                                
+                                
+                            
+                                
+                                
+                            
+                                
+                                
+                            
+                                
+                                
+                            
+                                
+                                
+                            
+                                
+                                
+                            
+                                
+                                
+                            
+                                
+                                
+                            
+                                
+                                
+                            
+                                
+                                
+                            
+                                
+                                
+                            
+                                
+                                
+                            
+                                
+                                
+                            
+                                
+                                
+                            
+                                
+                                
+                            
+                                
+                                
+                            
+                                
+                                
+                            
+                                
+                                
+                            
+                            
+                                <a class="more-post-link" href="/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">More >></a>
+                            
+                        </div>
+                    </div>
+                
+                    
+                    <div class="card-item">
+                        <div class="categories">
+                            <a href="/categories/Visual-Studio-Code/Plugins/">
+                                <h3>
+                                    <i class="iconfont icon-category" style="padding-right:3px"></i>
+                                    Plugins
+                                </h3>
+                            </a>
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/dbacadce.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           Box Comment修复版Release——Visual Studio Code如何给注释块添加自定义的方框？如何添加带Box的美化注释块？
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                            
+                        </div>
+                    </div>
+                
+                    
+                    <div class="card-item">
+                        <div class="categories">
+                            <a href="/categories/%E5%87%BD%E6%95%B0/">
+                                <h3>
+                                    <i class="iconfont icon-category" style="padding-right:3px"></i>
+                                    函数
+                                </h3>
+                            </a>
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/d47898d0.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           DataFrame与np.array的相互转换，从读取如.csv数据集开始的DataFrame转矩阵
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/bbfbe18f.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           Python DataFrame转为矩阵，DataFrame中包含行列等坐标信息和值信息，如何转换为numpy矩阵？（为OpenCV使用提供方便）
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/ccd63a75.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           Python pandas numpy 实现n-sigma滤波，n-sigma滤波与groupby联合使用返回Dataframe
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/c2c9be22.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           Python 删除变量，释放内存
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/6682865e.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           Python如何识别NaN
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                            
+                        </div>
+                    </div>
+                
+                    
+                    <div class="card-item">
+                        <div class="categories">
+                            <a href="/categories/office/">
+                                <h3>
+                                    <i class="iconfont icon-category" style="padding-right:3px"></i>
+                                    office
+                                </h3>
+                            </a>
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/6e881e0b.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           DeepL在word内用快捷键的时候，没有反应应咋办？
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                            
+                        </div>
+                    </div>
+                
+                    
+                    <div class="card-item">
+                        <div class="categories">
+                            <a href="/categories/Everything/">
+                                <h3>
+                                    <i class="iconfont icon-category" style="padding-right:3px"></i>
+                                    Everything
+                                </h3>
+                            </a>
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/8a256b25.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           Everything如何搜索移动硬盘里的东西？
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                            
+                        </div>
+                    </div>
+                
+                    
+                    <div class="card-item">
+                        <div class="categories">
+                            <a href="/categories/Geant4/CERN-ROOT/">
+                                <h3>
+                                    <i class="iconfont icon-category" style="padding-right:3px"></i>
+                                    CERN ROOT
+                                </h3>
+                            </a>
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/ee2299fd.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           Geant4 提示 adding row has failed 解决办法
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                            
+                        </div>
+                    </div>
+                
+                    
+                    <div class="card-item">
+                        <div class="categories">
+                            <a href="/categories/office/DeepL/">
+                                <h3>
+                                    <i class="iconfont icon-category" style="padding-right:3px"></i>
+                                    DeepL
+                                </h3>
+                            </a>
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/6e881e0b.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           DeepL在word内用快捷键的时候，没有反应应咋办？
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                            
+                        </div>
+                    </div>
+                
+                    
+                    <div class="card-item">
+                        <div class="categories">
+                            <a href="/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/Obsidian/">
+                                <h3>
+                                    <i class="iconfont icon-category" style="padding-right:3px"></i>
+                                    Obsidian
+                                </h3>
+                            </a>
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/46fb7fa8.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           Hexo + Chic 在同一行实现左中右内容布局，Markdown（Typora）与Obsidian亦可参考
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/f5721cb9.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           Hexo, Obsidian, Typora等如何制作包含代码在内的表格？如果需要有代码行数呢？
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/3af48a75.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           从外部复制粘贴代码进Obsidian，格式发生错乱是为啥？如何处理？
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                            
+                        </div>
+                    </div>
+                
+                    
+                    <div class="card-item">
+                        <div class="categories">
+                            <a href="/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/Obsidian/Typora/">
+                                <h3>
+                                    <i class="iconfont icon-category" style="padding-right:3px"></i>
+                                    Typora
+                                </h3>
+                            </a>
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/46fb7fa8.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           Hexo + Chic 在同一行实现左中右内容布局，Markdown（Typora）与Obsidian亦可参考
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/f5721cb9.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           Hexo, Obsidian, Typora等如何制作包含代码在内的表格？如果需要有代码行数呢？
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/3af48a75.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           从外部复制粘贴代码进Obsidian，格式发生错乱是为啥？如何处理？
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                            
+                        </div>
+                    </div>
+                
+                    
+                    <div class="card-item">
+                        <div class="categories">
+                            <a href="/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/%E7%BD%AE%E9%A1%B6/">
+                                <h3>
+                                    <i class="iconfont icon-category" style="padding-right:3px"></i>
+                                    置顶
+                                </h3>
+                            </a>
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/551b025b.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           Hexo + Chic 配置教程归纳
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                            
+                        </div>
+                    </div>
+                
+                    
+                    <div class="card-item">
+                        <div class="categories">
+                            <a href="/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/Obsidian/Typora/Markdown/">
+                                <h3>
+                                    <i class="iconfont icon-category" style="padding-right:3px"></i>
+                                    Markdown
+                                </h3>
+                            </a>
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/46fb7fa8.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           Hexo + Chic 在同一行实现左中右内容布局，Markdown（Typora）与Obsidian亦可参考
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                            
+                        </div>
+                    </div>
+                
+                    
+                    <div class="card-item">
+                        <div class="categories">
+                            <a href="/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/Obsidian/Typora/markdown/">
+                                <h3>
+                                    <i class="iconfont icon-category" style="padding-right:3px"></i>
+                                    markdown
+                                </h3>
+                            </a>
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/f5721cb9.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           Hexo, Obsidian, Typora等如何制作包含代码在内的表格？如果需要有代码行数呢？
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/3af48a75.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           从外部复制粘贴代码进Obsidian，格式发生错乱是为啥？如何处理？
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                            
+                        </div>
+                    </div>
+                
+                    
+                    <div class="card-item">
+                        <div class="categories">
+                            <a href="/categories/Obsidian/">
+                                <h3>
+                                    <i class="iconfont icon-category" style="padding-right:3px"></i>
+                                    Obsidian
+                                </h3>
+                            </a>
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/711def1.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           Obsidian添加公式序号
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                            
+                        </div>
+                    </div>
+                
+                    
+                    <div class="card-item">
+                        <div class="categories">
+                            <a href="/categories/LaTeX/">
+                                <h3>
+                                    <i class="iconfont icon-category" style="padding-right:3px"></i>
+                                    LaTeX
+                                </h3>
+                            </a>
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/29d7e5dd.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           Overleaf + Docker本地配置教程
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/3beda872.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           Overleaf 如何使用中文？
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/4743966.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           Visual Studio Code内报BUILD command invoked.   Cannot find LaTeX root file.  解决办法
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/485df768.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           WSL2 + Visual Studio Code + LaTeX 配置教程
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                            
+                        </div>
+                    </div>
+                
+                    
+                    <div class="card-item">
+                        <div class="categories">
+                            <a href="/categories/LaTeX/Overleaf/">
+                                <h3>
+                                    <i class="iconfont icon-category" style="padding-right:3px"></i>
+                                    Overleaf
+                                </h3>
+                            </a>
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/29d7e5dd.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           Overleaf + Docker本地配置教程
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/3beda872.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           Overleaf 如何使用中文？
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                            
+                        </div>
+                    </div>
+                
+                    
+                    <div class="card-item">
+                        <div class="categories">
+                            <a href="/categories/Neural-Network/">
+                                <h3>
+                                    <i class="iconfont icon-category" style="padding-right:3px"></i>
+                                    Neural Network
+                                </h3>
+                            </a>
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/a2c031de.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           Pytorch中神经网络模块nn.Linear概念及示例
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                            
+                        </div>
+                    </div>
+                
+                    
+                    <div class="card-item">
+                        <div class="categories">
+                            <a href="/categories/SolidWorks/">
+                                <h3>
+                                    <i class="iconfont icon-category" style="padding-right:3px"></i>
+                                    SolidWorks
+                                </h3>
+                            </a>
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/45b4ed1c.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           SolidWorks新建装配体、工程图仍然只能打开零部件，还提示默认模板无效，如何处理？
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                            
+                        </div>
+                    </div>
+                
+                    
+                    <div class="card-item">
+                        <div class="categories">
+                            <a href="/categories/SSH/">
+                                <h3>
+                                    <i class="iconfont icon-category" style="padding-right:3px"></i>
+                                    SSH
+                                </h3>
+                            </a>
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/170bcd41.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           VS Code + SSH 远程连接后无法选择kernel，无法使用conda activate应如何处理？报错CommandNotFoundError: Your shell has not been properly configured to use 'conda activate'.的解决办法。在一台电脑可以SSH连上服务器设定好kernel，在另一台电脑通过SSH连上服务器无法使用、选择kernel
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                            
+                        </div>
+                    </div>
+                
+                    
+                    <div class="card-item">
+                        <div class="categories">
+                            <a href="/categories/Python/">
+                                <h3>
+                                    <i class="iconfont icon-category" style="padding-right:3px"></i>
+                                    Python
+                                </h3>
+                            </a>
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/495264bf.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           WSL + Visual Studio Code + Anaconda配置方案
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/a8f28d7b.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           Windows10下安装Anaconda后Jupyter Notebook无法启动，403Get，Kernel Error的一类解决办法
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                            
+                        </div>
+                    </div>
+                
+                    
+                    <div class="card-item">
+                        <div class="categories">
+                            <a href="/categories/SSH/Visual-Studio-Code/">
+                                <h3>
+                                    <i class="iconfont icon-category" style="padding-right:3px"></i>
+                                    Visual Studio Code
+                                </h3>
+                            </a>
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/170bcd41.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           VS Code + SSH 远程连接后无法选择kernel，无法使用conda activate应如何处理？报错CommandNotFoundError: Your shell has not been properly configured to use 'conda activate'.的解决办法。在一台电脑可以SSH连上服务器设定好kernel，在另一台电脑通过SSH连上服务器无法使用、选择kernel
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                            
+                        </div>
+                    </div>
+                
+                    
+                    <div class="card-item">
+                        <div class="categories">
+                            <a href="/categories/WSL/">
+                                <h3>
+                                    <i class="iconfont icon-category" style="padding-right:3px"></i>
+                                    WSL
+                                </h3>
+                            </a>
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/7dfd3229.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           WSL2 安装配置ROOT
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/ad32aed1.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           WSL如何开启与关闭？
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/54e1736e.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           WSL，WSL2多个想source的环境变量，如何在.bashrc内基于if-else进而在bash内可交互式进行选择？而不用每次使用复杂指令
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/5a59e8a1.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           WSL，WSL2如何在bash里清屏？
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/15435ad2.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           WSL，WSL2如何实现一打开bash就可交互式选择是否通过VcXsrv可视化 or 不可视化配置？
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                            
+                        </div>
+                    </div>
+                
+                    
+                    <div class="card-item">
+                        <div class="categories">
+                            <a href="/categories/LaTeX/WSL2/">
+                                <h3>
+                                    <i class="iconfont icon-category" style="padding-right:3px"></i>
+                                    WSL2
+                                </h3>
+                            </a>
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/485df768.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           WSL2 + Visual Studio Code + LaTeX 配置教程
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                            
+                        </div>
+                    </div>
+                
+                    
+                    <div class="card-item">
+                        <div class="categories">
+                            <a href="/categories/WSL2/">
+                                <h3>
+                                    <i class="iconfont icon-category" style="padding-right:3px"></i>
+                                    WSL2
+                                </h3>
+                            </a>
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/808f0e36.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           WSL2实现GPU穿透
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                            
+                        </div>
+                    </div>
+                
+                    
+                    <div class="card-item">
+                        <div class="categories">
+                            <a href="/categories/WSL/Linux/">
+                                <h3>
+                                    <i class="iconfont icon-category" style="padding-right:3px"></i>
+                                    Linux
+                                </h3>
+                            </a>
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/5a59e8a1.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           WSL，WSL2如何在bash里清屏？
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                            
+                        </div>
+                    </div>
+                
+                    
+                    <div class="card-item">
+                        <div class="categories">
+                            <a href="/categories/WSL/WSL2/">
+                                <h3>
+                                    <i class="iconfont icon-category" style="padding-right:3px"></i>
+                                    WSL2
+                                </h3>
+                            </a>
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/7dfd3229.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           WSL2 安装配置ROOT
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/54e1736e.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           WSL，WSL2多个想source的环境变量，如何在.bashrc内基于if-else进而在bash内可交互式进行选择？而不用每次使用复杂指令
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/15435ad2.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           WSL，WSL2如何实现一打开bash就可交互式选择是否通过VcXsrv可视化 or 不可视化配置？
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                            
+                        </div>
+                    </div>
+                
+                    
+                    <div class="card-item">
+                        <div class="categories">
+                            <a href="/categories/LaTeX/WSL2/Paper/">
+                                <h3>
+                                    <i class="iconfont icon-category" style="padding-right:3px"></i>
+                                    Paper
+                                </h3>
+                            </a>
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/485df768.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           WSL2 + Visual Studio Code + LaTeX 配置教程
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                            
+                        </div>
+                    </div>
+                
+                    
+                    <div class="card-item">
+                        <div class="categories">
+                            <a href="/categories/%E8%AE%BA%E6%96%87/">
+                                <h3>
+                                    <i class="iconfont icon-category" style="padding-right:3px"></i>
+                                    论文
+                                </h3>
+                            </a>
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/eab4275e.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           Word如何实现插入公式的序号？
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/6d4ee85a.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           Word实现多行插入公式，使用同一个公式序号
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/cb2e0f17.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           Word实现插入多行LaTeX公式，有没有便捷的方法？
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                            
+                        </div>
+                    </div>
+                
+                    
+                    <div class="card-item">
+                        <div class="categories">
+                            <a href="/categories/EndNote/">
+                                <h3>
+                                    <i class="iconfont icon-category" style="padding-right:3px"></i>
+                                    EndNote
+                                </h3>
+                            </a>
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/7ed40a71.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           如何快速便捷获取包含论文完整信息的EndNote文件？
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                            
+                        </div>
+                    </div>
+                
+                    
+                    <div class="card-item">
+                        <div class="categories">
+                            <a href="/categories/WSL/WSL2/CERN-ROOT/">
+                                <h3>
+                                    <i class="iconfont icon-category" style="padding-right:3px"></i>
+                                    CERN ROOT
+                                </h3>
+                            </a>
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/7dfd3229.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           WSL2 安装配置ROOT
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                            
+                        </div>
+                    </div>
+                
+                    
+                    <div class="card-item">
+                        <div class="categories">
+                            <a href="/categories/%E8%AE%BA%E6%96%87/office/">
+                                <h3>
+                                    <i class="iconfont icon-category" style="padding-right:3px"></i>
+                                    office
+                                </h3>
+                            </a>
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/eab4275e.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           Word如何实现插入公式的序号？
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/6d4ee85a.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           Word实现多行插入公式，使用同一个公式序号
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/cb2e0f17.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           Word实现插入多行LaTeX公式，有没有便捷的方法？
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                            
+                        </div>
+                    </div>
+                
+                    
+                    <div class="card-item">
+                        <div class="categories">
+                            <a href="/categories/Git/">
+                                <h3>
+                                    <i class="iconfont icon-category" style="padding-right:3px"></i>
+                                    Git
+                                </h3>
+                            </a>
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/4ef81417.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           有部分文件夹不想push到GitHub上应如何设置？
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                            
+                        </div>
+                    </div>
+                
+                    
+                    <div class="card-item">
+                        <div class="categories">
+                            <a href="/categories/%E6%95%B0%E7%90%86%E4%B8%8E%E7%AE%97%E6%B3%95/">
+                                <h3>
+                                    <i class="iconfont icon-category" style="padding-right:3px"></i>
+                                    数理与算法
+                                </h3>
+                            </a>
+                            
+                                
+                                
+                                    <article class="archive-item">
+                                        <a class="archive-item-link"
+                                           href="/article/21abacaf.html">
+                                           <!-- 2022年4月4日 添加过长博文名省略 -->
+                                           <li>
+                                           范数是什么含义？有什么实际用途？对范数的理解？
+                                        </li>
+                                        <!-- 2022年4月4日 添加过长博文名省略 -->
+                                        </a>
+                                    </article>
+                                
+                            
+                            
+                        </div>
+                    </div>
+                
+            </div>
+
+        </div>
+    </div>
+
+
+
+<!-- 2022年4月4日 添加过长博文名省略 -->
+<style>
+    li{
+        width: 285px;
+        height: 24.2px;
+        /*不换行*/
+        white-space: nowrap;
+        /*溢出的话，隐藏*/
+        overflow: hidden;
+        /*文本溢出时，是否....*/
+        text-overflow: ellipsis;
+    }
+</style>
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <!-- 2022年3月19日 添加 代码高亮、访客量 -->
+        <!-- <script src="/js/prettify.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+             $('pre').addClass('prettyprint linenums');
+             $('code').addClass('prettyprint');
+             prettyPrint();
+             })
+        </script> -->
+        <!-- 2022年3月23日 添加mermaid支持 -->
+        
+            <script src='https://unpkg.com/mermaid@8.14.0/dist/mermaid.min.js'></script>
+            <script>
+              if (window.mermaid) {
+                mermaid.initialize({
+                                startOnLoad: true,
+                                theme: 'neural',
+                                     });
+              }
+            </script>
+        
+
+        <!-- <span>© Myoontyee | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a> -->
+            <span>© Myoontyee  
+            <!-- 访客数量 -->
+            <!-- <div> -->
+            
+                <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<span class="site-uv">
+    | 总访客量:
+    <i class="busuanzi-value" id="busuanzi_value_site_uv"><i class="fa fa-spinner fa-spin"></i></i>
+</span>&nbsp;
+
+
+<span class="site-pv">
+    | 总访问量:
+    <i class="busuanzi-value" id="busuanzi_value_site_pv"><i class="fa fa-spinner fa-spin"></i></i>
+</span>
+
+            
+            <!-- </div> -->
+        </span>
+    </div>
+</footer>
+
+
+
+    </div>
+
+
+
+    <!-- 搜索功能 -->
+    <!-- Chic/layout.ejs -->
+    <div id="u-search">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="container">
+                    <form id="u-search-modal-form" class="u-search-modal-form">
+                        <button type="submit" class="form-submit-btn">
+                            <img src="/image/search.png" class="search-btn-img" />
+                        </button>
+                        <input placeholder="搜索内容..." class="form-input" id="modal-form-input">
+                    </form>
+                    <a class="modal-close">x</a>
+                </div>
+                <div class="search-loading">
+                    <div class="search-loading-bar"></div>
+                </div>
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
+        <div class="modal-overlay"></div>
+    </div>
+</body>
+
+</html>

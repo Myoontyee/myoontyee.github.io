@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="google-site-verification" content="os9wPImIjpPcEDGL25ZsjCp2wh2hzb3B7Y8E4Lm1nb0" />
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Myoontyee">
+
+
+
+
+
+<title>文章 | Myoontyee | MSF: iCT &amp; Robotic</title>
+
+
+
+    <link rel="icon" href="/rocket_favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont2/iconfont.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont3/iconfont.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont4/iconfont.css">
+    
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/jquery.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+
+
+<!-- 搜索的部分 -->
+
+
+
+    <script>
+    // function searchToggle() {
+    //     const width = $(document.body).width()
+    //     if(width > 479) {
+    //         return;
+    //     }
+    //     const search = $('.search');
+    //     const searchForm = $('.form-search')
+
+    //     if(!search.hasClass("mobile-search")) {
+    //         search.addClass("mobile-search");
+    //     } else {
+    //         search.removeClass("mobile-search");
+    //     } 
+    // }
+
+    function searchToggle() {
+        const width = $(document.body).width()
+        if(width > 479) {
+            return;
+        }
+        const search = $('.search');
+        const searchForm = $('.form-search');
+        const menuToggle = $('.menu-toggle');
+        const title = $('.navbar-header-title ');
+
+        if(!search.hasClass("mobile-search")) {
+            search.addClass("mobile-search");
+            menuToggle.addClass("open-search")
+            title.addClass("mobile-title-hidden")
+        } else {
+            search.removeClass("mobile-search");
+            menuToggle.removeClass("open-search")
+            // title.css({visibility: 'visible'})
+            title.removeClass("mobile-title-hidden")
+        } 
+    }
+
+
+
+    function search(searchInputEl, formEl, flag) {
+        const path = "/" + "search.json"; // 可以在public 下查看这个search.json
+        $(formEl).submit(function(e){
+            e.preventDefault();
+            let target = null
+            if(searchInputEl == null) {
+                const screenWidth = $(document.body).width();
+                target = screenWidth > 479 ? $('#pc-search-input') : $('#mobile-search-input');
+                console.log(target);
+            } else {
+                target = $(searchInputEl)
+            }
+
+            if(!flag && target.val() === '') {
+                return ;
+            }
+
+            $("#u-search").fadeIn(500, function() {
+                $("body > .wrapper").addClass("modal-active");
+
+                $.ajax({
+                    url: path,
+                    dataType: "json",
+                    beforeSend: function (xhr) {
+                        $input = target.val();
+                        $(".form-input").val($input);
+                        const loadingBar = $('.search-loading-bar') 
+                        loadingBar.css({
+                            width:'100%',
+                            display: 'block'
+                        });
+                    },
+                    success: function( datas ) {
+                        console.log(datas);
+                        const $resultPanel = $(".modal-body")[0];
+                        let str = `<ul class="modal-results">`;
+                        var keywords = $(".form-input").val().trim().toLowerCase().split(/[\s\-]+/);
+                        $resultPanel.innerHTML = "";
+                        let hasResult = false
+                        let text = `<div class="no-result">找不到与关键词相关的内容....</div>`;
+
+                        if ($(".form-input").val().trim().length <= 0) {
+                            // 没有结果
+                            $resultPanel.innerHTML = text;
+                            return;
+                        }
+                        datas.forEach(function (data, index) {
+                            var isMatch = true;
+                            if (!data.title || data.title.trim() === '') {
+                                data.title = "Untitled";
+                            }
+                            var data_title = data.title.trim().toLowerCase();
+                            var data_content = data.content && data.content.trim().replace(/<[^>]+>/g, "").toLowerCase() || '';
+                            var data_url = data.url;
+                            var index_title = -1;
+                            var index_content = -1;
+                            var first_occur = -1;
+                            // only match artiles with not empty contents
+                            if (data_content !== '') {
+                                keywords.forEach(function (keyword, i) {
+                                    index_title = data_title.indexOf(keyword);
+                                    index_content = data_content.indexOf(keyword);
+
+                                    if (index_title < 0 && index_content < 0) {
+                                        isMatch = false;
+                                    } else {
+                                        hasResult = true
+                                        if (index_content < 0) {
+                                            index_content = 0;
+                                        }
+                                        if (i == 0) {
+                                            first_occur = index_content;
+                                        }
+                                    }
+                                });
+                            } else {
+                                isMatch = false;
+                            }
+                            // show search results
+                            if (isMatch) {
+                                str += `<li class='result-item'><a href='${data_url}' class='result-item-detail'> <span class="title">${data_title}</span>`;
+                                var content = data.content.trim().replace(/<[^>]+>/g, "");
+                                if (first_occur >= 0) {
+                                    // cut out 200 characters
+                                    var start = first_occur - 40;
+                                    var end = first_occur + 160;
+
+                                    if (start < 0) {
+                                        start = 0;
+                                    }
+
+                                    if (start == 0) {
+                                        end = 200;
+                                    }
+
+                                    if (end > content.length) {
+                                        end = content.length;
+                                    }
+
+                                    var match_content = content.substring(start, end);
+
+                                    // highlight all keywords
+                                    keywords.forEach(function (keyword) {
+                                        var regS = new RegExp(keyword, "gi");
+                                        match_content = match_content.replace(regS, `<em class="search-keyword">${keyword}</em>`);
+                                    });
+
+                                    str += `<span class="content"> ${match_content} ...</span></a>`;
+                                }
+                                str += "</li>";
+                            }
+                        });
+                        str += "</ul>";
+                        if(hasResult) {
+                            $resultPanel.innerHTML = str;
+                        } else {
+                            $resultPanel.innerHTML = text;
+                        }
+
+                    },
+                    complete: function() {
+                        setTimeout(() => {
+                                const loadingBar = $('.search-loading-bar') 
+                                loadingBar.css({
+                                    width:'0%',
+                                    display: 'none'
+                                });
+                        }, 300)
+                    }
+                });
+            })
+
+        });
+    }
+
+    $(document).ready(function() {
+        $('.modal-close').click(function () { 
+            $("#u-search").fadeOut();
+            $("body > .wrapper").removeClass("modal-active")
+        })
+
+        $('.modal-overlay').click(function() {
+            $("#u-search").fadeOut();
+            $("body > .wrapper").removeClass("modal-active")
+        })
+        search(null, ".form-search", false)
+        search("#u-search-modal-form .form-input", ".u-search-modal-form", true)
+    })
+</script>
+
+
+
+<!-- 搜索框 -->
+<!-- 
+
+    <div class="search ">
+        <div class="search-btn" onClick="searchToggle()">
+            <img src="/image/search.png" class="search-btn-img" />
+        </div>
+        <form class="form-search">
+            <input class="input" placeholder="点此搜索" autocomplete="off" id="pc-search-input"/>
+        </form>
+    </div>
+ -->
+
+<!-- // 这里是 mobile 的menu -->
+<!-- <div class="navbar-mobile-right">
+    
+    
+    <div class="search ">
+        <div class="search-btn" onClick="searchToggle()">
+            <img src="/image/search.png" class="search-btn-img" />
+        </div>
+        <form class="form-search">
+            <input class="input" placeholder="点此搜索" autocomplete="off" id="mobile-search-input"/>
+        </form>
+    </div>
+
+    <div class="menu-toggle" onclick="mobileBtn()">&#9776; 目录</div>
+</div> -->
+
+<!-- 2022年3月19日添加 代码高亮、显示行号 -->
+<!-- <link rel="stylesheet" href="/css/prettify.css" media="screen" type="text/css"> -->
+<meta name="generator" content="Hexo 5.4.2">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <!-- 引入标签 -->
+<link rel="stylesheet" href="../fonts/iconfont3/iconfont.css"> 
+
+<header>
+    <nav class="navbar">
+        <div class="container">
+            <!-- <div class="navbar-header header-logo"><a href="/">主页</a></div> -->
+            <div class="navbar-header header-logo"><a href="/"><i class="iconfont icon-zhuye" style="font-size: 1em;"></i>主页</a></div>
+            <div class="menu navbar-right">
+                <!-- 这里表示的是pc端搜索框 -->
+                
+                
+    <div class="search ">
+        <div class="search-btn" onClick="searchToggle()">
+            <img src="/image/search.png" class="search-btn-img" />
+        </div>
+        <form class="form-search">
+            <input class="input" placeholder="点此搜索" autocomplete="off" id="pc-search-input"/>
+        </form>
+    </div>
+
+                
+                    <!-- <a class="menu-item" href="/top">博文</a> -->
+                    
+                        <a class="menu-item" href="/top"><i class="iconfont icon-wenzhang" style="font-size: 1em;"></i>博文</a>
+                    
+                    
+                    
+                    
+                    
+                    
+                
+                    <!-- <a class="menu-item" href="/category">类别</a> -->
+                    
+                    
+                        <a class="menu-item" href="/category"><i class="iconfont icon-fenlei" style="font-size: 1em;"></i>类别</a>
+                    
+                    
+                    
+                    
+                    
+                
+                    <!-- <a class="menu-item" href="/tag">标签</a> -->
+                    
+                    
+                    
+                        <a class="menu-item" href="/tag"><i class="iconfont icon-biaoqian-" style="font-size: 1em;"></i>标签</a>
+                    
+                    
+                    
+                    
+                
+                    <!-- <a class="menu-item" href="/about">关于</a> -->
+                    
+                    
+                    
+                    
+                        <a class="menu-item" href="/about"><i class="iconfont icon-guanyu1" style="font-size: 1em;"></i>关于</a>
+                    
+                    
+                    
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">主页</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="navbar-mobile-right">
+                    
+                    
+    <div class="search ">
+        <div class="search-btn" onClick="searchToggle()">
+            <img src="/image/search.png" class="search-btn-img" />
+        </div>
+        <form class="form-search">
+            <input class="input" placeholder="点此搜索" autocomplete="off" id="mobile-search-input"/>
+        </form>
+    </div>
+
+                    <div class="menu-toggle" onclick="mobileBtn()">&#9776; 目录</div>
+                </div>
+                
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/top">博文</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+    
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+
+            <div class="main">
+                <!-- 引入标签 -->
+<link rel="stylesheet" href="../fonts/iconfont3/iconfont.css"> 
+<div class="post-wrap archive">
+    <!-- 添加了页面的头部与空一行 -->
+    <!-- <h2 class="post-title">-&nbsp;<i class="iconfont icon-wenzhang" style="font-size: 1em;"></i>文章&nbsp;-</h2>
+    <br> -->
+    <!-- 上面是添加的内容 -->
+
+
+    <!-- 2022年3月29日 添加置顶功能 -->
+    <!-- <hr />
+    <h3>置顶</h3>
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+            
+                
+                    <article class="top-item">
+                        <a class="top-item-link" href="/article/551b025b.html">
+                            <li>
+                                🔥Hexo + Chic 配置教程归纳
+                            </li>
+                        </a>
+                        <span class="top-item-date">三月 28, 2022</span>
+                    </article>
+                
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+    <hr /> -->
+    <!-- 2022年3月29日 添加置顶功能为上 -->
+    
+
+    
+    
+
+        
+        
+            <h3>2022</h3>
+        
+
+        <article class="archive-item">
+            <a class="archive-item-link" href="/article/11459889.html">
+                    <li>
+                    Hexo + Chic 添加文章字数和阅读时长
+                </li>
+            </a>
+            <span class="archive-item-date">三月 30, 2022</span>
+        </article>
+    
+
+        
+        
+
+        <article class="archive-item">
+            <a class="archive-item-link" href="/article/a150dc7d.html">
+                    <li>
+                    Hexo + Chic 添加emoji支持，并使用emoji
+                </li>
+            </a>
+            <span class="archive-item-date">三月 30, 2022</span>
+        </article>
+    
+
+        
+        
+
+        <article class="archive-item">
+            <a class="archive-item-link" href="/article/a976f1c7.html">
+                    <li>
+                    Hexo + Chic 增加站点浏览统计
+                </li>
+            </a>
+            <span class="archive-item-date">三月 30, 2022</span>
+        </article>
+    
+
+        
+        
+
+        <article class="archive-item">
+            <a class="archive-item-link" href="/article/6376ffa2.html">
+                    <li>
+                    Hexo如何新建一个新的页面，page，栏目？
+                </li>
+            </a>
+            <span class="archive-item-date">三月 29, 2022</span>
+        </article>
+    
+
+        
+        
+
+        <article class="archive-item">
+            <a class="archive-item-link" href="/article/1650c0d7.html">
+                    <li>
+                    Hexo Chic模板添加搜索栏
+                </li>
+            </a>
+            <span class="archive-item-date">三月 29, 2022</span>
+        </article>
+    
+
+        
+        
+
+        <article class="archive-item">
+            <a class="archive-item-link" href="/article/4add822c.html">
+                    <li>
+                    npm无法在PowerShell运行解决办法
+                </li>
+            </a>
+            <span class="archive-item-date">三月 29, 2022</span>
+        </article>
+    
+
+        
+        
+
+        <article class="archive-item">
+            <a class="archive-item-link" href="/article/7faf135d.html">
+                    <li>
+                    Git-Bash，WSL2内GitHub无法访问、443 Operation timed out，使用Clash却无法在Git-Bash内访问GitHub的解决办法
+                </li>
+            </a>
+            <span class="archive-item-date">三月 29, 2022</span>
+        </article>
+    
+
+        
+        
+
+        <article class="archive-item">
+            <a class="archive-item-link" href="/article/f63f7dc2.html">
+                    <li>
+                    安装Hexo，npm install -g hexo的npm ERR报错解决
+                </li>
+            </a>
+            <span class="archive-item-date">三月 29, 2022</span>
+        </article>
+    
+
+        
+        
+
+        <article class="archive-item">
+            <a class="archive-item-link" href="/article/9e13174d.html">
+                    <li>
+                    Hexo生成时提示FATAL Permission denied. You can&#39;t use port 4000.解决办法
+                </li>
+            </a>
+            <span class="archive-item-date">三月 29, 2022</span>
+        </article>
+    
+
+        
+        
+
+        <article class="archive-item">
+            <a class="archive-item-link" href="/article/b9c842e3.html">
+                    <li>
+                    Hexo deploy部署后的页面图片引用路径如何检查？
+                </li>
+            </a>
+            <span class="archive-item-date">三月 29, 2022</span>
+        </article>
+    
+    
+    <nav class="pagination">
+        <a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/4/">4</a><a class="page-number" href="/archives/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/archives/page/7/">7</a><a class="page-number" href="/archives/page/8/">8</a><a class="page-number" href="/archives/page/9/">9</a>
+    </nav>
+
+
+</div>
+
+
+<style>
+    li{
+        width: 650px;
+        height: 29.5px;
+        /*不换行*/
+        white-space: nowrap;
+        /*溢出的话，隐藏*/
+        overflow: hidden;
+        /*文本溢出时，是否....*/
+        text-overflow: ellipsis;
+    }
+</style>
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <!-- 2022年3月19日 添加 代码高亮、访客量 -->
+        <!-- <script src="/js/prettify.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+             $('pre').addClass('prettyprint linenums');
+             $('code').addClass('prettyprint');
+             prettyPrint();
+             })
+        </script> -->
+        <!-- 2022年3月23日 添加mermaid支持 -->
+        
+            <script src='https://unpkg.com/mermaid@8.14.0/dist/mermaid.min.js'></script>
+            <script>
+              if (window.mermaid) {
+                mermaid.initialize({
+                                startOnLoad: true,
+                                theme: 'neural',
+                                     });
+              }
+            </script>
+        
+
+        <!-- <span>© Myoontyee | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a> -->
+            <span>© Myoontyee  
+            <!-- 访客数量 -->
+            <!-- <div> -->
+            
+                <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<span class="site-uv">
+    | 总访客量:
+    <i class="busuanzi-value" id="busuanzi_value_site_uv"><i class="fa fa-spinner fa-spin"></i></i>
+</span>&nbsp;
+
+
+<span class="site-pv">
+    | 总访问量:
+    <i class="busuanzi-value" id="busuanzi_value_site_pv"><i class="fa fa-spinner fa-spin"></i></i>
+</span>
+
+            
+            <!-- </div> -->
+        </span>
+    </div>
+</footer>
+
+
+
+    </div>
+
+
+
+    <!-- 搜索功能 -->
+    <!-- Chic/layout.ejs -->
+    <div id="u-search">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="container">
+                    <form id="u-search-modal-form" class="u-search-modal-form">
+                        <button type="submit" class="form-submit-btn">
+                            <img src="/image/search.png" class="search-btn-img" />
+                        </button>
+                        <input placeholder="搜索内容..." class="form-input" id="modal-form-input">
+                    </form>
+                    <a class="modal-close">x</a>
+                </div>
+                <div class="search-loading">
+                    <div class="search-loading-bar"></div>
+                </div>
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
+        <div class="modal-overlay"></div>
+    </div>
+</body>
+
+</html>

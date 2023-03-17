@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="google-site-verification" content="os9wPImIjpPcEDGL25ZsjCp2wh2hzb3B7Y8E4Lm1nb0" />
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Myoontyee">
+
+
+
+
+
+<title>WSL + Geant4 配置 C++ boost库，配置外部库也可参考 | Myoontyee | MSF: iCT &amp; Robotic</title>
+
+
+
+    <link rel="icon" href="/rocket_favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont2/iconfont.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont3/iconfont.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont4/iconfont.css">
+    
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/jquery.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+
+
+<!-- 搜索的部分 -->
+
+
+
+    <script>
+    // function searchToggle() {
+    //     const width = $(document.body).width()
+    //     if(width > 479) {
+    //         return;
+    //     }
+    //     const search = $('.search');
+    //     const searchForm = $('.form-search')
+
+    //     if(!search.hasClass("mobile-search")) {
+    //         search.addClass("mobile-search");
+    //     } else {
+    //         search.removeClass("mobile-search");
+    //     } 
+    // }
+
+    function searchToggle() {
+        const width = $(document.body).width()
+        if(width > 479) {
+            return;
+        }
+        const search = $('.search');
+        const searchForm = $('.form-search');
+        const menuToggle = $('.menu-toggle');
+        const title = $('.navbar-header-title ');
+
+        if(!search.hasClass("mobile-search")) {
+            search.addClass("mobile-search");
+            menuToggle.addClass("open-search")
+            title.addClass("mobile-title-hidden")
+        } else {
+            search.removeClass("mobile-search");
+            menuToggle.removeClass("open-search")
+            // title.css({visibility: 'visible'})
+            title.removeClass("mobile-title-hidden")
+        } 
+    }
+
+
+
+    function search(searchInputEl, formEl, flag) {
+        const path = "/" + "search.json"; // 可以在public 下查看这个search.json
+        $(formEl).submit(function(e){
+            e.preventDefault();
+            let target = null
+            if(searchInputEl == null) {
+                const screenWidth = $(document.body).width();
+                target = screenWidth > 479 ? $('#pc-search-input') : $('#mobile-search-input');
+                console.log(target);
+            } else {
+                target = $(searchInputEl)
+            }
+
+            if(!flag && target.val() === '') {
+                return ;
+            }
+
+            $("#u-search").fadeIn(500, function() {
+                $("body > .wrapper").addClass("modal-active");
+
+                $.ajax({
+                    url: path,
+                    dataType: "json",
+                    beforeSend: function (xhr) {
+                        $input = target.val();
+                        $(".form-input").val($input);
+                        const loadingBar = $('.search-loading-bar') 
+                        loadingBar.css({
+                            width:'100%',
+                            display: 'block'
+                        });
+                    },
+                    success: function( datas ) {
+                        console.log(datas);
+                        const $resultPanel = $(".modal-body")[0];
+                        let str = `<ul class="modal-results">`;
+                        var keywords = $(".form-input").val().trim().toLowerCase().split(/[\s\-]+/);
+                        $resultPanel.innerHTML = "";
+                        let hasResult = false
+                        let text = `<div class="no-result">找不到与关键词相关的内容....</div>`;
+
+                        if ($(".form-input").val().trim().length <= 0) {
+                            // 没有结果
+                            $resultPanel.innerHTML = text;
+                            return;
+                        }
+                        datas.forEach(function (data, index) {
+                            var isMatch = true;
+                            if (!data.title || data.title.trim() === '') {
+                                data.title = "Untitled";
+                            }
+                            var data_title = data.title.trim().toLowerCase();
+                            var data_content = data.content && data.content.trim().replace(/<[^>]+>/g, "").toLowerCase() || '';
+                            var data_url = data.url;
+                            var index_title = -1;
+                            var index_content = -1;
+                            var first_occur = -1;
+                            // only match artiles with not empty contents
+                            if (data_content !== '') {
+                                keywords.forEach(function (keyword, i) {
+                                    index_title = data_title.indexOf(keyword);
+                                    index_content = data_content.indexOf(keyword);
+
+                                    if (index_title < 0 && index_content < 0) {
+                                        isMatch = false;
+                                    } else {
+                                        hasResult = true
+                                        if (index_content < 0) {
+                                            index_content = 0;
+                                        }
+                                        if (i == 0) {
+                                            first_occur = index_content;
+                                        }
+                                    }
+                                });
+                            } else {
+                                isMatch = false;
+                            }
+                            // show search results
+                            if (isMatch) {
+                                str += `<li class='result-item'><a href='${data_url}' class='result-item-detail'> <span class="title">${data_title}</span>`;
+                                var content = data.content.trim().replace(/<[^>]+>/g, "");
+                                if (first_occur >= 0) {
+                                    // cut out 200 characters
+                                    var start = first_occur - 40;
+                                    var end = first_occur + 160;
+
+                                    if (start < 0) {
+                                        start = 0;
+                                    }
+
+                                    if (start == 0) {
+                                        end = 200;
+                                    }
+
+                                    if (end > content.length) {
+                                        end = content.length;
+                                    }
+
+                                    var match_content = content.substring(start, end);
+
+                                    // highlight all keywords
+                                    keywords.forEach(function (keyword) {
+                                        var regS = new RegExp(keyword, "gi");
+                                        match_content = match_content.replace(regS, `<em class="search-keyword">${keyword}</em>`);
+                                    });
+
+                                    str += `<span class="content"> ${match_content} ...</span></a>`;
+                                }
+                                str += "</li>";
+                            }
+                        });
+                        str += "</ul>";
+                        if(hasResult) {
+                            $resultPanel.innerHTML = str;
+                        } else {
+                            $resultPanel.innerHTML = text;
+                        }
+
+                    },
+                    complete: function() {
+                        setTimeout(() => {
+                                const loadingBar = $('.search-loading-bar') 
+                                loadingBar.css({
+                                    width:'0%',
+                                    display: 'none'
+                                });
+                        }, 300)
+                    }
+                });
+            })
+
+        });
+    }
+
+    $(document).ready(function() {
+        $('.modal-close').click(function () { 
+            $("#u-search").fadeOut();
+            $("body > .wrapper").removeClass("modal-active")
+        })
+
+        $('.modal-overlay').click(function() {
+            $("#u-search").fadeOut();
+            $("body > .wrapper").removeClass("modal-active")
+        })
+        search(null, ".form-search", false)
+        search("#u-search-modal-form .form-input", ".u-search-modal-form", true)
+    })
+</script>
+
+
+
+<!-- 搜索框 -->
+<!-- 
+
+    <div class="search ">
+        <div class="search-btn" onClick="searchToggle()">
+            <img src="/image/search.png" class="search-btn-img" />
+        </div>
+        <form class="form-search">
+            <input class="input" placeholder="点此搜索" autocomplete="off" id="pc-search-input"/>
+        </form>
+    </div>
+ -->
+
+<!-- // 这里是 mobile 的menu -->
+<!-- <div class="navbar-mobile-right">
+    
+    
+    <div class="search ">
+        <div class="search-btn" onClick="searchToggle()">
+            <img src="/image/search.png" class="search-btn-img" />
+        </div>
+        <form class="form-search">
+            <input class="input" placeholder="点此搜索" autocomplete="off" id="mobile-search-input"/>
+        </form>
+    </div>
+
+    <div class="menu-toggle" onclick="mobileBtn()">&#9776; 目录</div>
+</div> -->
+
+<!-- 2022年3月19日添加 代码高亮、显示行号 -->
+<!-- <link rel="stylesheet" href="/css/prettify.css" media="screen" type="text/css"> -->
+<meta name="generator" content="Hexo 5.4.2">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <!-- 引入标签 -->
+<link rel="stylesheet" href="../fonts/iconfont3/iconfont.css"> 
+
+<header>
+    <nav class="navbar">
+        <div class="container">
+            <!-- <div class="navbar-header header-logo"><a href="/">主页</a></div> -->
+            <div class="navbar-header header-logo"><a href="/"><i class="iconfont icon-zhuye" style="font-size: 1em;"></i>主页</a></div>
+            <div class="menu navbar-right">
+                <!-- 这里表示的是pc端搜索框 -->
+                
+                
+    <div class="search ">
+        <div class="search-btn" onClick="searchToggle()">
+            <img src="/image/search.png" class="search-btn-img" />
+        </div>
+        <form class="form-search">
+            <input class="input" placeholder="点此搜索" autocomplete="off" id="pc-search-input"/>
+        </form>
+    </div>
+
+                
+                    <!-- <a class="menu-item" href="/top">博文</a> -->
+                    
+                        <a class="menu-item" href="/top"><i class="iconfont icon-wenzhang" style="font-size: 1em;"></i>博文</a>
+                    
+                    
+                    
+                    
+                    
+                    
+                
+                    <!-- <a class="menu-item" href="/category">类别</a> -->
+                    
+                    
+                        <a class="menu-item" href="/category"><i class="iconfont icon-fenlei" style="font-size: 1em;"></i>类别</a>
+                    
+                    
+                    
+                    
+                    
+                
+                    <!-- <a class="menu-item" href="/tag">标签</a> -->
+                    
+                    
+                    
+                        <a class="menu-item" href="/tag"><i class="iconfont icon-biaoqian-" style="font-size: 1em;"></i>标签</a>
+                    
+                    
+                    
+                    
+                
+                    <!-- <a class="menu-item" href="/about">关于</a> -->
+                    
+                    
+                    
+                    
+                        <a class="menu-item" href="/about"><i class="iconfont icon-guanyu1" style="font-size: 1em;"></i>关于</a>
+                    
+                    
+                    
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">主页</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="navbar-mobile-right">
+                    
+                    
+    <div class="search ">
+        <div class="search-btn" onClick="searchToggle()">
+            <img src="/image/search.png" class="search-btn-img" />
+        </div>
+        <form class="form-search">
+            <input class="input" placeholder="点此搜索" autocomplete="off" id="mobile-search-input"/>
+        </form>
+    </div>
+
+                    <div class="menu-toggle" onclick="mobileBtn()">&#9776; 目录</div>
+                </div>
+                
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/top">博文</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+    
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+
+            <div class="main">
+                <!-- 引入标签 -->
+<link rel="stylesheet" href="../fonts/iconfont3/iconfont.css"> 
+<!-- 这个文件是某个具体的文章的布局 -->
+<div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">WSL + Geant4 配置 C++ boost库，配置外部库也可参考</h1>
+            
+                <div class="post-meta">
+                    
+                        👨‍🎓作者: <a itemprop="author" rel="author" href="/">Myoontyee</a>
+                    
+
+                    
+                        <span class="post-time">
+                        📅日期: <a href="#">四月 5, 2022&nbsp;&nbsp;10:16:53</a>
+                        </span>
+                    
+                <div>
+                    
+                        <span class="post-category">
+                            📚类别:
+                            
+                                <!-- <a href="/categories/Geant4/">Geant4</a> -->
+                                <a href="/categories/Geant4/"><i class="iconfont icon-fenlei" style="font-size: 1em;"></i>Geant4</a> | 
+                            
+                        </span>
+                    
+                </div>
+                    
+                    <div>
+                        
+                            <span class="post-count">
+                            📑字数:
+                            <a href="">1.1k</a>  
+                            </span>
+                        
+
+                        
+                            <span class="post-count">
+                            ⏱️阅读时长:
+                            <a href="">3min</a>  
+                            </span>
+                        
+
+                        
+                            <span id="busuanzi_container_page_pv">  
+                            🕵️‍♂️阅读数:<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>
+                            </span>
+                        
+                        
+                    </div>
+                </div>
+                        
+            
+        </header>
+
+        <div class="post-content">
+                <strong>💡 参考文章见Ref，感谢提供思路！</strong>
+            <br><strong>🗺️当前这篇博文地址：https://myoontyee.github.io/article/fc9e9061.html</strong>
+            <br><strong>⚠️警告：博客文章禁止一切形式的非授权非法转载！</strong>
+            <br><strong>⚠️Attention: All forms of unauthorized illegal reposts are prohibited !</strong> 
+            <hr>
+<p><strong>创建时间</strong>：2022年4月5日10:16:53<br>
+<strong>最新更新</strong>：2022年4月5日14:12:41</p>
+<hr>
+<p><strong>Problem Description</strong>：WSL + Geant4 configure C++ boost library, configure external library can also refer to this post</p>
+<p><strong>核心思路</strong>：</p>
+<ul>
+<li>两种配置方式
+<ul>
+<li>外部库放<code>.\geant4.10.07.p02\install\include\Geant4</code>这个文件夹下</li>
+<li>外部库放项目文件夹下的<code>.\include</code>下</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li>目前我<code>string</code>分割是用<code>boost</code>库搞的，没库苦手啥都干不动啊…从头写要老命了，效率又丢人，说出去都不好意思，那好吧，那就发挥聪明才智让Geant4能调用<code>C++</code>的外部库呗！</li>
+</ul>
+<h1 id="背景"><a class="markdownIt-Anchor" href="#背景"></a> 背景</h1>
+<ul>
+<li>下面这大段话来自<code>Ref</code>，简单来说就是<code>Boost</code>库真的很<code>Boost</code>，能<code>Boost</code>我的代码</li>
+</ul>
+<blockquote>
+<p>Boost 是一个功能强大、构造精巧、跨平台、开源并且完全免费的 C++ 程序库。</p>
+<p>1998 年，Beman G.Dawes（C<ins>标准委员会成员之一）发起倡议并建立了 Boost 社区，其目的是向 C</ins> 程序员提供免费的、经同行审查的、可移植的、高质量的 C++ 源程序库。</p>
+<p>Boost 强调程序库要与 C++ 标准库很好地共同工作，建立在“既有的实践”之上并提供参考实现，因此 Boost 库可以适合最后的标准化。</p>
+<p>自创立以来，Boost 社区的工作已经取得了卓越的成果，C++ 标准库中有三分之二来自 Boost 库，而且将来 Boost 库中还会有更多的库进入新标准。</p>
+<p>C++ 四十余年的发展历史中产生了数不清的程序库，有影响力的程序库也不计其数，然而其中没有一个程序库能够与 Boost 相提并论，Boost 有着其他程序库无法比拟的优点，具体如下：</p>
+<p>许多 Boost 库的作者本身就是 C++ 标准委员会成员，因此，Boost“天然”成了标准库的后备，负责向新标准输送组件，这也使得 Boost 获得了“准”标准库的美誉。</p>
+<p>Boost 独特的同行审查制度保证了每一个 Boost 库组件都经过了严格的审查和验证，使其具有很高的工业强度，甚至超过大多数商业产品的实现。</p>
+<p>Boost 采用了类似 STL 的编程范式，但却并没有 STL 那样晦涩难懂，其代码格式优美清晰、易于阅读，而且 Boost 附带丰富的说明文档——它既是一个程序库，也是一个很有价值的学习现代 C++ 编程的范本。</p>
+<p>Boost 的发布采用 Boost Software License，这是一个不同于 GPL 和 Apache 的非常宽松的许可证，该许可证允许库用户将 Boost 用于任何用途，既鼓励非商业用途，也鼓励商业用途。用户无须支付任何费用，不受任何限制，即可轻松享有 Boost 的全部功能。</p>
+<p>Boost 官方于 2019 年 12 月发布的 1.72 版本，共包含 160 余个库/组件，涵盖字符串与文本处理、容器、迭代器、算法、图像处理、模板元编程、并发编程等多个领域，使用 Boost，将大大增强 C++ 的功能和表现力。</p>
+</blockquote>
+<h1 id="下载部署库"><a class="markdownIt-Anchor" href="#下载部署库"></a> 下载部署库</h1>
+<ul>
+<li>从<a target="_blank" rel="noopener" href="https://www.boost.org/users/download/">Boost官网下载页面</a>下载如下其中一个，我下的是<code>boost_1_78_0.zip</code></li>
+</ul>
+<img src="/article/fc9e9061/image-20220405103117825.png" class="" title="image-20220405103117825">
+<ul>
+<li>解压出来，解压完后目录下的<code>boost</code>文件，即对下图来说是<code>boost_1_78_0\boost</code>这个文件复制粘贴，当然你也可以剪切到<code>Geant4</code>根目录下<code>.\geant4.10.07.p02\install\include\Geant4</code>的文件夹内</li>
+</ul>
+<img src="/article/fc9e9061/image-20220405103126132.png" class="" title="image-20220405103126132">
+<ul>
+<li>部署位置1、2按本机设置来</li>
+</ul>
+<h2 id="部署位置1"><a class="markdownIt-Anchor" href="#部署位置1"></a> 部署位置1</h2>
+<img src="/article/fc9e9061/image-20220405103131137.png" class="" title="image-20220405103131137">
+<h2 id="部署位置2"><a class="markdownIt-Anchor" href="#部署位置2"></a> 部署位置2</h2>
+<img src="/article/fc9e9061/image-20220405141333931.png" class="" title="image-20220405141333931">
+<h1 id="调用"><a class="markdownIt-Anchor" href="#调用"></a> 调用</h1>
+<ul>
+<li>在你的Geant4内调用它，比如我要做字符串分割，那么我可以按如下指令调用</li>
+</ul>
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">"boost/algorithm/string.hpp"</span> <span class="comment">// 2022年4月5日 字符串处理</span></span></span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li>可以按如下方式使用</li>
+</ul>
+<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ===========================================================================</span></span><br><span class="line"><span class="comment">// 2022年4月5日</span></span><br><span class="line"><span class="comment">// 字符串分割，分割小数点前的整数部分</span></span><br><span class="line"><span class="comment">// ===========================================================================</span></span><br><span class="line"><span class="comment">// 按字符分割string</span></span><br><span class="line">std::string str = std::<span class="built_in">to_string</span>((<span class="type">double</span>)((fTargetAngle/deg)));</span><br><span class="line">std::vector&lt;std::string&gt; strs;</span><br><span class="line">boost::<span class="built_in">split</span>(strs, str, boost::<span class="built_in">is_any_of</span>(<span class="string">"."</span>));</span><br><span class="line"><span class="comment">// ===========================================================================</span></span><br></pre></td></tr></tbody></table></figure>
+<h1 id="编译"><a class="markdownIt-Anchor" href="#编译"></a> 编译</h1>
+<ul>
+<li>按正常情况编译即可，即进入<code>.\build</code>文件夹，在<code>Bash</code>（如<code>WSL</code>）内输入<code>cmake ..</code>，<code>make -jN</code>（<code>N</code>是线程数，按需输入，我的电脑是<code>make -j16</code>），编译成功！</li>
+</ul>
+<img src="/article/fc9e9061/image-20220405103137475.png" class="" title="image-20220405103137475">
+<h1 id="ref"><a class="markdownIt-Anchor" href="#ref"></a> Ref</h1>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41854911/article/details/118440683">boost库在visual studio、DevC++和vscode上的环境配置</a></li>
+</ul>
+
+        </div>
+        <section class="reward_class">
+            <br>
+            <div class="reward" id="reward">
+                <div class="sponser">
+                    <div class="sponser_btn"><strong>💎支持博主</strong></div>
+                    <div class="sponser_img">
+                        <div class="sponser_container">
+                            <div class="sponser_header">请我吃肯德基🍗！</div>
+                            <div class="sponser_body">
+                                <div class="alipay">
+                                    <span class="sponser_alipay_title">谢谢各位大佬🏌️‍♂️！</span>
+                                    <div>
+                                        <img class="sponser_alipay" src="/image/Paying.jpg">
+                                
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <br> -->
+        </section>
+        
+
+        
+            <section class="post-copyright">
+                
+                
+                
+                
+
+            </section>
+        
+
+        <!-- <section class="reward_class">
+            <br>
+            <div class="reward" id="reward">
+                <div class="sponser">
+                    <div class="sponser_btn">支持博主</div>
+                    <div class="sponser_img">
+                        <div class="sponser_container">
+                            <div class="sponser_header">请我吃肯德基！</div>
+                            <div class="sponser_body">
+                                <div class="alipay">
+                                    <span class="sponser_alipay_title">谢谢各位大佬！</span>
+                                    <div>
+                                        <img class="sponser_alipay" src="/image/Paying.jpg">
+                                
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+        </section> -->
+
+        <section class="post-tags">
+            <div>
+                <span>标签:</span>
+                <span class="tag">
+                    
+                    
+                        <!-- <a href="/tags/C/"># C++</a> -->
+                        <!-- <a href="/tags/C/">🏷️C++</a> -->
+                        <a href="/tags/C/"><i class="iconfont icon-biaoqian-" style="font-size: 1em;"></i>C++ </a>
+                        
+                    
+                        <!-- <a href="/tags/Geant4/"># Geant4</a> -->
+                        <!-- <a href="/tags/Geant4/">🏷️Geant4</a> -->
+                        <a href="/tags/Geant4/"><i class="iconfont icon-biaoqian-" style="font-size: 1em;"></i>Geant4 </a>
+                        
+                    
+                        <!-- <a href="/tags/B5/"># B5</a> -->
+                        <!-- <a href="/tags/B5/">🏷️B5</a> -->
+                        <a href="/tags/B5/"><i class="iconfont icon-biaoqian-" style="font-size: 1em;"></i>B5 </a>
+                        
+                    
+                        <!-- <a href="/tags/WSL/"># WSL</a> -->
+                        <!-- <a href="/tags/WSL/">🏷️WSL</a> -->
+                        <a href="/tags/WSL/"><i class="iconfont icon-biaoqian-" style="font-size: 1em;"></i>WSL </a>
+                        
+                    
+                        <!-- <a href="/tags/boost/"># boost</a> -->
+                        <!-- <a href="/tags/boost/">🏷️boost</a> -->
+                        <a href="/tags/boost/"><i class="iconfont icon-biaoqian-" style="font-size: 1em;"></i>boost </a>
+                        
+                    
+                        
+                </span>
+            </div>
+            
+
+            
+
+            <div>
+                <a href="javascript:window.history.back();">返回</a>
+                <span>· </span>
+                <a href="/">主页</a>
+            </div>
+        </section>
+
+
+
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/article/21abacaf.html">范数是什么含义？有什么实际用途？对范数的理解？</a>
+            
+            
+            <a class="next" rel="next" href="/article/808f0e36.html">WSL2实现GPU穿透</a>
+            
+        </section>
+
+
+    </article>
+
+
+
+</div>
+
+
+
+
+
+
+<!-- <div class="empty-font">选中这一段文字，点击 ctrl+C 或 者右键选择复制</div> -->
+<script type="text/javascript">
+	//监听整个页面的 copy 事件
+	document.addEventListener('copy',function(e){
+		// clipboardData 对象是为通过编辑菜单、快捷菜单和快捷键执行的编辑操作所保留的，也就是你复制或者剪切内容
+		let clipboardData = e.clipboardData || window.clipboardData;
+		// 如果 未复制或者未剪切，直接 return 
+		if(!clipboardData) return ;
+		// Selection 对象 表示用户选择的文本范围或光标的当前位置。
+		// 声明一个变量接收 -- 用户输入的剪切或者复制的文本转化为字符串
+		let text = window.getSelection().toString();
+		if(text){
+			// 如果文本存在，首先取消默认行为
+			e.preventDefault();
+			// 通过调用 clipboardData 对象的 setData(format,data) 方法，设置相关文本 
+			// format 一个 DOMString 类型 表示要添加到 drag object 的拖动数据的类型
+			// data 一个 DOMString 表示要添加到 drag object 的数据
+            var myDate = new Date(); // 日期
+            var StealerInfo=
+                '\n ================================================'    
+            +   '\n 非法转载者 | 类型               | 状态'
+            +   '\n itcn.blog | 未授权转载、爬取    | 未回复、未删除'
+            +   '\n python.iitter.com | 未授权转载、爬取    | 未回复、未删除'
+            +   '\n www.techfm.club | 未授权转载、爬取    | 未回复、未删除'
+            +   '\n ================================================'   
+            ;
+            
+            var copyright = '\n\n'
+            + '\n'
+            + '\n⚠️著作权归作者所有！'
+            + '\n⚠️博客内容禁止一切形式的非法、非授权转载！'
+            + '\n💡 参考文章见博文Ref！'
+            + '\n作者: Myoontyee Chen'
+            + '\n原文地址: https://myoontyee.github.io/article/fc9e9061.html'
+            + '\n'
+            + '\n'
+            + '\n 当前非法爬取信息统计如下表，保留一切追责权利'
+            + '\n 日期： ' + myDate.toLocaleDateString()
+            + StealerInfo
+
+			clipboardData.setData('text/plain', text + copyright)
+		}
+	})
+</script>
+
+<!-- Gitalk模块的js启动 -->
+  
+    <div id="gitalk-container"></div>  
+    <link rel="stylesheet" href="//unpkg.com/gitalk/dist/gitalk.css">
+<script src="//unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+      var gitalk = new Gitalk({
+        clientID: '84b52a29ce9e713ad7d4',
+        clientSecret: '95578b09122163e717247e0b28e6c76fc3976dcf',
+        repo: 'myoontyee.github.io',
+        owner: 'Myoontyee',
+        admin: 'Myoontyee',
+        id: md5(location.pathname),      
+        labels: 'Gitalk'.split(',').filter(l => l),
+        perPage: 10,
+        pagerDirection: 'last',
+        createIssueManually: true,
+        distractionFreeMode: false
+      })
+      gitalk.render('gitalk-container')
+</script>  
+
+
+
+
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <!-- 2022年3月19日 添加 代码高亮、访客量 -->
+        <!-- <script src="/js/prettify.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+             $('pre').addClass('prettyprint linenums');
+             $('code').addClass('prettyprint');
+             prettyPrint();
+             })
+        </script> -->
+        <!-- 2022年3月23日 添加mermaid支持 -->
+        
+            <script src='https://unpkg.com/mermaid@8.14.0/dist/mermaid.min.js'></script>
+            <script>
+              if (window.mermaid) {
+                mermaid.initialize({
+                                startOnLoad: true,
+                                theme: 'neural',
+                                     });
+              }
+            </script>
+        
+
+        <!-- <span>© Myoontyee | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a> -->
+            <span>© Myoontyee  
+            <!-- 访客数量 -->
+            <!-- <div> -->
+            
+                <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<span class="site-uv">
+    | 总访客量:
+    <i class="busuanzi-value" id="busuanzi_value_site_uv"><i class="fa fa-spinner fa-spin"></i></i>
+</span>&nbsp;
+
+
+<span class="site-pv">
+    | 总访问量:
+    <i class="busuanzi-value" id="busuanzi_value_site_pv"><i class="fa fa-spinner fa-spin"></i></i>
+</span>
+
+            
+            <!-- </div> -->
+        </span>
+    </div>
+</footer>
+
+
+
+    </div>
+
+
+
+    <!-- 搜索功能 -->
+    <!-- Chic/layout.ejs -->
+    <div id="u-search">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="container">
+                    <form id="u-search-modal-form" class="u-search-modal-form">
+                        <button type="submit" class="form-submit-btn">
+                            <img src="/image/search.png" class="search-btn-img" />
+                        </button>
+                        <input placeholder="搜索内容..." class="form-input" id="modal-form-input">
+                    </form>
+                    <a class="modal-close">x</a>
+                </div>
+                <div class="search-loading">
+                    <div class="search-loading-bar"></div>
+                </div>
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
+        <div class="modal-overlay"></div>
+    </div>
+</body>
+
+</html>

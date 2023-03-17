@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="google-site-verification" content="os9wPImIjpPcEDGL25ZsjCp2wh2hzb3B7Y8E4Lm1nb0" />
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Myoontyee">
+
+
+
+
+
+<title>Hexo安装+个人网站建立+推送至GitHub | Myoontyee | MSF: iCT &amp; Robotic</title>
+
+
+
+    <link rel="icon" href="/rocket_favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont2/iconfont.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont3/iconfont.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont4/iconfont.css">
+    
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/jquery.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+
+
+<!-- 搜索的部分 -->
+
+
+
+    <script>
+    // function searchToggle() {
+    //     const width = $(document.body).width()
+    //     if(width > 479) {
+    //         return;
+    //     }
+    //     const search = $('.search');
+    //     const searchForm = $('.form-search')
+
+    //     if(!search.hasClass("mobile-search")) {
+    //         search.addClass("mobile-search");
+    //     } else {
+    //         search.removeClass("mobile-search");
+    //     } 
+    // }
+
+    function searchToggle() {
+        const width = $(document.body).width()
+        if(width > 479) {
+            return;
+        }
+        const search = $('.search');
+        const searchForm = $('.form-search');
+        const menuToggle = $('.menu-toggle');
+        const title = $('.navbar-header-title ');
+
+        if(!search.hasClass("mobile-search")) {
+            search.addClass("mobile-search");
+            menuToggle.addClass("open-search")
+            title.addClass("mobile-title-hidden")
+        } else {
+            search.removeClass("mobile-search");
+            menuToggle.removeClass("open-search")
+            // title.css({visibility: 'visible'})
+            title.removeClass("mobile-title-hidden")
+        } 
+    }
+
+
+
+    function search(searchInputEl, formEl, flag) {
+        const path = "/" + "search.json"; // 可以在public 下查看这个search.json
+        $(formEl).submit(function(e){
+            e.preventDefault();
+            let target = null
+            if(searchInputEl == null) {
+                const screenWidth = $(document.body).width();
+                target = screenWidth > 479 ? $('#pc-search-input') : $('#mobile-search-input');
+                console.log(target);
+            } else {
+                target = $(searchInputEl)
+            }
+
+            if(!flag && target.val() === '') {
+                return ;
+            }
+
+            $("#u-search").fadeIn(500, function() {
+                $("body > .wrapper").addClass("modal-active");
+
+                $.ajax({
+                    url: path,
+                    dataType: "json",
+                    beforeSend: function (xhr) {
+                        $input = target.val();
+                        $(".form-input").val($input);
+                        const loadingBar = $('.search-loading-bar') 
+                        loadingBar.css({
+                            width:'100%',
+                            display: 'block'
+                        });
+                    },
+                    success: function( datas ) {
+                        console.log(datas);
+                        const $resultPanel = $(".modal-body")[0];
+                        let str = `<ul class="modal-results">`;
+                        var keywords = $(".form-input").val().trim().toLowerCase().split(/[\s\-]+/);
+                        $resultPanel.innerHTML = "";
+                        let hasResult = false
+                        let text = `<div class="no-result">找不到与关键词相关的内容....</div>`;
+
+                        if ($(".form-input").val().trim().length <= 0) {
+                            // 没有结果
+                            $resultPanel.innerHTML = text;
+                            return;
+                        }
+                        datas.forEach(function (data, index) {
+                            var isMatch = true;
+                            if (!data.title || data.title.trim() === '') {
+                                data.title = "Untitled";
+                            }
+                            var data_title = data.title.trim().toLowerCase();
+                            var data_content = data.content && data.content.trim().replace(/<[^>]+>/g, "").toLowerCase() || '';
+                            var data_url = data.url;
+                            var index_title = -1;
+                            var index_content = -1;
+                            var first_occur = -1;
+                            // only match artiles with not empty contents
+                            if (data_content !== '') {
+                                keywords.forEach(function (keyword, i) {
+                                    index_title = data_title.indexOf(keyword);
+                                    index_content = data_content.indexOf(keyword);
+
+                                    if (index_title < 0 && index_content < 0) {
+                                        isMatch = false;
+                                    } else {
+                                        hasResult = true
+                                        if (index_content < 0) {
+                                            index_content = 0;
+                                        }
+                                        if (i == 0) {
+                                            first_occur = index_content;
+                                        }
+                                    }
+                                });
+                            } else {
+                                isMatch = false;
+                            }
+                            // show search results
+                            if (isMatch) {
+                                str += `<li class='result-item'><a href='${data_url}' class='result-item-detail'> <span class="title">${data_title}</span>`;
+                                var content = data.content.trim().replace(/<[^>]+>/g, "");
+                                if (first_occur >= 0) {
+                                    // cut out 200 characters
+                                    var start = first_occur - 40;
+                                    var end = first_occur + 160;
+
+                                    if (start < 0) {
+                                        start = 0;
+                                    }
+
+                                    if (start == 0) {
+                                        end = 200;
+                                    }
+
+                                    if (end > content.length) {
+                                        end = content.length;
+                                    }
+
+                                    var match_content = content.substring(start, end);
+
+                                    // highlight all keywords
+                                    keywords.forEach(function (keyword) {
+                                        var regS = new RegExp(keyword, "gi");
+                                        match_content = match_content.replace(regS, `<em class="search-keyword">${keyword}</em>`);
+                                    });
+
+                                    str += `<span class="content"> ${match_content} ...</span></a>`;
+                                }
+                                str += "</li>";
+                            }
+                        });
+                        str += "</ul>";
+                        if(hasResult) {
+                            $resultPanel.innerHTML = str;
+                        } else {
+                            $resultPanel.innerHTML = text;
+                        }
+
+                    },
+                    complete: function() {
+                        setTimeout(() => {
+                                const loadingBar = $('.search-loading-bar') 
+                                loadingBar.css({
+                                    width:'0%',
+                                    display: 'none'
+                                });
+                        }, 300)
+                    }
+                });
+            })
+
+        });
+    }
+
+    $(document).ready(function() {
+        $('.modal-close').click(function () { 
+            $("#u-search").fadeOut();
+            $("body > .wrapper").removeClass("modal-active")
+        })
+
+        $('.modal-overlay').click(function() {
+            $("#u-search").fadeOut();
+            $("body > .wrapper").removeClass("modal-active")
+        })
+        search(null, ".form-search", false)
+        search("#u-search-modal-form .form-input", ".u-search-modal-form", true)
+    })
+</script>
+
+
+
+<!-- 搜索框 -->
+<!-- 
+
+    <div class="search ">
+        <div class="search-btn" onClick="searchToggle()">
+            <img src="/image/search.png" class="search-btn-img" />
+        </div>
+        <form class="form-search">
+            <input class="input" placeholder="点此搜索" autocomplete="off" id="pc-search-input"/>
+        </form>
+    </div>
+ -->
+
+<!-- // 这里是 mobile 的menu -->
+<!-- <div class="navbar-mobile-right">
+    
+    
+    <div class="search ">
+        <div class="search-btn" onClick="searchToggle()">
+            <img src="/image/search.png" class="search-btn-img" />
+        </div>
+        <form class="form-search">
+            <input class="input" placeholder="点此搜索" autocomplete="off" id="mobile-search-input"/>
+        </form>
+    </div>
+
+    <div class="menu-toggle" onclick="mobileBtn()">&#9776; 目录</div>
+</div> -->
+
+<!-- 2022年3月19日添加 代码高亮、显示行号 -->
+<!-- <link rel="stylesheet" href="/css/prettify.css" media="screen" type="text/css"> -->
+<meta name="generator" content="Hexo 5.4.2">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <!-- 引入标签 -->
+<link rel="stylesheet" href="../fonts/iconfont3/iconfont.css"> 
+
+<header>
+    <nav class="navbar">
+        <div class="container">
+            <!-- <div class="navbar-header header-logo"><a href="/">主页</a></div> -->
+            <div class="navbar-header header-logo"><a href="/"><i class="iconfont icon-zhuye" style="font-size: 1em;"></i>主页</a></div>
+            <div class="menu navbar-right">
+                <!-- 这里表示的是pc端搜索框 -->
+                
+                
+    <div class="search ">
+        <div class="search-btn" onClick="searchToggle()">
+            <img src="/image/search.png" class="search-btn-img" />
+        </div>
+        <form class="form-search">
+            <input class="input" placeholder="点此搜索" autocomplete="off" id="pc-search-input"/>
+        </form>
+    </div>
+
+                
+                    <!-- <a class="menu-item" href="/top">博文</a> -->
+                    
+                        <a class="menu-item" href="/top"><i class="iconfont icon-wenzhang" style="font-size: 1em;"></i>博文</a>
+                    
+                    
+                    
+                    
+                    
+                    
+                
+                    <!-- <a class="menu-item" href="/category">类别</a> -->
+                    
+                    
+                        <a class="menu-item" href="/category"><i class="iconfont icon-fenlei" style="font-size: 1em;"></i>类别</a>
+                    
+                    
+                    
+                    
+                    
+                
+                    <!-- <a class="menu-item" href="/tag">标签</a> -->
+                    
+                    
+                    
+                        <a class="menu-item" href="/tag"><i class="iconfont icon-biaoqian-" style="font-size: 1em;"></i>标签</a>
+                    
+                    
+                    
+                    
+                
+                    <!-- <a class="menu-item" href="/about">关于</a> -->
+                    
+                    
+                    
+                    
+                        <a class="menu-item" href="/about"><i class="iconfont icon-guanyu1" style="font-size: 1em;"></i>关于</a>
+                    
+                    
+                    
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">主页</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="navbar-mobile-right">
+                    
+                    
+    <div class="search ">
+        <div class="search-btn" onClick="searchToggle()">
+            <img src="/image/search.png" class="search-btn-img" />
+        </div>
+        <form class="form-search">
+            <input class="input" placeholder="点此搜索" autocomplete="off" id="mobile-search-input"/>
+        </form>
+    </div>
+
+                    <div class="menu-toggle" onclick="mobileBtn()">&#9776; 目录</div>
+                </div>
+                
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/top">博文</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+    
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+
+            <div class="main">
+                <!-- 引入标签 -->
+<link rel="stylesheet" href="../fonts/iconfont3/iconfont.css"> 
+<!-- 这个文件是某个具体的文章的布局 -->
+<div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Hexo安装+个人网站建立+推送至GitHub</h1>
+            
+                <div class="post-meta">
+                    
+                        👨‍🎓作者: <a itemprop="author" rel="author" href="/">Myoontyee</a>
+                    
+
+                    
+                        <span class="post-time">
+                        📅日期: <a href="#">三月 28, 2022&nbsp;&nbsp;22:30:41</a>
+                        </span>
+                    
+                <div>
+                    
+                        <span class="post-category">
+                            📚类别:
+                            
+                                <!-- <a href="/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">博客搭建</a> -->
+                                <a href="/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/"><i class="iconfont icon-fenlei" style="font-size: 1em;"></i>博客搭建</a> | 
+                            
+                        </span>
+                    
+                </div>
+                    
+                    <div>
+                        
+                            <span class="post-count">
+                            📑字数:
+                            <a href="">2.3k</a>  
+                            </span>
+                        
+
+                        
+                            <span class="post-count">
+                            ⏱️阅读时长:
+                            <a href="">8min</a>  
+                            </span>
+                        
+
+                        
+                            <span id="busuanzi_container_page_pv">  
+                            🕵️‍♂️阅读数:<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>
+                            </span>
+                        
+                        
+                    </div>
+                </div>
+                        
+            
+        </header>
+
+        <div class="post-content">
+                <strong>💡 参考文章见Ref，感谢提供思路！</strong>
+            <br><strong>🗺️当前这篇博文地址：https://myoontyee.github.io/article/4f595d21.html</strong>
+            <br><strong>⚠️警告：博客文章禁止一切形式的非授权非法转载！</strong>
+            <br><strong>⚠️Attention: All forms of unauthorized illegal reposts are prohibited !</strong> 
+            <hr>
+<p><strong>创建时间</strong>：2022年3月28日22:30:41<br>
+<strong>最新更新</strong>：2022年3月29日20:13:53</p>
+<hr>
+<p><strong>报错信息</strong>：GitHub无法访问，报403错误</p>
+<p>解决方法见<a href="./7faf135d.html">Git-Bash，WSL2内GitHub无法访问、443 Operation timed out的解决办法</a></p>
+<hr>
+<h1 id="在windows下部署git"><a class="markdownIt-Anchor" href="#在windows下部署git"></a> 在Windows下部署Git</h1>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://git-scm.com/">Git下载地址</a></li>
+<li>或可以在下载GitHub-Desktop时，会一并安装</li>
+</ul>
+<blockquote>
+<p>本节内的下部分内容，来自<code>学为所用（博客园）</code>，链接见Ref</p>
+</blockquote>
+<ul>
+<li>下载软件，见<a target="_blank" rel="noopener" href="https://git-scm.com/downloads">下载页面</a></li>
+</ul>
+<img src="/article/4f595d21/image-20220328223132197.png" class="" title="image-20220328223132197">
+<ul>
+<li>安装，记得修改路径</li>
+</ul>
+<img src="/article/4f595d21/image-20220328223143065.png" class="" title="image-20220328223143065">
+<img src="/article/4f595d21/image-20220328223150274.png" class="" title="image-20220328223150274">
+<blockquote>
+<ul>
+<li>下图红框内的选项是默认勾选的，建议不要动。绿色框1是决定是否在桌面创建快捷方式的。绿色框2是决定在所有控制台窗口中使用TrueType字体和是否每天检查Git是否有Windows更新的。这些根据自己需要选择。</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>点击“Next”按钮进入下图界面</li>
+</ul>
+</blockquote>
+<img src="/article/4f595d21/image-20220328223158953.png" class="" title="image-20220328223158953">
+<ul>
+<li>选择开始菜单</li>
+</ul>
+<img src="/article/4f595d21/image-20220328223207209.png" class="" title="image-20220328223207209">
+<ul>
+<li>选择默认编译器</li>
+</ul>
+<img src="/article/4f595d21/image-20220328223213521.png" class="" title="image-20220328223213521">
+<ul>
+<li>配置PATH环境</li>
+</ul>
+<blockquote>
+<ul>
+<li>这个界面是调整您的PATH环境。</li>
+<li>第一种配置是“仅从Git Bash使用Git”。这是最安全的选择，因为您的PATH根本不会被修改。您只能使用 Git Bash 的 Git 命令行工具。但是这将不能通过第三方软件使用。</li>
+<li>第二种配置是“从命令行以及第三方软件进行Git”。该选项被认为是安全的，因为它仅向PATH添加了一些最小的Git包装器，以避免使用可选的Unix工具造成环境混乱。</li>
+<li>您将能够从Git Bash，命令提示符和Windows PowerShell以及在PATH中寻找Git的任何第三方软件中使用Git。这也是推荐的选项。</li>
+<li>第三种配置是“从命令提示符使用Git和可选的Unix工具”。警告：这将覆盖Windows工具，如 “ find 和 sort ”。只有在了解其含义后才使用此选项。</li>
+<li>建议选择推荐的选项第二种配置</li>
+</ul>
+</blockquote>
+<img src="/article/4f595d21/image-20220328223221564.png" class="" title="image-20220328223221564">
+<ul>
+<li>选择HTTPS后端传输</li>
+</ul>
+<blockquote>
+<ul>
+<li>这个界面是选择HTTPS后端传输。</li>
+<li>第一个选项是“使用 OpenSSL 库”。服务器证书将使用ca-bundle.crt文件进行验证。这也是我们常用的选项。</li>
+<li>第二个选项是“使用本地 Windows 安全通道库”。服务器证书将使用Windows证书存储验证。此选项还允许您使用公司的内部根CA证书，例如通过Active Directory Domain Services 。</li>
+<li>建议使用默认选项第一项</li>
+</ul>
+</blockquote>
+<img src="/article/4f595d21/image-20220328223228898.png" class="" title="image-20220328223228898">
+<ul>
+<li>配置行尾符号转换</li>
+</ul>
+<blockquote>
+<ul>
+<li>这个界面是配置行尾符号转换。</li>
+<li>第一个选项是“签出Windows风格，提交Unix风格的行尾”。签出文本文件时，Git会将LF转换为CRLF。提交文本文件时，CRLF将转换为LF。对于跨平台项目，这是Windows上的推荐设置（“ core.autocrlf”设置为“ true”）</li>
+<li>第二个选项是“按原样签出，提交Unix样式的行尾”。签出文本文件时，Git不会执行任何转换。 提交文本文件时，CRLF将转换为LF。对于跨平台项目，这是Unix上的建议设置（“ core.autocrlf”设置为“ input”）</li>
+<li>第三种选项是“按原样签出，按原样提交”。当签出或提交文本文件时，Git不会执行任何转换。不建议跨平台项目选择此选项（“ core.autocrlf”设置为“ false”）</li>
+<li>建议选择第一种选项</li>
+</ul>
+</blockquote>
+<img src="/article/4f595d21/image-20220328223236649.png" class="" title="image-20220328223236649">
+<ul>
+<li>配置终端模拟器以与Git Bash一起使用</li>
+</ul>
+<blockquote>
+<ul>
+<li>这个界面是配置终端模拟器以与Git Bash一起使用。</li>
+<li>第一个选项是“使用MinTTY（MSYS2的默认终端）”。Git Bash将使用MinTTY作为终端模拟器，该模拟器具有可调整大小的窗口，非矩形选择和Unicode字体。Windows控制台程序（例如交互式Python）必须通过“ winpty”启动才能在MinTTY中运行。</li>
+<li>第二个选项是“使用Windows的默认控制台窗口”。Git将使用Windows的默认控制台窗口（“cmd.exe”），该窗口可以与Win32控制台程序（如交互式Python或node.js）一起使用，但默认的回滚非常有限，需要配置为使用unicode 字体以正确显示非ASCII字符，并且在Windows 10之前，其窗口不能自由调整大小，并且只允许矩形文本选择。</li>
+<li>建议选择默认的第一种选项</li>
+</ul>
+</blockquote>
+<img src="/article/4f595d21/image-20220328223244207.png" class="" title="image-20220328223244207">
+<ul>
+<li>配置配置额外的选项</li>
+</ul>
+<blockquote>
+<ul>
+<li>这个界面是配置配置额外的选项。</li>
+<li>第一个选项是“启用文件系统缓存”。文件系统数据将被批量读取并缓存在内存中用于某些操作（“core.fscache”设置为“true”）。 这提供了显著的性能提升。</li>
+<li>第二个选项是“启用Git凭证管理器”。Windows的Git凭证管理器为Windows提供安全的Git凭证存储，最显着的是对Visual Studio Team Services和GitHub的多因素身份验证支持。 （<a target="_blank" rel="noopener" href="http://xn--dw2at9x.NET">需要.NET</a> Framework v4.5.1或更高版本）。</li>
+<li>第三个选项是“启用符号链接”。启用符号链接（需要SeCreateSymbolicLink权限）。请注意，现有存储库不受此设置的影响。</li>
+<li>建议勾选默认的第一、第二选项</li>
+</ul>
+</blockquote>
+<img src="/article/4f595d21/image-20220328223251275.png" class="" title="image-20220328223251275">
+<ul>
+<li>配置实验选项，点击<code>Next</code>，等待安装完成</li>
+</ul>
+<blockquote>
+<ul>
+<li>这个界面是配置实验选项。</li>
+<li>启用实验性的内置添加 -i / -p。（新！）使用实验性的内置交互式add（“ git add -i”或“ git add -p”）。这使其速度更快（尤其是启动！），但尚未被认为是可靠的。</li>
+<li>默认不勾选</li>
+</ul>
+</blockquote>
+<img src="/article/4f595d21/image-20220328223258723.png" class="" title="image-20220328223258723">
+<h1 id="在windows下部署nodejs"><a class="markdownIt-Anchor" href="#在windows下部署nodejs"></a> 在Windows下部署Node.js</h1>
+<blockquote>
+<p>此部分内容，部分图片来自<code>蜡笔小柯南（CSDN）</code>，链接见Ref</p>
+</blockquote>
+<ul>
+<li>下载并安装node.js，<a target="_blank" rel="noopener" href="https://nodejs.org/en/">node.js下载页面</a>，记得修改安装目录</li>
+</ul>
+<img src="/article/4f595d21/image-20220328223310440.png" class="" title="image-20220328223310440">
+<ul>
+<li>安装选择默认选项即可</li>
+</ul>
+<img src="/article/4f595d21/image-20220328223322095.png" class="" title="image-20220328223322095">
+<img src="/article/4f595d21/image-20220328223332967.png" class="" title="image-20220328223332967">
+<img src="/article/4f595d21/image-20220328223340455-16484780211051.png" class="" title="image-20220328223340455">
+<img src="/article/4f595d21/image-20220328223349160.png" class="" title="image-20220328223349160">
+<img src="/article/4f595d21/image-20220328223355545.png" class="" title="image-20220328223355545">
+<img src="/article/4f595d21/image-20220328223400941.png" class="" title="image-20220328223400941">
+<img src="/article/4f595d21/image-20220328223406555.png" class="" title="image-20220328223406555">
+<ul>
+<li>检查一下环境变量是否写入，<code>win</code>+<code>R</code>打开运行→输入<code>cmd</code>→回车→<code>node -v</code>与<code>npm -v</code>查看对应版本
+<ul>
+<li>若无报错信息，意味着配置完成</li>
+</ul>
+</li>
+</ul>
+<img src="/article/4f595d21/image-20220328223426298.png" class="" title="image-20220328223426298">
+<img src="/article/4f595d21/image-20220328223432826.png" class="" title="image-20220328223432826">
+<h1 id="hexo部署"><a class="markdownIt-Anchor" href="#hexo部署"></a> Hexo部署</h1>
+<ul>
+<li>
+<p>先做好这两步</p>
+<ul>
+<li><a href="./4add822c.html">npm无法在PowerShell运行解决办法</a></li>
+<li>[[Windows Terminal如何以管理员模式打开对应的Bash？]]</li>
+</ul>
+</li>
+<li>
+<p>如果在管理员模式下的<code>Windows Terminal</code>内输入<code>node -v</code>与<code>npm -v</code>如下正常显示后，意味着环境变量配置完成</p>
+</li>
+</ul>
+<img src="/article/4f595d21/image-20220328223447109.png" class="" title="image-20220328223447109">
+<img src="/article/4f595d21/image-20220328223452219.png" class="" title="image-20220328223452219">
+<ul>
+<li>安装Hexo，在管理员模式下的PowerShell内，进入到对应路径，输入如下指令</li>
+</ul>
+<figure class="highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install <span class="literal">-g</span> hexo</span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li>为了在下面步骤中顺利使用<code>hexo d</code>指令，需要安装<code>hexo-deployer-git</code>，在管理员模式下的PowerShell内，输入如下指令
+<ul>
+<li>[[ERROR Deployer not found报错解决]]</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo<span class="literal">-deployer-git</span> <span class="literal">--save</span></span><br></pre></td></tr></tbody></table></figure>
+<h1 id="github新建含github-pages的代码仓"><a class="markdownIt-Anchor" href="#github新建含github-pages的代码仓"></a> GitHub新建含GitHub Pages的代码仓</h1>
+<p>[[如何使用GitHub搭建个人网站，博客，blog？]]</p>
+<ul>
+<li>
+<p>创建一个新的代码仓，必须选用<code>Public</code></p>
+<ul>
+<li>
+<img src="/article/4f595d21/image-20220328223533689.png" class="" title="image-20220328223533689">
+</li>
+</ul>
+</li>
+<li>
+<p>创建代码仓后，进入<code>Settings</code>→<code>Options</code>→<code>GitHub Pages</code>→<code>Check it out here!</code>或者直接<code>Settings</code>→<code>Pages</code></p>
+<ul>
+<li>
+<img src="/article/4f595d21/image-20220328223546631.png" class="" title="image-20220328223546631">
+</li>
+<li>
+<img src="/article/4f595d21/image-20220328223559862.png" class="" title="image-20220328223559862">
+</li>
+</ul>
+</li>
+<li>
+<p>选择一个<code>Theme</code>，另外页面的访问网址也在此</p>
+<ul>
+<li>
+<img src="/article/4f595d21/image-20220328223607671.png" class="" title="image-20220328223607671">
+</li>
+<li>
+<img src="/article/4f595d21/image-20220328223615236.png" class="" title="image-20220328223615236">
+</li>
+</ul>
+</li>
+<li>
+<p>通过<code>Git-Bash</code>进入空文件夹，将上述代码仓<code>git clone</code>到本地对应路径</p>
+</li>
+</ul>
+<h1 id="本地创建个人blog环境"><a class="markdownIt-Anchor" href="#本地创建个人blog环境"></a> 本地创建个人blog环境</h1>
+<ul>
+<li>
+<p>记得要完成这个[[Windows Terminal如何以管理员模式打开对应的Bash？]]</p>
+</li>
+<li>
+<p>以管理员模式打开<code>Git-Bash</code>，进入你想要存放blog源码的文件夹，输入<code>hexo init</code>，然后将上一步里头，<code>git clone</code>下来的<code>GitHub Pages</code>源码内的<code>.git</code>文件夹，复制粘贴到你进行<code>hexo init</code>的文件夹，这一步是为了实现blog源码的备份</p>
+<ul>
+<li>具体见<a href="./f338e400.html">GitHub+Hexo的个人博客，blog，GitHub Page如何实现一个分支作为博客源码，一个分支用于全部源码备份？</a></li>
+</ul>
+</li>
+<li>
+<p>在<a target="_blank" rel="noopener" href="https://hexo.io/themes/">Themes | Hexo</a>内挑选喜欢的Theme，左键点击对应Theme→进入对应GitHub页面→进入一个空文件夹→输入<code>hexo init</code>→在<code>Git-Bash</code>内<code>cd blog文件夹/themes</code>→<code>git clone 对应模板</code></p>
+<ul>
+<li>例如<code>git clone https://github.com/Siricee/hexo-theme-Chic.git Chic</code></li>
+</ul>
+</li>
+</ul>
+<img src="/article/4f595d21/image-20220328223635487.png" class="" title="image-20220328223635487">
+<img src="/article/4f595d21/image-20220328223642924.png" class="" title="image-20220328223642924">
+<img src="/article/4f595d21/image-20220328223649679.png" class="" title="image-20220328223649679">
+<ul>
+<li>进行配置，此时你有2类<code>_config.yml</code>
+<ul>
+<li>一类在你存放blog源码的根目录下</li>
+<li>一类存放在<code>./themes/对应主题</code>下，如<code>./themes/Chic/</code>下</li>
+</ul>
+</li>
+<li>对根目录下配置文件<code>_config.yml</code>进行配置，此处仅讲必要的设置，<code>title</code>等个性化设置可以自行摸索，设置完记得<code>Ctrl</code>+<code>S</code>保存
+<ul>
+<li><code>url:</code>后填写<code>GitHub Pages</code>的<code>publish site</code>，见GitHub代码仓→<code>Settings</code>→<code>Pages</code>，记住此处的<code>Source</code>要正确选择<code>branch</code></li>
+<li><code>theme:</code>后填写你选中的主题的项目名，比如此处是<code>Chic</code></li>
+<li><code>deploy:</code>后新建3行
+<ul>
+<li><code>type:</code>填写<code>git</code></li>
+<li><code>repo:</code>填写你代码仓的地址</li>
+<li><code>branch:</code>填写对应的分支，这个分支用于<code>hexo</code>上传网页源码用
+<ul>
+<li>注意我们这边有2种上传，一种是<code>hexo d</code>，一种是<code>git push</code>
+<ul>
+<li><code>hexo d</code>用于提供网页显示的源码，通常在代码仓默认分支</li>
+<li><code>git push</code>用于保存全部blog源码，通常在代码仓非默认分支</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<img src="/article/4f595d21/image-20220328223713052.png" class="" title="image-20220328223713052">
+<img src="/article/4f595d21/image-20220328223720970.png" class="" title="image-20220328223720970">
+<img src="/article/4f595d21/image-20220328223730262.png" class="" title="image-20220328223730262">
+<ul>
+<li>
+<p>回到管理员模式打开的<code>Git-Bash</code>，准备部署blog，cd到存放Blog源码的根目录→输入<code>hexo clean</code>→<code>hexo s -g</code>部署并启动本地预览→在浏览器里打开<code>https://localhost:4000</code>即可看到部署的个人页面→回到<code>Git-Bash</code>→<code>Ctrl</code>+<code>C</code>停止预览→<code>hexo d</code>将源码上传到对应代码仓</p>
+</li>
+<li>
+<p>点开代码仓右下角可以查看编译进度，等<code>pending</code>变为<code>Active</code>即可，点击右侧<code>View deployment</code>即可进入自己的blog查看</p>
+</li>
+</ul>
+<img src="/article/4f595d21/image-20220328223739971.png" class="" title="image-20220328223739971">
+<img src="/article/4f595d21/image-20220328223748149.png" class="" title="image-20220328223748149">
+<h1 id="分支备份源码思路"><a class="markdownIt-Anchor" href="#分支备份源码思路"></a> 分支备份源码思路</h1>
+<p><a href="./f338e400.html">GitHub+Hexo的个人博客，blog，GitHub Page如何实现一个分支作为博客源码，一个分支用于全部源码备份？</a></p>
+<h1 id="ref"><a class="markdownIt-Anchor" href="#ref"></a> Ref</h1>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xueweisuoyong/p/11914045.html">Windows系统Git安装教程（详解Git安装过程）</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/Small_Yogurt/article/details/104968169">Node.js最新最详细安装教程（2020）</a></li>
+<li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/34452547/hexoerror-deployer-not-found-github">hexo:ERROR Deployer not found: github</a></li>
+</ul>
+
+        </div>
+        <section class="reward_class">
+            <br>
+            <div class="reward" id="reward">
+                <div class="sponser">
+                    <div class="sponser_btn"><strong>💎支持博主</strong></div>
+                    <div class="sponser_img">
+                        <div class="sponser_container">
+                            <div class="sponser_header">请我吃肯德基🍗！</div>
+                            <div class="sponser_body">
+                                <div class="alipay">
+                                    <span class="sponser_alipay_title">谢谢各位大佬🏌️‍♂️！</span>
+                                    <div>
+                                        <img class="sponser_alipay" src="/image/Paying.jpg">
+                                
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <br> -->
+        </section>
+        
+
+        
+            <section class="post-copyright">
+                
+                
+                
+                
+
+            </section>
+        
+
+        <!-- <section class="reward_class">
+            <br>
+            <div class="reward" id="reward">
+                <div class="sponser">
+                    <div class="sponser_btn">支持博主</div>
+                    <div class="sponser_img">
+                        <div class="sponser_container">
+                            <div class="sponser_header">请我吃肯德基！</div>
+                            <div class="sponser_body">
+                                <div class="alipay">
+                                    <span class="sponser_alipay_title">谢谢各位大佬！</span>
+                                    <div>
+                                        <img class="sponser_alipay" src="/image/Paying.jpg">
+                                
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+        </section> -->
+
+        <section class="post-tags">
+            <div>
+                <span>标签:</span>
+                <span class="tag">
+                    
+                    
+                        <!-- <a href="/tags/Hexo/"># Hexo</a> -->
+                        <!-- <a href="/tags/Hexo/">🏷️Hexo</a> -->
+                        <a href="/tags/Hexo/"><i class="iconfont icon-biaoqian-" style="font-size: 1em;"></i>Hexo </a>
+                        
+                    
+                        
+                </span>
+            </div>
+            
+
+            
+
+            <div>
+                <a href="javascript:window.history.back();">返回</a>
+                <span>· </span>
+                <a href="/">主页</a>
+            </div>
+        </section>
+
+
+
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/article/b3031f8a.html">GitHub的个人博客，blog，GitHub Pages如何修改地址，如何修改published site？</a>
+            
+            
+            <a class="next" rel="next" href="/article/17fd3736.html">Hexo部署的页面出现错误，一个debug思路与工具</a>
+            
+        </section>
+
+
+    </article>
+
+
+
+</div>
+
+
+
+
+
+
+<!-- <div class="empty-font">选中这一段文字，点击 ctrl+C 或 者右键选择复制</div> -->
+<script type="text/javascript">
+	//监听整个页面的 copy 事件
+	document.addEventListener('copy',function(e){
+		// clipboardData 对象是为通过编辑菜单、快捷菜单和快捷键执行的编辑操作所保留的，也就是你复制或者剪切内容
+		let clipboardData = e.clipboardData || window.clipboardData;
+		// 如果 未复制或者未剪切，直接 return 
+		if(!clipboardData) return ;
+		// Selection 对象 表示用户选择的文本范围或光标的当前位置。
+		// 声明一个变量接收 -- 用户输入的剪切或者复制的文本转化为字符串
+		let text = window.getSelection().toString();
+		if(text){
+			// 如果文本存在，首先取消默认行为
+			e.preventDefault();
+			// 通过调用 clipboardData 对象的 setData(format,data) 方法，设置相关文本 
+			// format 一个 DOMString 类型 表示要添加到 drag object 的拖动数据的类型
+			// data 一个 DOMString 表示要添加到 drag object 的数据
+            var myDate = new Date(); // 日期
+            var StealerInfo=
+                '\n ================================================'    
+            +   '\n 非法转载者 | 类型               | 状态'
+            +   '\n itcn.blog | 未授权转载、爬取    | 未回复、未删除'
+            +   '\n python.iitter.com | 未授权转载、爬取    | 未回复、未删除'
+            +   '\n www.techfm.club | 未授权转载、爬取    | 未回复、未删除'
+            +   '\n ================================================'   
+            ;
+            
+            var copyright = '\n\n'
+            + '\n'
+            + '\n⚠️著作权归作者所有！'
+            + '\n⚠️博客内容禁止一切形式的非法、非授权转载！'
+            + '\n💡 参考文章见博文Ref！'
+            + '\n作者: Myoontyee Chen'
+            + '\n原文地址: https://myoontyee.github.io/article/4f595d21.html'
+            + '\n'
+            + '\n'
+            + '\n 当前非法爬取信息统计如下表，保留一切追责权利'
+            + '\n 日期： ' + myDate.toLocaleDateString()
+            + StealerInfo
+
+			clipboardData.setData('text/plain', text + copyright)
+		}
+	})
+</script>
+
+<!-- Gitalk模块的js启动 -->
+  
+    <div id="gitalk-container"></div>  
+    <link rel="stylesheet" href="//unpkg.com/gitalk/dist/gitalk.css">
+<script src="//unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+      var gitalk = new Gitalk({
+        clientID: '84b52a29ce9e713ad7d4',
+        clientSecret: '95578b09122163e717247e0b28e6c76fc3976dcf',
+        repo: 'myoontyee.github.io',
+        owner: 'Myoontyee',
+        admin: 'Myoontyee',
+        id: md5(location.pathname),      
+        labels: 'Gitalk'.split(',').filter(l => l),
+        perPage: 10,
+        pagerDirection: 'last',
+        createIssueManually: true,
+        distractionFreeMode: false
+      })
+      gitalk.render('gitalk-container')
+</script>  
+
+
+
+
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <!-- 2022年3月19日 添加 代码高亮、访客量 -->
+        <!-- <script src="/js/prettify.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+             $('pre').addClass('prettyprint linenums');
+             $('code').addClass('prettyprint');
+             prettyPrint();
+             })
+        </script> -->
+        <!-- 2022年3月23日 添加mermaid支持 -->
+        
+            <script src='https://unpkg.com/mermaid@8.14.0/dist/mermaid.min.js'></script>
+            <script>
+              if (window.mermaid) {
+                mermaid.initialize({
+                                startOnLoad: true,
+                                theme: 'neural',
+                                     });
+              }
+            </script>
+        
+
+        <!-- <span>© Myoontyee | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a> -->
+            <span>© Myoontyee  
+            <!-- 访客数量 -->
+            <!-- <div> -->
+            
+                <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<span class="site-uv">
+    | 总访客量:
+    <i class="busuanzi-value" id="busuanzi_value_site_uv"><i class="fa fa-spinner fa-spin"></i></i>
+</span>&nbsp;
+
+
+<span class="site-pv">
+    | 总访问量:
+    <i class="busuanzi-value" id="busuanzi_value_site_pv"><i class="fa fa-spinner fa-spin"></i></i>
+</span>
+
+            
+            <!-- </div> -->
+        </span>
+    </div>
+</footer>
+
+
+
+    </div>
+
+
+
+    <!-- 搜索功能 -->
+    <!-- Chic/layout.ejs -->
+    <div id="u-search">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="container">
+                    <form id="u-search-modal-form" class="u-search-modal-form">
+                        <button type="submit" class="form-submit-btn">
+                            <img src="/image/search.png" class="search-btn-img" />
+                        </button>
+                        <input placeholder="搜索内容..." class="form-input" id="modal-form-input">
+                    </form>
+                    <a class="modal-close">x</a>
+                </div>
+                <div class="search-loading">
+                    <div class="search-loading-bar"></div>
+                </div>
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
+        <div class="modal-overlay"></div>
+    </div>
+</body>
+
+</html>

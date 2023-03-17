@@ -1,0 +1,1623 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="google-site-verification" content="os9wPImIjpPcEDGL25ZsjCp2wh2hzb3B7Y8E4Lm1nb0" />
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Myoontyee">
+
+
+
+
+
+<title>Hexo + Chic 配置教程归纳 | Myoontyee | MSF: iCT &amp; Robotic</title>
+
+
+
+    <link rel="icon" href="/rocket_favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont2/iconfont.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont3/iconfont.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont4/iconfont.css">
+    
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/jquery.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+
+
+<!-- 搜索的部分 -->
+
+
+
+    <script>
+    // function searchToggle() {
+    //     const width = $(document.body).width()
+    //     if(width > 479) {
+    //         return;
+    //     }
+    //     const search = $('.search');
+    //     const searchForm = $('.form-search')
+
+    //     if(!search.hasClass("mobile-search")) {
+    //         search.addClass("mobile-search");
+    //     } else {
+    //         search.removeClass("mobile-search");
+    //     } 
+    // }
+
+    function searchToggle() {
+        const width = $(document.body).width()
+        if(width > 479) {
+            return;
+        }
+        const search = $('.search');
+        const searchForm = $('.form-search');
+        const menuToggle = $('.menu-toggle');
+        const title = $('.navbar-header-title ');
+
+        if(!search.hasClass("mobile-search")) {
+            search.addClass("mobile-search");
+            menuToggle.addClass("open-search")
+            title.addClass("mobile-title-hidden")
+        } else {
+            search.removeClass("mobile-search");
+            menuToggle.removeClass("open-search")
+            // title.css({visibility: 'visible'})
+            title.removeClass("mobile-title-hidden")
+        } 
+    }
+
+
+
+    function search(searchInputEl, formEl, flag) {
+        const path = "/" + "search.json"; // 可以在public 下查看这个search.json
+        $(formEl).submit(function(e){
+            e.preventDefault();
+            let target = null
+            if(searchInputEl == null) {
+                const screenWidth = $(document.body).width();
+                target = screenWidth > 479 ? $('#pc-search-input') : $('#mobile-search-input');
+                console.log(target);
+            } else {
+                target = $(searchInputEl)
+            }
+
+            if(!flag && target.val() === '') {
+                return ;
+            }
+
+            $("#u-search").fadeIn(500, function() {
+                $("body > .wrapper").addClass("modal-active");
+
+                $.ajax({
+                    url: path,
+                    dataType: "json",
+                    beforeSend: function (xhr) {
+                        $input = target.val();
+                        $(".form-input").val($input);
+                        const loadingBar = $('.search-loading-bar') 
+                        loadingBar.css({
+                            width:'100%',
+                            display: 'block'
+                        });
+                    },
+                    success: function( datas ) {
+                        console.log(datas);
+                        const $resultPanel = $(".modal-body")[0];
+                        let str = `<ul class="modal-results">`;
+                        var keywords = $(".form-input").val().trim().toLowerCase().split(/[\s\-]+/);
+                        $resultPanel.innerHTML = "";
+                        let hasResult = false
+                        let text = `<div class="no-result">找不到与关键词相关的内容....</div>`;
+
+                        if ($(".form-input").val().trim().length <= 0) {
+                            // 没有结果
+                            $resultPanel.innerHTML = text;
+                            return;
+                        }
+                        datas.forEach(function (data, index) {
+                            var isMatch = true;
+                            if (!data.title || data.title.trim() === '') {
+                                data.title = "Untitled";
+                            }
+                            var data_title = data.title.trim().toLowerCase();
+                            var data_content = data.content && data.content.trim().replace(/<[^>]+>/g, "").toLowerCase() || '';
+                            var data_url = data.url;
+                            var index_title = -1;
+                            var index_content = -1;
+                            var first_occur = -1;
+                            // only match artiles with not empty contents
+                            if (data_content !== '') {
+                                keywords.forEach(function (keyword, i) {
+                                    index_title = data_title.indexOf(keyword);
+                                    index_content = data_content.indexOf(keyword);
+
+                                    if (index_title < 0 && index_content < 0) {
+                                        isMatch = false;
+                                    } else {
+                                        hasResult = true
+                                        if (index_content < 0) {
+                                            index_content = 0;
+                                        }
+                                        if (i == 0) {
+                                            first_occur = index_content;
+                                        }
+                                    }
+                                });
+                            } else {
+                                isMatch = false;
+                            }
+                            // show search results
+                            if (isMatch) {
+                                str += `<li class='result-item'><a href='${data_url}' class='result-item-detail'> <span class="title">${data_title}</span>`;
+                                var content = data.content.trim().replace(/<[^>]+>/g, "");
+                                if (first_occur >= 0) {
+                                    // cut out 200 characters
+                                    var start = first_occur - 40;
+                                    var end = first_occur + 160;
+
+                                    if (start < 0) {
+                                        start = 0;
+                                    }
+
+                                    if (start == 0) {
+                                        end = 200;
+                                    }
+
+                                    if (end > content.length) {
+                                        end = content.length;
+                                    }
+
+                                    var match_content = content.substring(start, end);
+
+                                    // highlight all keywords
+                                    keywords.forEach(function (keyword) {
+                                        var regS = new RegExp(keyword, "gi");
+                                        match_content = match_content.replace(regS, `<em class="search-keyword">${keyword}</em>`);
+                                    });
+
+                                    str += `<span class="content"> ${match_content} ...</span></a>`;
+                                }
+                                str += "</li>";
+                            }
+                        });
+                        str += "</ul>";
+                        if(hasResult) {
+                            $resultPanel.innerHTML = str;
+                        } else {
+                            $resultPanel.innerHTML = text;
+                        }
+
+                    },
+                    complete: function() {
+                        setTimeout(() => {
+                                const loadingBar = $('.search-loading-bar') 
+                                loadingBar.css({
+                                    width:'0%',
+                                    display: 'none'
+                                });
+                        }, 300)
+                    }
+                });
+            })
+
+        });
+    }
+
+    $(document).ready(function() {
+        $('.modal-close').click(function () { 
+            $("#u-search").fadeOut();
+            $("body > .wrapper").removeClass("modal-active")
+        })
+
+        $('.modal-overlay').click(function() {
+            $("#u-search").fadeOut();
+            $("body > .wrapper").removeClass("modal-active")
+        })
+        search(null, ".form-search", false)
+        search("#u-search-modal-form .form-input", ".u-search-modal-form", true)
+    })
+</script>
+
+
+
+<!-- 搜索框 -->
+<!-- 
+
+    <div class="search ">
+        <div class="search-btn" onClick="searchToggle()">
+            <img src="/image/search.png" class="search-btn-img" />
+        </div>
+        <form class="form-search">
+            <input class="input" placeholder="点此搜索" autocomplete="off" id="pc-search-input"/>
+        </form>
+    </div>
+ -->
+
+<!-- // 这里是 mobile 的menu -->
+<!-- <div class="navbar-mobile-right">
+    
+    
+    <div class="search ">
+        <div class="search-btn" onClick="searchToggle()">
+            <img src="/image/search.png" class="search-btn-img" />
+        </div>
+        <form class="form-search">
+            <input class="input" placeholder="点此搜索" autocomplete="off" id="mobile-search-input"/>
+        </form>
+    </div>
+
+    <div class="menu-toggle" onclick="mobileBtn()">&#9776; 目录</div>
+</div> -->
+
+<!-- 2022年3月19日添加 代码高亮、显示行号 -->
+<!-- <link rel="stylesheet" href="/css/prettify.css" media="screen" type="text/css"> -->
+<meta name="generator" content="Hexo 5.4.2">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <!-- 引入标签 -->
+<link rel="stylesheet" href="../fonts/iconfont3/iconfont.css"> 
+
+<header>
+    <nav class="navbar">
+        <div class="container">
+            <!-- <div class="navbar-header header-logo"><a href="/">主页</a></div> -->
+            <div class="navbar-header header-logo"><a href="/"><i class="iconfont icon-zhuye" style="font-size: 1em;"></i>主页</a></div>
+            <div class="menu navbar-right">
+                <!-- 这里表示的是pc端搜索框 -->
+                
+                
+    <div class="search ">
+        <div class="search-btn" onClick="searchToggle()">
+            <img src="/image/search.png" class="search-btn-img" />
+        </div>
+        <form class="form-search">
+            <input class="input" placeholder="点此搜索" autocomplete="off" id="pc-search-input"/>
+        </form>
+    </div>
+
+                
+                    <!-- <a class="menu-item" href="/top">博文</a> -->
+                    
+                        <a class="menu-item" href="/top"><i class="iconfont icon-wenzhang" style="font-size: 1em;"></i>博文</a>
+                    
+                    
+                    
+                    
+                    
+                    
+                
+                    <!-- <a class="menu-item" href="/category">类别</a> -->
+                    
+                    
+                        <a class="menu-item" href="/category"><i class="iconfont icon-fenlei" style="font-size: 1em;"></i>类别</a>
+                    
+                    
+                    
+                    
+                    
+                
+                    <!-- <a class="menu-item" href="/tag">标签</a> -->
+                    
+                    
+                    
+                        <a class="menu-item" href="/tag"><i class="iconfont icon-biaoqian-" style="font-size: 1em;"></i>标签</a>
+                    
+                    
+                    
+                    
+                
+                    <!-- <a class="menu-item" href="/about">关于</a> -->
+                    
+                    
+                    
+                    
+                        <a class="menu-item" href="/about"><i class="iconfont icon-guanyu1" style="font-size: 1em;"></i>关于</a>
+                    
+                    
+                    
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">主页</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="navbar-mobile-right">
+                    
+                    
+    <div class="search ">
+        <div class="search-btn" onClick="searchToggle()">
+            <img src="/image/search.png" class="search-btn-img" />
+        </div>
+        <form class="form-search">
+            <input class="input" placeholder="点此搜索" autocomplete="off" id="mobile-search-input"/>
+        </form>
+    </div>
+
+                    <div class="menu-toggle" onclick="mobileBtn()">&#9776; 目录</div>
+                </div>
+                
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/top">博文</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+    
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+
+            <div class="main">
+                <!-- 引入标签 -->
+<link rel="stylesheet" href="../fonts/iconfont3/iconfont.css"> 
+<!-- 这个文件是某个具体的文章的布局 -->
+<div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Hexo + Chic 配置教程归纳</h1>
+            
+                <div class="post-meta">
+                    
+                        👨‍🎓作者: <a itemprop="author" rel="author" href="/">Myoontyee</a>
+                    
+
+                    
+                        <span class="post-time">
+                        📅日期: <a href="#">三月 28, 2022&nbsp;&nbsp;22:15:54</a>
+                        </span>
+                    
+                <div>
+                    
+                        <span class="post-category">
+                            📚类别:
+                            
+                                <!-- <a href="/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">博客搭建</a> -->
+                                <a href="/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/"><i class="iconfont icon-fenlei" style="font-size: 1em;"></i>博客搭建</a> | 
+                            
+                                <!-- <a href="/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/%E7%BD%AE%E9%A1%B6/">置顶</a> -->
+                                <a href="/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/%E7%BD%AE%E9%A1%B6/"><i class="iconfont icon-fenlei" style="font-size: 1em;"></i>置顶</a> | 
+                            
+                        </span>
+                    
+                </div>
+                    
+                    <div>
+                        
+                            <span class="post-count">
+                            📑字数:
+                            <a href="">3.6k</a>  
+                            </span>
+                        
+
+                        
+                            <span class="post-count">
+                            ⏱️阅读时长:
+                            <a href="">13min</a>  
+                            </span>
+                        
+
+                        
+                            <span id="busuanzi_container_page_pv">  
+                            🕵️‍♂️阅读数:<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>
+                            </span>
+                        
+                        
+                    </div>
+                </div>
+                        
+            
+        </header>
+
+        <div class="post-content">
+                <strong>💡 参考文章见Ref，感谢提供思路！</strong>
+            <br><strong>🗺️当前这篇博文地址：https://myoontyee.github.io/article/551b025b.html</strong>
+            <br><strong>⚠️警告：博客文章禁止一切形式的非授权非法转载！</strong>
+            <br><strong>⚠️Attention: All forms of unauthorized illegal reposts are prohibited !</strong> 
+            <hr>
+<p><strong>创建时间</strong>：2022年3月28日21:07:27<br>
+<strong>最新更新</strong>：2022年4月28日09:29:07</p>
+<hr>
+<p><strong>核心思路</strong>：按页面分类教程，其实本质都是调<code>HTML</code>和<code>CSS</code></p>
+<hr>
+<h1 id="基本操作"><a class="markdownIt-Anchor" href="#基本操作"></a> 基本操作</h1>
+<ul>
+<li>
+<p>创建新的文章，进入对应文件夹，<code>hexo new</code> + <code>"</code>文章名<code>"</code></p>
+<ul>
+<li>如<code>hexo new "教程 这是一个测试"</code>，能生成一篇<code>教程 这是一个测试</code>的博文页面</li>
+</ul>
+</li>
+<li>
+<p>每次在本地更新好页面以后，在<code>Git-Bash</code>内通过如下指令上传</p>
+<ul>
+<li>操作1
+<ul>
+<li><code>hexo clean</code></li>
+<li><code>hexo s -g</code>，点开网址开没问题后<code>Ctrl</code>+<code>C</code></li>
+<li><code>hexo d</code>推送上去</li>
+</ul>
+</li>
+<li>操作2
+<ul>
+<li><code>hexo clean</code></li>
+<li><code>hexo g</code>，部署</li>
+<li><code>hexo d</code>推送上去</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>更新</p>
+<ul>
+<li><code>npm update hexo -g</code></li>
+</ul>
+</li>
+<li>
+<p>清理缓存，生成，发布，在<code>Git-Bash</code>上输入如下指令</p>
+<ul>
+<li><code>hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</code></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="教程总表"><a class="markdownIt-Anchor" href="#教程总表"></a> 教程总表</h1>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>备注</th>
+<th>链接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>基础操作</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>1</td>
+<td>部署报错</td>
+<td><a href="./17fd3736.html">Hexo部署的页面出现错误，一个debug思路与工具</a></td>
+</tr>
+<tr>
+<td>2</td>
+<td>推送GitHub</td>
+<td><a href="./4f595d21.html">Hexo安装+个人网站建立+推送至GitHub</a></td>
+</tr>
+<tr>
+<td>3</td>
+<td>源码备份</td>
+<td><a href="./f338e400.html">GitHub+Hexo的个人博客，blog，GitHub Page如何实现一个分支作为博客源码，一个分支用于全部源码备份？</a></td>
+</tr>
+<tr>
+<td>4</td>
+<td>修改博客路径为<code>.github.io</code></td>
+<td><a href="./b3031f8a.html">GitHub的个人博客，blog，GitHub Pages如何修改地址，如何修改published site？</a></td>
+</tr>
+<tr>
+<td>5</td>
+<td>检查图片路径</td>
+<td><a href="./b9c842e3.html">Hexo deploy部署后的页面图片引用路径如何检查？</a></td>
+</tr>
+<tr>
+<td>6</td>
+<td>安装插件报错处理</td>
+<td><a href="./9762d0c6.html">Hexo安装插件遇上5 vulnerabilities (2 moderate, 2 high, 1 critical)类似的报错，让使用npm fund寻求更多细节，如何解决</a></td>
+</tr>
+<tr>
+<td>7</td>
+<td>端口报错处理</td>
+<td><a href="./9e13174d.html">Hexo生成时提示FATAL Permission denied. You can’t use port 4000.解决办法</a></td>
+</tr>
+<tr>
+<td>8</td>
+<td>安装报错处理</td>
+<td><a href="./f63f7dc2.html">安装Hexo，npm install -g hexo的npm ERR报错解决</a></td>
+</tr>
+<tr>
+<td>9</td>
+<td>443报错处理</td>
+<td><a href="./7faf135d.html">Git-Bash，WSL2内GitHub无法访问、443 Operation timed out的解决办法</a></td>
+</tr>
+<tr>
+<td>10</td>
+<td>npm无法运行</td>
+<td><a href="./4add822c.html">npm无法在PowerShell运行解决办法</a></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>首页</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1</td>
+<td>①搜索</td>
+<td><a href="./1650c0d7.html">Hexo Chic模板添加搜索栏</a></td>
+</tr>
+<tr>
+<td>2</td>
+<td>②css样式</td>
+<td>②样式引用参考<a href="./c2a5d481.html">Hexo + Chic，全局引用css样式，从标签、分类or打开文章第二面，icon无法正常显示解决办法</a><br>②部署见<a href="./32a77ca1.html">Hexo + Chic如何在任意位置添加新的icon（svg）图标——以首页添加友链及其logo为例</a></td>
+</tr>
+<tr>
+<td>3</td>
+<td>③新建页面</td>
+<td><a href="./6376ffa2.html">Hexo如何新建一个新的页面，page，栏目？</a></td>
+</tr>
+<tr>
+<td>4</td>
+<td>④Chic去logo</td>
+<td><a href="./ebea8ed0.html">Hexo + Chic 去除首页的圆形头像logo</a></td>
+</tr>
+<tr>
+<td>5</td>
+<td>⑤超链接</td>
+<td><a href="./fd9baec8.html">Hexo + Chic 首页实现带文字的超链接</a></td>
+</tr>
+<tr>
+<td>6</td>
+<td>⑥加icon</td>
+<td><a href="./9a3fd1d.html">Hexo + Chic如何添在link处加新的icon（svg）图标</a></td>
+</tr>
+<tr>
+<td>7</td>
+<td>⑦加icon（任意位置）</td>
+<td>⑦见<a href="./32a77ca1.html">Hexo + Chic如何在任意位置添加新的icon（svg）图标——以首页添加友链及其logo为例</a><br>若⑦涉及样式全局引用问题，见<a href="./c2a5d481.html">Hexo + Chic，全局引用css样式，从标签、分类or打开文章第二面，icon无法正常显示解决办法</a></td>
+</tr>
+<tr>
+<td>8</td>
+<td>⑧站点浏览统计</td>
+<td>⑧见<a href="./a976f1c7.html">Hexo + Chic 增加站点浏览统计</a><br>⑧数据未加载出来前样式见<a href="./785e20b9.html">Hexo + Chic busuanzi未显示阅读字数、时长等情况下的等待图标添加（旋转菊花等）</a></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>分栏-文章</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1</td>
+<td>①</td>
+<td>①见<a href="./32a77ca1.html">Hexo + Chic如何在任意位置添加新的icon（svg）图标——以首页添加友链及其logo为例</a><br>①无法正常显示见<a href="./c2a5d481.html">Hexo + Chic，全局引用css样式，从标签、分类or打开文章第二面，icon无法正常显示解决办法</a></td>
+</tr>
+<tr>
+<td>2</td>
+<td>②</td>
+<td>②见<a href="./321a7025.html">Hexo + Chic过长博文名如何实现省略，过长博文名，实现三个点省略方案</a></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>特殊页面-CV</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1</td>
+<td>CV简历页面</td>
+<td>基础实现见<a href="./46fb7fa8.html">Hexo + Chic 在同一行实现左中右内容布局，Markdown（Typora）与Obsidian亦可参考</a></td>
+</tr>
+<tr>
+<td>特殊页面-类别</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>类别页面</td>
+<td>类别页面过长博文名省略，见<a href="./9ff0cec8.html">Hexo + Chic 类别category页面过长博文名的三个点省略方案</a></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>文章-文章头</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1</td>
+<td>①emoji</td>
+<td>①见<a href="./a150dc7d.html">Hexo + Chic 添加emoji支持，并使用emoji</a></td>
+</tr>
+<tr>
+<td>2</td>
+<td>②字数、阅读时长</td>
+<td>②见<a href="./11459889.html">Hexo + Chic 添加文章字数和阅读时长</a></td>
+</tr>
+<tr>
+<td>3</td>
+<td>③浏览量</td>
+<td>③见<a href="./a976f1c7.html">Hexo + Chic 增加单篇文章浏览统计</a></td>
+</tr>
+<tr>
+<td>文章-文章中</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1</td>
+<td>①引用自己写的别的博文</td>
+<td>①见<a href="./9d63668d.html">Hexo如何实现对博客内，同一个文件夹下其他文章的引用？</a></td>
+</tr>
+<tr>
+<td>2</td>
+<td>②mermaid</td>
+<td>②见<a href="./751fbb63.html">Hexo + Chic + mermaid配置</a></td>
+</tr>
+<tr>
+<td>文章-数学公式</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1</td>
+<td>LaTeX</td>
+<td>见<a href="./3d095f62.html">Hexo + Chic如何支持数学公式，特别是复杂LaTeX公式，公式会重复显示、LaTeX公式本地预览可以显示deploy上去无法显示解决办法</a></td>
+</tr>
+<tr>
+<td>文章-kbd样式</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1</td>
+<td>kbd样式</td>
+<td>见<a href="./96b62d8a.html">Hexo + Chic设置kbd样式，code、samp等样式亦可参考</a></td>
+</tr>
+<tr>
+<td>文章-表格与文章尾</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1</td>
+<td>①表格+代码块</td>
+<td>①见<a href="./f5721cb9.html">Hexo, Obsidian, Typora等如何制作包含代码在内的表格？如果需要有代码行数呢？</a></td>
+</tr>
+<tr>
+<td>2</td>
+<td>②表格+滚动条</td>
+<td>②见<a href="./ea970ca1.html">Hexo + Chic 过长的表格使用滚动条</a></td>
+</tr>
+<tr>
+<td>3</td>
+<td>③插图片</td>
+<td>③见<a href="./d101e67c.html">Hexo + Chic + Typora如何实现便捷的文章插入图片方案？Hexo文章图片无法显示问题如何解决？</a></td>
+</tr>
+<tr>
+<td>4</td>
+<td>④修改Tags</td>
+<td>④见<a href="./ccd6f7fe.html">Hexo + Chic修改Tag(s)前面的井号</a></td>
+</tr>
+<tr>
+<td>5</td>
+<td>⑤打赏按钮</td>
+<td>⑤见<a href="./cb001f78.html">Hexo + Chic实现打赏按钮，鼠标移动、浮过去会显示对应图片</a></td>
+</tr>
+<tr>
+<td>6</td>
+<td>⑥评论区</td>
+<td>⑥见<a href="./b1784561.html">Chic配置Gitalk，添加评论区</a><br>⑥常见错误见<a href="./eab12f60.html">Hexo + Chic配置Gitalk显示error=redirect_uri_mismatch&amp;，点击登录GitHub返回主页解决办法</a></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>功能-搜索</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>1</td>
+<td>搜索</td>
+<td><a href="./264c6a00.html">Hexo + Chic如何部署到搜索引擎如Google上使得其能被搜索到？提交到谷歌搜索（谷歌收录）解决办法</a><br><a href="./67414c31.html">Hexo + Chic 如何上交网站地图sitemap.xml给Google？如果显示无法获取Couldn’t Fetch应该怎么办？</a></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h1 id="基础操作"><a class="markdownIt-Anchor" href="#基础操作"></a> 基础操作</h1>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>备注</th>
+<th>链接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>部署报错</td>
+<td><a href="./17fd3736.html">Hexo部署的页面出现错误，一个debug思路与工具</a></td>
+</tr>
+<tr>
+<td>2</td>
+<td>推送GitHub</td>
+<td><a href="./4f595d21.html">Hexo安装+个人网站建立+推送至GitHub</a></td>
+</tr>
+<tr>
+<td>3</td>
+<td>源码备份</td>
+<td><a href="./f338e400.html">GitHub+Hexo的个人博客，blog，GitHub Page如何实现一个分支作为博客源码，一个分支用于全部源码备份？</a></td>
+</tr>
+<tr>
+<td>4</td>
+<td>修改博客路径为<code>.github.io</code></td>
+<td><a href="./b3031f8a.html">GitHub的个人博客，blog，GitHub Pages如何修改地址，如何修改published site？</a></td>
+</tr>
+<tr>
+<td>5</td>
+<td>检查图片路径</td>
+<td><a href="./b9c842e3.html">Hexo deploy部署后的页面图片引用路径如何检查？</a></td>
+</tr>
+<tr>
+<td>6</td>
+<td>安装插件报错处理</td>
+<td><a href="./9762d0c6.html">Hexo安装插件遇上5 vulnerabilities (2 moderate, 2 high, 1 critical)类似的报错，让使用npm fund寻求更多细节，如何解决</a></td>
+</tr>
+<tr>
+<td>7</td>
+<td>端口报错处理</td>
+<td><a href="./9e13174d.html">Hexo生成时提示FATAL Permission denied. You can’t use port 4000.解决办法</a></td>
+</tr>
+<tr>
+<td>8</td>
+<td>安装报错处理</td>
+<td><a href="./f63f7dc2.html">安装Hexo，npm install -g hexo的npm ERR报错解决</a></td>
+</tr>
+<tr>
+<td>9</td>
+<td>443报错处理</td>
+<td><a href="./7faf135d.html">Git-Bash，WSL2内GitHub无法访问、443 Operation timed out的解决办法</a></td>
+</tr>
+<tr>
+<td>10</td>
+<td>npm无法运行</td>
+<td><a href="./4add822c.html">npm无法在PowerShell运行解决办法</a></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a href="./17fd3736.html">Hexo部署的页面出现错误，一个debug思路与工具</a></p>
+<p><a href="./4f595d21.html">Hexo安装+个人网站建立+推送至GitHub</a></p>
+<p><a href="./f338e400.html">GitHub+Hexo的个人博客，blog，GitHub Page如何实现一个分支作为博客源码，一个分支用于全部源码备份？</a></p>
+<p><a href="./b3031f8a.html">GitHub的个人博客，blog，GitHub Pages如何修改地址，如何修改published site？</a></p>
+<p><a href="./b9c842e3.html">Hexo deploy部署后的页面图片引用路径如何检查？</a></p>
+<p><a href="./9762d0c6.html">Hexo安装插件遇上5 vulnerabilities (2 moderate, 2 high, 1 critical)类似的报错，让使用npm fund寻求更多细节，如何解决</a></p>
+<p><a href="./9e13174d.html">Hexo生成时提示FATAL Permission denied. You can’t use port 4000.解决办法</a></p>
+<p><a href="./f63f7dc2.html">安装Hexo，npm install -g hexo的npm ERR报错解决</a></p>
+<p><a href="./7faf135d.html">Git-Bash，WSL2内GitHub无法访问、443 Operation timed out的解决办法</a></p>
+<p><a href="./4add822c.html">npm无法在PowerShell运行解决办法</a></p>
+<h1 id="首页"><a class="markdownIt-Anchor" href="#首页"></a> 首页</h1>
+<ul>
+<li>
+<img src="/article/551b025b/image-20220328222033259.png" class="" title="image-20220328222033259">
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>备注</th>
+<th>链接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>①</td>
+<td><a href="./1650c0d7.html">Hexo Chic模板添加搜索栏</a></td>
+</tr>
+<tr>
+<td>2</td>
+<td>②</td>
+<td>②样式引用参考<a href="./c2a5d481.html">Hexo + Chic，全局引用css样式，从标签、分类or打开文章第二面，icon无法正常显示解决办法</a><br>②部署见<a href="./32a77ca1.html">Hexo + Chic如何在任意位置添加新的icon（svg）图标——以首页添加友链及其logo为例</a></td>
+</tr>
+<tr>
+<td>3</td>
+<td>③</td>
+<td><a href="./6376ffa2.html">Hexo如何新建一个新的页面，page，栏目？</a></td>
+</tr>
+<tr>
+<td>4</td>
+<td>④</td>
+<td><a href="./ebea8ed0.html">Hexo + Chic 去除首页的圆形头像logo</a></td>
+</tr>
+<tr>
+<td>5</td>
+<td>⑤</td>
+<td><a href="./fd9baec8.html">Hexo + Chic 首页实现带文字的超链接</a></td>
+</tr>
+<tr>
+<td>6</td>
+<td>⑥</td>
+<td><a href="./9a3fd1d.html">Hexo + Chic如何添在link处加新的icon（svg）图标</a></td>
+</tr>
+<tr>
+<td>7</td>
+<td>⑦</td>
+<td>⑦见<a href="./32a77ca1.html">Hexo + Chic如何在任意位置添加新的icon（svg）图标——以首页添加友链及其logo为例</a><br>若⑦涉及样式全局引用问题，见<a href="./c2a5d481.html">Hexo + Chic，全局引用css样式，从标签、分类or打开文章第二面，icon无法正常显示解决办法</a></td>
+</tr>
+<tr>
+<td>8</td>
+<td>⑧</td>
+<td>⑧见<a href="./a976f1c7.html">Hexo + Chic 增加站点浏览统计</a><br>⑧数据未加载出来前样式见<a href="./785e20b9.html">Hexo + Chic busuanzi未显示阅读字数、时长等情况下的等待图标添加（旋转菊花等）</a></td>
+</tr>
+</tbody>
+</table>
+<p>①见<a href="./1650c0d7.html">Hexo Chic模板添加搜索栏</a></p>
+<p>②样式引用参考<a href="./c2a5d481.html">Hexo + Chic，全局引用css样式，从标签、分类or打开文章第二面，icon无法正常显示解决办法</a><br>
+②部署见<a href="./32a77ca1.html">Hexo + Chic如何在任意位置添加新的icon（svg）图标——以首页添加友链及其logo为例</a></p>
+<p>③见<a href="./6376ffa2.html">Hexo如何新建一个新的页面，page，栏目？</a></p>
+<p>④见<a href="./ebea8ed0.html">Hexo + Chic 去除首页的圆形头像logo</a></p>
+<p>⑤见<a href="./fd9baec8.html">Hexo + Chic 首页实现带文字的超链接</a></p>
+<p>⑥见<a href="./9a3fd1d.html">Hexo + Chic如何添在link处加新的icon（svg）图标</a></p>
+<p>⑦部署见<a href="./32a77ca1.html">Hexo + Chic如何在任意位置添加新的icon（svg）图标——以首页添加友链及其logo为例</a><br>
+若⑦涉及样式全局引用问题，见<a href="./c2a5d481.html">Hexo + Chic，全局引用css样式，从标签、分类or打开文章第二面，icon无法正常显示解决办法</a></p>
+<p>⑧见<a href="./a976f1c7.html">Hexo + Chic 增加站点浏览统计</a><br>
+⑧数据未加载出来前样式见<a href="./785e20b9.html">Hexo + Chic busuanzi未显示阅读字数、时长等情况下的等待图标添加（旋转菊花等）</a></p>
+<h1 id="分栏-文章"><a class="markdownIt-Anchor" href="#分栏-文章"></a> 分栏-文章</h1>
+<ul>
+<li>
+<img src="/article/551b025b/image-20220328222041499.png" class="" title="image-20220328222041499">
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>备注</th>
+<th>链接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>①</td>
+<td>①见<a href="./32a77ca1.html">Hexo + Chic如何在任意位置添加新的icon（svg）图标——以首页添加友链及其logo为例</a><br>①无法正常显示见<a href="./c2a5d481.html">Hexo + Chic，全局引用css样式，从标签、分类or打开文章第二面，icon无法正常显示解决办法</a></td>
+</tr>
+<tr>
+<td>2</td>
+<td>②</td>
+<td>②见<a href="./321a7025.html">Hexo + Chic过长博文名如何实现省略，过长博文名，实现三个点省略方案</a></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>①见<a href="./32a77ca1.html">Hexo + Chic如何在任意位置添加新的icon（svg）图标——以首页添加友链及其logo为例</a><br>
+①无法正常显示见<a href="./c2a5d481.html">Hexo + Chic，全局引用css样式，从标签、分类or打开文章第二面，icon无法正常显示解决办法</a></p>
+<p>②见<a href="./321a7025.html">Hexo + Chic过长博文名如何实现省略，过长博文名，实现三个点省略方案</a></p>
+<h1 id="特殊页面"><a class="markdownIt-Anchor" href="#特殊页面"></a> 特殊页面</h1>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>备注</th>
+<th>链接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>CV简历页面</td>
+<td>基础实现见<a href="./46fb7fa8.html">Hexo + Chic 在同一行实现左中右内容布局，Markdown（Typora）与Obsidian亦可参考</a></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>类别页面</td>
+<td>类别页面过长博文名省略，见<a href="./9ff0cec8.html">Hexo + Chic 类别category页面过长博文名的三个点省略方案</a></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="cv简历页面"><a class="markdownIt-Anchor" href="#cv简历页面"></a> CV简历页面</h2>
+<ul>
+<li>基础实现见<a href="./46fb7fa8.html">Hexo + Chic 在同一行实现左中右内容布局，Markdown（Typora）与Obsidian亦可参考</a></li>
+</ul>
+<h2 id="类别"><a class="markdownIt-Anchor" href="#类别"></a> 类别</h2>
+<ul>
+<li>
+<img src="/article/551b025b/image-20220404134517607.png" class="" title="image-20220404134517607">
+</li>
+<li>
+<p>类别页面过长博文名省略，见<a href="./9ff0cec8.html">Hexo + Chic 类别category页面过长博文名的三个点省略方案</a></p>
+</li>
+</ul>
+<h2 id="置顶"><a class="markdownIt-Anchor" href="#置顶"></a> 置顶</h2>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>备注</th>
+<th>链接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>置顶页面</td>
+<td><a href="./fee5a0e2.html">Hexo + Chic 实现文章置顶栏、文章置顶功能</a></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a href="./fee5a0e2.html">Hexo + Chic 实现文章置顶栏、文章置顶功能</a></p>
+<h1 id="文章"><a class="markdownIt-Anchor" href="#文章"></a> 文章</h1>
+<h2 id="文章头"><a class="markdownIt-Anchor" href="#文章头"></a> 文章头</h2>
+<ul>
+<li>
+<img src="/article/551b025b/image-20220328222049474.png" class="" title="image-20220328222049474">
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>备注</th>
+<th>链接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>①emoji</td>
+<td>①见<a href="./a150dc7d.html">Hexo + Chic 添加emoji支持，并使用emoji</a></td>
+</tr>
+<tr>
+<td>2</td>
+<td>②字数、阅读时长</td>
+<td>②见<a href="./11459889.html">Hexo + Chic 添加文章字数和阅读时长</a></td>
+</tr>
+<tr>
+<td>3</td>
+<td>③浏览量</td>
+<td>③见<a href="./a976f1c7.html">Hexo + Chic 增加单篇文章浏览统计</a></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>①见<a href="./a150dc7d.html">Hexo + Chic 添加emoji支持，并使用emoji</a></p>
+<p>②见<a href="./11459889.html">Hexo + Chic 添加文章字数和阅读时长</a></p>
+<p>③见<a href="./a976f1c7.html">Hexo + Chic 增加单篇文章浏览统计</a></p>
+<h2 id="文章中"><a class="markdownIt-Anchor" href="#文章中"></a> 文章中</h2>
+<ul>
+<li>
+<img src="/article/551b025b/image-20220328222102979.png" class="" title="image-20220328222102979">
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>备注</th>
+<th>链接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>①引用自己写的别的博文</td>
+<td>①见<a href="./9d63668d.html">Hexo如何实现对博客内，同一个文件夹下其他文章的引用？</a></td>
+</tr>
+<tr>
+<td>2</td>
+<td>②mermaid</td>
+<td>②见<a href="./751fbb63.html">Hexo + Chic + mermaid配置</a></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>①见<a href="./9d63668d.html">Hexo如何实现对博客内，同一个文件夹下其他文章的引用？</a></p>
+<p>②见<a href="./751fbb63.html">Hexo + Chic + mermaid配置</a></p>
+<h2 id="数学公式"><a class="markdownIt-Anchor" href="#数学公式"></a> 数学公式</h2>
+<img src="/article/551b025b/image-20220408191606900.png" class="" title="image-20220408191606900">
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>备注</th>
+<th>链接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>LaTeX</td>
+<td>见<a href="./3d095f62.html">Hexo + Chic如何支持数学公式，特别是复杂LaTeX公式，公式会重复显示、LaTeX公式本地预览可以显示deploy上去无法显示解决办法</a></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>见<a href="./3d095f62.html">Hexo + Chic如何支持数学公式，特别是复杂LaTeX公式，公式会重复显示、LaTeX公式本地预览可以显示deploy上去无法显示解决办法</a></li>
+</ul>
+<h2 id="kbd样式"><a class="markdownIt-Anchor" href="#kbd样式"></a> kbd样式</h2>
+<ul>
+<li>
+<img src="/article/551b025b/image-20220409200645814.png" class="" title="image-20220409200645814">
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>备注</th>
+<th>链接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>kbd样式</td>
+<td>见<a href="./96b62d8a.html">Hexo + Chic设置kbd样式，code、samp等样式亦可参考</a></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>见<a href="./96b62d8a.html">Hexo + Chic设置kbd样式，code、samp等样式亦可参考</a></li>
+</ul>
+<h2 id="表格及文章尾"><a class="markdownIt-Anchor" href="#表格及文章尾"></a> 表格及文章尾</h2>
+<ul>
+<li>
+<img src="/article/551b025b/image-20220328222113550.png" class="" title="image-20220328222113550">
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>备注</th>
+<th>链接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>①表格+代码块</td>
+<td>①见<a href="./f5721cb9.html">Hexo, Obsidian, Typora等如何制作包含代码在内的表格？如果需要有代码行数呢？</a></td>
+</tr>
+<tr>
+<td>2</td>
+<td>②表格+滚动条</td>
+<td>②见<a href="./ea970ca1.html">Hexo + Chic 过长的表格使用滚动条</a></td>
+</tr>
+<tr>
+<td>3</td>
+<td>③插图片</td>
+<td>③见<a href="./d101e67c.html">Hexo + Chic + Typora如何实现便捷的文章插入图片方案？Hexo文章图片无法显示问题如何解决？</a></td>
+</tr>
+<tr>
+<td>4</td>
+<td>④修改Tags</td>
+<td>④见<a href="./ccd6f7fe.html">Hexo + Chic修改Tag(s)前面的井号</a></td>
+</tr>
+<tr>
+<td>5</td>
+<td>⑤打赏按钮</td>
+<td>⑤见<a href="./cb001f78.html">Hexo + Chic实现打赏按钮，鼠标移动、浮过去会显示对应图片</a></td>
+</tr>
+<tr>
+<td>6</td>
+<td>⑥评论区</td>
+<td>⑥见<a href="./b1784561.html">Chic配置Gitalk，添加评论区</a><br>⑥常见错误见<a href="./eab12f60.html">Hexo + Chic配置Gitalk显示error=redirect_uri_mismatch&amp;，点击登录GitHub返回主页解决办法</a></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>①见<a href="./f5721cb9.html">Hexo, Obsidian, Typora等如何制作包含代码在内的表格？如果需要有代码行数呢？</a></li>
+<li>②见<a href="./ea970ca1.html">Hexo + Chic 过长的表格使用滚动条</a></li>
+<li>③见<a href="./d101e67c.html">Hexo + Chic + Typora如何实现便捷的文章插入图片方案？Hexo文章图片无法显示问题如何解决？</a></li>
+<li>④见<a href="./ccd6f7fe.html">Hexo + Chic修改Tag(s)前面的井号</a></li>
+<li>⑤见<a href="./cb001f78.html">Hexo + Chic实现打赏按钮，鼠标移动、浮过去会显示对应图片</a></li>
+<li>⑥见<a href="./b1784561.html">Chic配置Gitalk，添加评论区</a>
+<ul>
+<li>⑥常见错误见<a href="./eab12f60.html">Hexo + Chic配置Gitalk显示error=redirect_uri_mismatch&amp;，点击登录GitHub返回主页解决办法</a></li>
+</ul>
+</li>
+</ul>
+<h1 id="功能"><a class="markdownIt-Anchor" href="#功能"></a> 功能</h1>
+<h2 id="搜索"><a class="markdownIt-Anchor" href="#搜索"></a> 搜索</h2>
+<table>
+<thead>
+<tr>
+<th>序号</th>
+<th>备注</th>
+<th>链接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>搜索</td>
+<td><a href="./264c6a00.html">Hexo + Chic如何部署到搜索引擎如Google上使得其能被搜索到？提交到谷歌搜索（谷歌收录）解决办法</a><br><a href="./67414c31.html">Hexo + Chic 如何上交网站地图sitemap.xml给Google？如果显示无法获取Couldn’t Fetch应该怎么办？</a></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><a href="./264c6a00.html">Hexo + Chic如何部署到搜索引擎如Google上使得其能被搜索到？提交到谷歌搜索（谷歌收录）解决办法</a></li>
+<li><a href="./67414c31.html">Hexo + Chic 如何上交网站地图sitemap.xml给Google？如果显示无法获取Couldn’t Fetch应该怎么办？</a></li>
+</ul>
+
+        </div>
+        <section class="reward_class">
+            <br>
+            <div class="reward" id="reward">
+                <div class="sponser">
+                    <div class="sponser_btn"><strong>💎支持博主</strong></div>
+                    <div class="sponser_img">
+                        <div class="sponser_container">
+                            <div class="sponser_header">请我吃肯德基🍗！</div>
+                            <div class="sponser_body">
+                                <div class="alipay">
+                                    <span class="sponser_alipay_title">谢谢各位大佬🏌️‍♂️！</span>
+                                    <div>
+                                        <img class="sponser_alipay" src="/image/Paying.jpg">
+                                
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <br> -->
+        </section>
+        
+
+        
+            <section class="post-copyright">
+                
+                
+                
+                
+
+            </section>
+        
+
+        <!-- <section class="reward_class">
+            <br>
+            <div class="reward" id="reward">
+                <div class="sponser">
+                    <div class="sponser_btn">支持博主</div>
+                    <div class="sponser_img">
+                        <div class="sponser_container">
+                            <div class="sponser_header">请我吃肯德基！</div>
+                            <div class="sponser_body">
+                                <div class="alipay">
+                                    <span class="sponser_alipay_title">谢谢各位大佬！</span>
+                                    <div>
+                                        <img class="sponser_alipay" src="/image/Paying.jpg">
+                                
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+        </section> -->
+
+        <section class="post-tags">
+            <div>
+                <span>标签:</span>
+                <span class="tag">
+                    
+                    
+                        <!-- <a href="/tags/Hexo/"># Hexo</a> -->
+                        <!-- <a href="/tags/Hexo/">🏷️Hexo</a> -->
+                        <a href="/tags/Hexo/"><i class="iconfont icon-biaoqian-" style="font-size: 1em;"></i>Hexo </a>
+                        
+                    
+                        <!-- <a href="/tags/Chic/"># Chic</a> -->
+                        <!-- <a href="/tags/Chic/">🏷️Chic</a> -->
+                        <a href="/tags/Chic/"><i class="iconfont icon-biaoqian-" style="font-size: 1em;"></i>Chic </a>
+                        
+                    
+                        <!-- <a href="/tags/%E7%BD%AE%E9%A1%B6/"># 置顶</a> -->
+                        <!-- <a href="/tags/%E7%BD%AE%E9%A1%B6/">🏷️置顶</a> -->
+                        <a href="/tags/%E7%BD%AE%E9%A1%B6/"><i class="iconfont icon-biaoqian-" style="font-size: 1em;"></i>置顶 </a>
+                        
+                    
+                        
+                </span>
+            </div>
+            
+
+            
+
+            <div>
+                <a href="javascript:window.history.back();">返回</a>
+                <span>· </span>
+                <a href="/">主页</a>
+            </div>
+        </section>
+
+
+
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/article/17fd3736.html">Hexo部署的页面出现错误，一个debug思路与工具</a>
+            
+            
+            <a class="next" rel="next" href="/article/ebea8ed0.html">Hexo + Chic 去除首页的圆形头像logo</a>
+            
+        </section>
+
+
+    </article>
+
+
+
+</div>
+
+
+
+
+
+
+<!-- <div class="empty-font">选中这一段文字，点击 ctrl+C 或 者右键选择复制</div> -->
+<script type="text/javascript">
+	//监听整个页面的 copy 事件
+	document.addEventListener('copy',function(e){
+		// clipboardData 对象是为通过编辑菜单、快捷菜单和快捷键执行的编辑操作所保留的，也就是你复制或者剪切内容
+		let clipboardData = e.clipboardData || window.clipboardData;
+		// 如果 未复制或者未剪切，直接 return 
+		if(!clipboardData) return ;
+		// Selection 对象 表示用户选择的文本范围或光标的当前位置。
+		// 声明一个变量接收 -- 用户输入的剪切或者复制的文本转化为字符串
+		let text = window.getSelection().toString();
+		if(text){
+			// 如果文本存在，首先取消默认行为
+			e.preventDefault();
+			// 通过调用 clipboardData 对象的 setData(format,data) 方法，设置相关文本 
+			// format 一个 DOMString 类型 表示要添加到 drag object 的拖动数据的类型
+			// data 一个 DOMString 表示要添加到 drag object 的数据
+            var myDate = new Date(); // 日期
+            var StealerInfo=
+                '\n ================================================'    
+            +   '\n 非法转载者 | 类型               | 状态'
+            +   '\n itcn.blog | 未授权转载、爬取    | 未回复、未删除'
+            +   '\n python.iitter.com | 未授权转载、爬取    | 未回复、未删除'
+            +   '\n www.techfm.club | 未授权转载、爬取    | 未回复、未删除'
+            +   '\n ================================================'   
+            ;
+            
+            var copyright = '\n\n'
+            + '\n'
+            + '\n⚠️著作权归作者所有！'
+            + '\n⚠️博客内容禁止一切形式的非法、非授权转载！'
+            + '\n💡 参考文章见博文Ref！'
+            + '\n作者: Myoontyee Chen'
+            + '\n原文地址: https://myoontyee.github.io/article/551b025b.html'
+            + '\n'
+            + '\n'
+            + '\n 当前非法爬取信息统计如下表，保留一切追责权利'
+            + '\n 日期： ' + myDate.toLocaleDateString()
+            + StealerInfo
+
+			clipboardData.setData('text/plain', text + copyright)
+		}
+	})
+</script>
+
+<!-- Gitalk模块的js启动 -->
+  
+    <div id="gitalk-container"></div>  
+    <link rel="stylesheet" href="//unpkg.com/gitalk/dist/gitalk.css">
+<script src="//unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+      var gitalk = new Gitalk({
+        clientID: '84b52a29ce9e713ad7d4',
+        clientSecret: '95578b09122163e717247e0b28e6c76fc3976dcf',
+        repo: 'myoontyee.github.io',
+        owner: 'Myoontyee',
+        admin: 'Myoontyee',
+        id: md5(location.pathname),      
+        labels: 'Gitalk'.split(',').filter(l => l),
+        perPage: 10,
+        pagerDirection: 'last',
+        createIssueManually: true,
+        distractionFreeMode: false
+      })
+      gitalk.render('gitalk-container')
+</script>  
+
+
+
+
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <!-- 2022年3月19日 添加 代码高亮、访客量 -->
+        <!-- <script src="/js/prettify.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+             $('pre').addClass('prettyprint linenums');
+             $('code').addClass('prettyprint');
+             prettyPrint();
+             })
+        </script> -->
+        <!-- 2022年3月23日 添加mermaid支持 -->
+        
+            <script src='https://unpkg.com/mermaid@8.14.0/dist/mermaid.min.js'></script>
+            <script>
+              if (window.mermaid) {
+                mermaid.initialize({
+                                startOnLoad: true,
+                                theme: 'neural',
+                                     });
+              }
+            </script>
+        
+
+        <!-- <span>© Myoontyee | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a> -->
+            <span>© Myoontyee  
+            <!-- 访客数量 -->
+            <!-- <div> -->
+            
+                <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<span class="site-uv">
+    | 总访客量:
+    <i class="busuanzi-value" id="busuanzi_value_site_uv"><i class="fa fa-spinner fa-spin"></i></i>
+</span>&nbsp;
+
+
+<span class="site-pv">
+    | 总访问量:
+    <i class="busuanzi-value" id="busuanzi_value_site_pv"><i class="fa fa-spinner fa-spin"></i></i>
+</span>
+
+            
+            <!-- </div> -->
+        </span>
+    </div>
+</footer>
+
+
+
+    </div>
+
+
+
+    <!-- 搜索功能 -->
+    <!-- Chic/layout.ejs -->
+    <div id="u-search">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="container">
+                    <form id="u-search-modal-form" class="u-search-modal-form">
+                        <button type="submit" class="form-submit-btn">
+                            <img src="/image/search.png" class="search-btn-img" />
+                        </button>
+                        <input placeholder="搜索内容..." class="form-input" id="modal-form-input">
+                    </form>
+                    <a class="modal-close">x</a>
+                </div>
+                <div class="search-loading">
+                    <div class="search-loading-bar"></div>
+                </div>
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
+        <div class="modal-overlay"></div>
+    </div>
+</body>
+
+</html>
