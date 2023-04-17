@@ -284,7 +284,7 @@
 
 <!-- 2022年3月19日添加 代码高亮、显示行号 -->
 <!-- <link rel="stylesheet" href="/css/prettify.css" media="screen" type="text/css"> -->
-<meta name="generator" content="Hexo 5.4.2">
+<meta name="generator" content="Hexo 5.4.1">
 <style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
 </head>
 
@@ -559,14 +559,18 @@
             <hr>
 <p><strong>核心思路</strong>：调对应页面样式，用<code>li</code></p>
 <hr>
-<h1 id="配置页面样式"><a href="#配置页面样式" class="headerlink" title="配置页面样式"></a>配置页面样式</h1><ul>
-<li><p>用代码编辑器，如<code>Visual Studio Code</code>打开<code>themes\Chic\layout\_page\archive.ejs</code>，做如下两处修改</p>
+<h1 id="配置页面样式"><a class="markdownIt-Anchor" href="#配置页面样式"></a> 配置页面样式</h1>
+<ul>
+<li>
+<p>用代码编辑器，如<code>Visual Studio Code</code>打开<code>themes\Chic\layout\_page\archive.ejs</code>，做如下两处修改</p>
 <ul>
 <li>在代码标题前后加<code>&lt;li&gt;&lt;/li&gt;</code></li>
 <li>在<code>li</code>样式里设置宽、高、溢出情况的处理方式</li>
 </ul>
 </li>
-<li><p>添加<code>&lt;li&gt;&lt;/li&gt;</code><br>修改前</p>
+<li>
+<p>添加<code>&lt;li&gt;&lt;/li&gt;</code><br>
+修改前</p>
 </li>
 </ul>
 <figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;article class="archive-item"&gt;</span><br><span class="line"></span><br><span class="line">&lt;a class="archive-item-link" href="&lt;%- url_for(post.path) %&gt;"&gt;</span><br><span class="line"></span><br><span class="line">&lt;%= post.title %&gt;</span><br><span class="line"></span><br><span class="line">&lt;/a&gt;</span><br><span class="line"></span><br><span class="line">&lt;span class="archive-item-date"&gt;&lt;%- date(post.date, theme.date_format) %&gt;&lt;/span&gt;</span><br><span class="line"></span><br><span class="line">&lt;/article&gt;</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
@@ -585,23 +589,27 @@
 <li><code>themes\Chic\layout\_page\archive.ejs</code>整个文件修改后如下</li>
 </ul>
 <figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line">&lt;div class="post-wrap archive"&gt;</span><br><span class="line"></span><br><span class="line"> &lt;!-- 添加了页面的头部与空一行 --&gt;</span><br><span class="line"></span><br><span class="line"> &lt;h2 class="post-title"&gt;-&amp;nbsp;📖文章&amp;nbsp;-&lt;/h2&gt;</span><br><span class="line"></span><br><span class="line"> &lt;br&gt;</span><br><span class="line"></span><br><span class="line"> &lt;!-- 上面是添加的内容 --&gt;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line"> &lt;% var last_year = ''; %&gt;</span><br><span class="line"></span><br><span class="line"> &lt;% page.posts.each(function (post) { %&gt;</span><br><span class="line"></span><br><span class="line"> &lt;% var cur_year = post.date.year(); %&gt;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line"> &lt;% if(last_year !== cur_year){ %&gt;</span><br><span class="line"></span><br><span class="line"> &lt;h3&gt;&lt;%- cur_year %&gt;&lt;/h3&gt;</span><br><span class="line"></span><br><span class="line"> &lt;% last_year = cur_year; } %&gt;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line"> &lt;article class="archive-item"&gt;</span><br><span class="line"></span><br><span class="line"> &lt;a class="archive-item-link" href="&lt;%- url_for(post.path) %&gt;"&gt;</span><br><span class="line"></span><br><span class="line"> &lt;!-- &lt;ul&gt; --&gt;</span><br><span class="line"></span><br><span class="line"> &lt;li&gt;</span><br><span class="line"></span><br><span class="line"> &lt;%= post.title %&gt;</span><br><span class="line"></span><br><span class="line"> &lt;/li&gt;</span><br><span class="line"></span><br><span class="line"> &lt;!-- &lt;/ul&gt; --&gt;</span><br><span class="line"></span><br><span class="line"> &lt;/a&gt;</span><br><span class="line"></span><br><span class="line"> &lt;span class="archive-item-date"&gt;&lt;%- date(post.date, theme.date_format) %&gt;&lt;/span&gt;</span><br><span class="line"></span><br><span class="line"> &lt;/article&gt;</span><br><span class="line"></span><br><span class="line"> &lt;% }) %&gt;</span><br><span class="line"></span><br><span class="line"> &lt;%- partial('_partial/paginator') %&gt;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">&lt;style&gt;</span><br><span class="line"></span><br><span class="line"> li{</span><br><span class="line"></span><br><span class="line"> width: 650px;</span><br><span class="line"></span><br><span class="line"> height: 29.5px;</span><br><span class="line"></span><br><span class="line"> /*不换行*/</span><br><span class="line"></span><br><span class="line"> white-space: nowrap;</span><br><span class="line"></span><br><span class="line"> /*溢出的话，隐藏*/</span><br><span class="line"></span><br><span class="line"> overflow: hidden;</span><br><span class="line"></span><br><span class="line"> /*文本溢出时，是否....*/</span><br><span class="line"></span><br><span class="line"> text-overflow: ellipsis;</span><br><span class="line"></span><br><span class="line"> }</span><br><span class="line"></span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
-<h1 id="定义和用法"><a href="#定义和用法" class="headerlink" title="定义和用法"></a>定义和用法</h1><ul>
-<li><p><code>&lt;li&gt;</code>标签定义列表项目。</p>
-</li>
-<li><p><code>&lt;li&gt;</code> 标签可用在有序列表 (<code>&lt;ol&gt;</code>) 和无序列表 (<code>&lt;ul&gt;</code>) 中。</p>
+<h1 id="定义和用法"><a class="markdownIt-Anchor" href="#定义和用法"></a> 定义和用法</h1>
 <ul>
-<li><code>ol</code> 有序列表。<ul>
+<li>
+<p><code>&lt;li&gt;</code>标签定义列表项目。</p>
+</li>
+<li>
+<p><code>&lt;li&gt;</code> 标签可用在有序列表 (<code>&lt;ol&gt;</code>) 和无序列表 (<code>&lt;ul&gt;</code>) 中。</p>
+<ul>
+<li><code>ol</code> 有序列表。
+<ul>
 <li>表现为：123的序号</li>
 </ul>
 </li>
-<li><code>ul</code> 无序列表<ul>
+<li><code>ul</code> 无序列表
+<ul>
 <li>表现为<code>li</code>前面是大圆点而不是123</li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
-<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -624,8 +632,8 @@
 </tr>
 </tbody>
 </table>
-</div>
-<h1 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h1><ul>
+<h1 id="效果"><a class="markdownIt-Anchor" href="#效果"></a> 效果</h1>
+<ul>
 <li>部署前，箭头所指是页面布局出现错误的地方</li>
 </ul>
 <img src="/article/321a7025/image-20220312202703121.png" class="" title="image-20220312202703121">
@@ -633,7 +641,8 @@
 <li>部署后</li>
 </ul>
 <img src="/article/321a7025/image-20220312202710336.png" class="" title="image-20220312202710336">
-<h1 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h1><ul>
+<h1 id="ref"><a class="markdownIt-Anchor" href="#ref"></a> Ref</h1>
+<ul>
 <li><a target="_blank" rel="noopener" href="https://blog.51cto.com/slddyb/421853">HTML中ul等标签的用法</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.shuzhiduo.com/A/WpdK0PnMzV/">css：文章标题过长时，使用省略号</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.w3school.com.cn/tags/tag_li.asp">HTML  li  标签</a></li>

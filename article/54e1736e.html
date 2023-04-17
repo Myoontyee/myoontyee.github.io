@@ -284,7 +284,7 @@
 
 <!-- 2022年3月19日添加 代码高亮、显示行号 -->
 <!-- <link rel="stylesheet" href="/css/prettify.css" media="screen" type="text/css"> -->
-<meta name="generator" content="Hexo 5.4.2">
+<meta name="generator" content="Hexo 5.4.1">
 <style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
 </head>
 
@@ -560,7 +560,8 @@
             <br><strong>⚠️警告：博客文章禁止一切形式的非授权非法转载！</strong>
             <br><strong>⚠️Attention: All forms of unauthorized illegal reposts are prohibited !</strong> 
             <hr>
-<p><strong>创建时间</strong>：2022年4月10日10:11:38<br><strong>最新更新</strong>：2022年4月10日11:43:55</p>
+<p><strong>创建时间</strong>：2022年4月10日10:11:38<br>
+<strong>最新更新</strong>：2022年4月10日11:43:55</p>
 <hr>
 <p><strong>Problem Description</strong>：WSL, WSL2 has multiple environment variables that you want to source, how to interactively select them based on if-else in .bashrc and then in bash? instead of using complex instructions every time</p>
 <p><strong>核心思路</strong>：</p>
@@ -570,18 +571,22 @@
 <li><code>.bashrc</code>的<code>if-else</code>语句进行判断</li>
 </ul>
 <hr>
-<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><ul>
-<li><p>打开<code>.bashrc</code>，我用<code>Notepad++</code>直接开的</p>
+<h1 id="配置"><a class="markdownIt-Anchor" href="#配置"></a> 配置</h1>
+<ul>
+<li>
+<p>打开<code>.bashrc</code>，我用<code>Notepad++</code>直接开的</p>
 <ul>
 <li><code>\\wsl$\Ubuntu-20.04\root\.bashrc</code>约莫在这个路径</li>
 </ul>
 </li>
-<li><p>在<code>.bashrc</code>最下方添加如下代码，保存，然后打开一个新的<code>bash</code>就好啦</p>
+<li>
+<p>在<code>.bashrc</code>最下方添加如下代码，保存，然后打开一个新的<code>bash</code>就好啦</p>
 <ul>
 <li>基于<code>if-else</code>实现，就是按对应序号选</li>
 <li><code>read envType</code>接受变量输入</li>
 <li><code>echo</code>相当于<code>Python</code>的<code>print</code></li>
-<li>需要替换的部分<ul>
+<li>需要替换的部分
+<ul>
 <li><code>改成你自己的Geant4安装路径，记得有mnt</code>这个部分记得替换成你自己的<code>Geant4</code>安装路径</li>
 <li><code>改成你自己的ROOT安装路径，记得有mnt</code>这个部分记得替换成你自己的<code>ROOT</code>安装路径</li>
 </ul>
@@ -590,14 +595,18 @@
 </li>
 </ul>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 选择你需要的环境变量</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"=================================================="</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"Please input the environment you want to choose :"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"1. Default: WSL + Python with Jupyter"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"2. Geant4"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"3. ROOT"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"=================================================="</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"The environment number you want to choose is :"</span></span><br><span class="line"><span class="built_in">read</span> envType</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"=================================================="</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"Processing ..."</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"=================================================="</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"The environment you choose is :"</span></span><br><span class="line"><span class="keyword">if</span> ((envType == 1)); <span class="keyword">then</span>   </span><br><span class="line">  <span class="built_in">echo</span> <span class="string">"1. default: WSL + Python with Jupyter"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">elif</span> ((envType == 2)); <span class="keyword">then</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">"2. Geant4"</span></span><br><span class="line">  <span class="built_in">source</span> 改成你自己的Geant4安装路径，记得有mnt/install/bin/geant4.sh</span><br><span class="line">  <span class="built_in">echo</span> <span class="string">"The path is : 改成你自己的Geant4安装路径，记得有mnt/install/bin/geant4.sh"</span></span><br><span class="line"><span class="keyword">elif</span> ((envType == 3)); <span class="keyword">then</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">"3. ROOT"</span></span><br><span class="line">  <span class="built_in">source</span> 改成你自己的ROOT安装路径，记得有mnt/bin/thisroot.sh</span><br><span class="line">  <span class="built_in">echo</span> <span class="string">"The path is : 改成你自己的ROOT安装路径，记得有mnt/bin/thisroot.sh"</span></span><br><span class="line"><span class="keyword">else</span>   </span><br><span class="line">  <span class="built_in">echo</span> <span class="string">"Type Error !"</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"=================================================="</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"Activating ..."</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"=================================================="</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"Environment activate succeed !"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"=================================================="</span></span><br></pre></td></tr></tbody></table></figure>
-<h1 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h1><ul>
-<li>如下图，很爽现在<ul>
-<li><img src="/article/54e1736e/image-20220410115148838.png" class="" title="image-20220410115148838">
+<h1 id="效果"><a class="markdownIt-Anchor" href="#效果"></a> 效果</h1>
+<ul>
+<li>如下图，很爽现在
+<ul>
+<li>
+<img src="/article/54e1736e/image-20220410115148838.png" class="" title="image-20220410115148838">
 </li>
 </ul>
 </li>
 </ul>
-<h1 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h1><ul>
+<h1 id="ref"><a class="markdownIt-Anchor" href="#ref"></a> Ref</h1>
+<ul>
 <li><a target="_blank" rel="noopener" href="https://unix.stackexchange.com/questions/151654/checking-if-an-input-number-is-an-integer">Checking if an input number is an integer</a></li>
 <li><a target="_blank" rel="noopener" href="https://linuxhint.com/bash_if_else_examples/">Bash: If, Else If, Else Examples</a></li>
 </ul>

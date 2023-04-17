@@ -284,7 +284,7 @@
 
 <!-- 2022年3月19日添加 代码高亮、显示行号 -->
 <!-- <link rel="stylesheet" href="/css/prettify.css" media="screen" type="text/css"> -->
-<meta name="generator" content="Hexo 5.4.2">
+<meta name="generator" content="Hexo 5.4.1">
 <style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
 </head>
 
@@ -557,7 +557,8 @@
             <br><strong>⚠️警告：博客文章禁止一切形式的非授权非法转载！</strong>
             <br><strong>⚠️Attention: All forms of unauthorized illegal reposts are prohibited !</strong> 
             <hr>
-<p><strong>创建时间</strong>：2022年4月27日16:41:10<br><strong>最新更新</strong>：2022年4月27日16:47:03</p>
+<p><strong>创建时间</strong>：2022年4月27日16:41:10<br>
+<strong>最新更新</strong>：2022年4月27日16:47:03</p>
 <hr>
 <p><strong>Problem Description</strong>：How does Geant4 enable Track’s information printing?</p>
 <p><strong>核心思路</strong>：</p>
@@ -566,21 +567,28 @@
 <li><code>/tracking/verbose 0</code>是不打印</li>
 </ul>
 <hr>
-<h1 id="具体操作"><a href="#具体操作" class="headerlink" title="具体操作"></a>具体操作</h1><ul>
-<li>打开你的对应<code>.mac</code>文件输入<code>/tracking/verbose 1</code><ul>
+<h1 id="具体操作"><a class="markdownIt-Anchor" href="#具体操作"></a> 具体操作</h1>
+<ul>
+<li>打开你的对应<code>.mac</code>文件输入<code>/tracking/verbose 1</code>
+<ul>
 <li>我如果奔着在可视化窗口能打印这个信息，运行时候不打印，那我就在<code>vis.mac</code>加就行</li>
 <li>或者直接在<code>GUI</code>窗口输入<code>/tracking/verbose 1</code>（下面图里就是这个操作）</li>
 </ul>
 </li>
 <li>编译对应项目，在<code>bash</code>内进入对应项目文件夹的<code>build</code>文件夹，<code>cmake ..</code>，<code>make -j16</code>，然后运行，以<code>B5</code>为例，就是在<code>bash</code>内输入<code>./exampleB5</code></li>
-<li>输入这个指令<code>/tracking/verbose 1</code>，回车<ul>
-<li><img src="/article/bd02c9ca/image-20220427164838728.png" class="" title="image-20220427164838728"></li>
+<li>输入这个指令<code>/tracking/verbose 1</code>，回车
+<ul>
+<li>
+<img src="/article/bd02c9ca/image-20220427164838728.png" class="" title="image-20220427164838728">
+</li>
 </ul>
 </li>
-<li><code>run/beamOn 1</code>，看<code>bash</code>内打印效果如下图<ul>
+<li><code>run/beamOn 1</code>，看<code>bash</code>内打印效果如下图
+<ul>
 <li>这个操作会降低运算效率，所以实际跑的时候还是得关</li>
 <li>要么你想提效率，不开<code>GUI</code>跑这个也行，看看打印信息</li>
-<li><img src="/article/bd02c9ca/image-20220427164843184.png" class="" title="image-20220427164843184">
+<li>
+<img src="/article/bd02c9ca/image-20220427164843184.png" class="" title="image-20220427164843184">
 </li>
 </ul>
 </li>

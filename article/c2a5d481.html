@@ -284,7 +284,7 @@
 
 <!-- 2022年3月19日添加 代码高亮、显示行号 -->
 <!-- <link rel="stylesheet" href="/css/prettify.css" media="screen" type="text/css"> -->
-<meta name="generator" content="Hexo 5.4.2">
+<meta name="generator" content="Hexo 5.4.1">
 <style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
 </head>
 
@@ -557,14 +557,16 @@
             <br><strong>⚠️警告：博客文章禁止一切形式的非授权非法转载！</strong>
             <br><strong>⚠️Attention: All forms of unauthorized illegal reposts are prohibited !</strong> 
             <hr>
-<p><strong>创建时间</strong>：2022年3月20日23:41:53<br><strong>最新更新</strong>：2022年3月28日17:30:16</p>
+<p><strong>创建时间</strong>：2022年3月20日23:41:53<br>
+<strong>最新更新</strong>：2022年3月28日17:30:16</p>
 <hr>
 <p><strong>核心思路</strong>：全局引用对应<code>.css</code>文件</p>
 <hr>
 <ul>
 <li>原因是打开新的页面，初始化的时候没有初始化调用这些样式，全局引用这些样式就好</li>
 </ul>
-<h1 id="全局引用"><a href="#全局引用" class="headerlink" title="全局引用"></a>全局引用</h1><ul>
+<h1 id="全局引用"><a class="markdownIt-Anchor" href="#全局引用"></a> 全局引用</h1>
+<ul>
 <li>用代码编辑器打开<code>themes\Chic\_config.yml</code>，在<code>stylesheets:</code>下添加对应的样式文件，如</li>
 </ul>
 <figure class="highlight yml"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">stylesheets:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">/css/style.css</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">../fonts/iconfont2/iconfont.css</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">../fonts/iconfont3/iconfont.css</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css</span> <span class="comment"># 访客量的旋转等待logo</span></span><br></pre></td></tr></tbody></table></figure>
@@ -572,7 +574,8 @@
 <li>上面的<code>../fonts/iconfont3/iconfont.css</code>就是我下面这些icon的样式对应的<code>.css</code>文件</li>
 </ul>
 <img src="/article/c2a5d481/image-20220329232412189.png" class="" title="image-20220329232412189">
-<h1 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h1><ul>
+<h1 id="效果"><a class="markdownIt-Anchor" href="#效果"></a> 效果</h1>
+<ul>
 <li>打开第2页等、通过类别与标签等打开就能正常显示了</li>
 </ul>
 <img src="/article/c2a5d481/image-20220329232421168.png" class="" title="image-20220329232421168">

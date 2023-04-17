@@ -425,7 +425,7 @@
   </url>
   
   <url>
-    <loc>https://myoontyee.github.io/google52374912b88c75b9.html</loc>
+    <loc>https://myoontyee.github.io/category/index.html</loc>
     
     <lastmod>2022-04-08</lastmod>
     
@@ -434,7 +434,7 @@
   </url>
   
   <url>
-    <loc>https://myoontyee.github.io/category/index.html</loc>
+    <loc>https://myoontyee.github.io/google52374912b88c75b9.html</loc>
     
     <lastmod>2022-04-08</lastmod>
     
@@ -1216,13 +1216,6 @@
   </url>
   
   <url>
-    <loc>https://myoontyee.github.io/tags/word/</loc>
-    <lastmod>2023-04-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://myoontyee.github.io/tags/Win10/</loc>
     <lastmod>2023-04-17</lastmod>
     <changefreq>weekly</changefreq>
@@ -1231,6 +1224,13 @@
   
   <url>
     <loc>https://myoontyee.github.io/tags/Jupyter-Notebook/</loc>
+    <lastmod>2023-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://myoontyee.github.io/tags/word/</loc>
     <lastmod>2023-04-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1484,14 +1484,14 @@
   </url>
   
   <url>
-    <loc>https://myoontyee.github.io/categories/%E8%AE%BA%E6%96%87/</loc>
+    <loc>https://myoontyee.github.io/categories/WSL/WSL2/</loc>
     <lastmod>2023-04-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://myoontyee.github.io/categories/WSL/WSL2/</loc>
+    <loc>https://myoontyee.github.io/categories/%E8%AE%BA%E6%96%87/</loc>
     <lastmod>2023-04-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1512,7 +1512,7 @@
   </url>
   
   <url>
-    <loc>https://myoontyee.github.io/categories/Git/</loc>
+    <loc>https://myoontyee.github.io/categories/WSL/WSL2/CERN-ROOT/</loc>
     <lastmod>2023-04-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -1526,7 +1526,7 @@
   </url>
   
   <url>
-    <loc>https://myoontyee.github.io/categories/WSL/WSL2/CERN-ROOT/</loc>
+    <loc>https://myoontyee.github.io/categories/Git/</loc>
     <lastmod>2023-04-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

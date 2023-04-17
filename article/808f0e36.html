@@ -284,7 +284,7 @@
 
 <!-- 2022年3月19日添加 代码高亮、显示行号 -->
 <!-- <link rel="stylesheet" href="/css/prettify.css" media="screen" type="text/css"> -->
-<meta name="generator" content="Hexo 5.4.2">
+<meta name="generator" content="Hexo 5.4.1">
 <style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
 </head>
 
@@ -557,36 +557,49 @@
             <br><strong>⚠️警告：博客文章禁止一切形式的非授权非法转载！</strong>
             <br><strong>⚠️Attention: All forms of unauthorized illegal reposts are prohibited !</strong> 
             <hr>
-<p><strong>创建时间</strong>：2022年4月4日17:05:43<br><strong>最新更新</strong>：2022年4月4日20:58:53</p>
+<p><strong>创建时间</strong>：2022年4月4日17:05:43<br>
+<strong>最新更新</strong>：2022年4月4日20:58:53</p>
 <hr>
 <p><strong>核心思路</strong>：升到Win10 21H2，按英伟达官方教程配置</p>
 <hr>
-<h1 id="升Win10-21H2"><a href="#升Win10-21H2" class="headerlink" title="升Win10 21H2"></a>升Win10 21H2</h1><ul>
+<h1 id="升win10-21h2"><a class="markdownIt-Anchor" href="#升win10-21h2"></a> 升Win10 21H2</h1>
+<ul>
 <li>用<a target="_blank" rel="noopener" href="https://go.microsoft.com/fwlink/?LinkId=691209">MediaCreationTool21H1</a>升级系统</li>
 </ul>
-<h1 id="下驱动"><a href="#下驱动" class="headerlink" title="下驱动"></a>下驱动</h1><ul>
-<li>到英伟达官网，下载<a target="_blank" rel="noopener" href="https://www.nvidia.com/Download/index.aspx?lang=en-us">Windows系统下面向WSL的CUDA驱动</a><ul>
-<li>按你的需求搜索，如下图<img src="/article/808f0e36/image-20220410115934207.png" class="" title="image-20220410115934207">
+<h1 id="下驱动"><a class="markdownIt-Anchor" href="#下驱动"></a> 下驱动</h1>
+<ul>
+<li>到英伟达官网，下载<a target="_blank" rel="noopener" href="https://www.nvidia.com/Download/index.aspx?lang=en-us">Windows系统下面向WSL的CUDA驱动</a>
+<ul>
+<li>按你的需求搜索，如下图</li>
+</ul>
+  <img src="/article/808f0e36/image-20220410115934207.png" class="" title="image-20220410115934207">
 </li>
 </ul>
-</li>
-</ul>
-<h1 id="升WSL2"><a href="#升WSL2" class="headerlink" title="升WSL2"></a>升WSL2</h1><ul>
+<h1 id="升wsl2"><a class="markdownIt-Anchor" href="#升wsl2"></a> 升WSL2</h1>
+<ul>
 <li>升级WSL到WSL2，打开<code>Windows PowerShell</code>，输入如下代码</li>
 </ul>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wsl --set-version Ubuntu-20.04 2</span><br></pre></td></tr></tbody></table></figure>
 <ul>
 <li>具体见<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_35333978/article/details/113177819">总结Windows下安装WSL与升级WSL2的方法</a></li>
 </ul>
-<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><ul>
-<li><p>在容器内安装CUDA，注意容器内不需要安装驱动 <a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/wsl-user-guide/index.html#installing-nvidia-drivers">英伟达手册</a>。从<code>4.2.6 Building Your Own GPU-accelerated Application on WSL 2</code> 开始，到<code>5. WSL 2 System Requirements</code>之前结束，<code>4.2.7</code>按个人需求，可以不执行</p>
+<h1 id="配置"><a class="markdownIt-Anchor" href="#配置"></a> 配置</h1>
+<ul>
+<li>
+<p>在容器内安装CUDA，注意容器内不需要安装驱动 <a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/wsl-user-guide/index.html#installing-nvidia-drivers">英伟达手册</a>。从<code>4.2.6 Building Your Own GPU-accelerated Application on WSL 2</code> 开始，到<code>5. WSL 2 System Requirements</code>之前结束，<code>4.2.7</code>按个人需求，可以不执行</p>
 </li>
-<li><p>添加环境变量，打开<code>WSL2</code>的<code>Bash</code>，输入<code>vim ~/.bashrc</code>，写入</p>
-<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export CUDA_HOME=/usr/local/cuda</span><br><span class="line">export LD_LIBRARY_PATH=${CUDA_HOME}/lib64</span><br><span class="line">export PATH=${CUDA_HOME}/bin:${PATH}</span><br></pre></td></tr></tbody></table></figure></li>
+<li>
+<p>添加环境变量，打开<code>WSL2</code>的<code>Bash</code>，输入<code>vim ~/.bashrc</code>，写入</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export CUDA_HOME=/usr/local/cuda</span><br><span class="line">export LD_LIBRARY_PATH=${CUDA_HOME}/lib64</span><br><span class="line">export PATH=${CUDA_HOME}/bin:${PATH}</span><br></pre></td></tr></tbody></table></figure>
+<ul>
 <li>保存后退出，在<code>Bash</code>内输入<code>source ~/.bashrc</code></li>
 </ul>
-<h1 id="配置完成"><a href="#配置完成" class="headerlink" title="配置完成"></a>配置完成</h1><ul>
-<li>在<code>WSL2</code>的<code>Bash</code>内输入<ul>
+<h1 id="配置完成"><a class="markdownIt-Anchor" href="#配置完成"></a> 配置完成</h1>
+<ul>
+<li>在<code>WSL2</code>的<code>Bash</code>内输入
+<ul>
 <li><code>nvcc --version</code></li>
 <li><code>nvidia-smi</code></li>
 </ul>
@@ -594,7 +607,8 @@
 <li>配置成功后效果如下图</li>
 </ul>
 <img src="/article/808f0e36/image-20220410115941793.png" class="" title="image-20220410115941793">
-<h1 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h1><ul>
+<h1 id="ref"><a class="markdownIt-Anchor" href="#ref"></a> Ref</h1>
+<ul>
 <li><a target="_blank" rel="noopener" href="https://mirror.xyz/0xc7122a0950FF5CA3C8Ed07AD8FD9dcB1fcd47f12/taYtWWoW64EqcUnAvcPcVQU5PJ80jQ3y08fWMEcWfeA">WIN10配置WSL2调用GPU</a></li>
 <li><a target="_blank" rel="noopener" href="https://answers.microsoft.com/zh-hans/windows/forum/all/windows10-21h2/e2ba8494-fd67-4357-a4b8-47f9d7880606">Windows10 21H2 更新问题</a></li>
 </ul>

@@ -284,7 +284,7 @@
 
 <!-- 2022年3月19日添加 代码高亮、显示行号 -->
 <!-- <link rel="stylesheet" href="/css/prettify.css" media="screen" type="text/css"> -->
-<meta name="generator" content="Hexo 5.4.2">
+<meta name="generator" content="Hexo 5.4.1">
 <style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
 </head>
 
@@ -557,12 +557,14 @@
             <br><strong>⚠️警告：博客文章禁止一切形式的非授权非法转载！</strong>
             <br><strong>⚠️Attention: All forms of unauthorized illegal reposts are prohibited !</strong> 
             <hr>
-<p><strong>创建时间</strong>：2022年3月28日22:30:41<br><strong>最新更新</strong>：2022年3月29日20:13:53</p>
+<p><strong>创建时间</strong>：2022年3月28日22:30:41<br>
+<strong>最新更新</strong>：2022年3月29日20:13:53</p>
 <hr>
 <p><strong>报错信息</strong>：GitHub无法访问，报403错误</p>
 <p>解决方法见<a href="./7faf135d.html">Git-Bash，WSL2内GitHub无法访问、443 Operation timed out的解决办法</a></p>
 <hr>
-<h1 id="在Windows下部署Git"><a href="#在Windows下部署Git" class="headerlink" title="在Windows下部署Git"></a>在Windows下部署Git</h1><ul>
+<h1 id="在windows下部署git"><a class="markdownIt-Anchor" href="#在windows下部署git"></a> 在Windows下部署Git</h1>
+<ul>
 <li><a target="_blank" rel="noopener" href="https://git-scm.com/">Git下载地址</a></li>
 <li>或可以在下载GitHub-Desktop时，会一并安装</li>
 </ul>
@@ -580,10 +582,12 @@
 <img src="/article/4f595d21/image-20220328223150274.png" class="" title="image-20220328223150274">
 <blockquote>
 <ul>
-<li><p>下图红框内的选项是默认勾选的，建议不要动。绿色框1是决定是否在桌面创建快捷方式的。绿色框2是决定在所有控制台窗口中使用TrueType字体和是否每天检查Git是否有Windows更新的。这些根据自己需要选择。</p>
-</li>
-<li><p>点击“Next”按钮进入下图界面</p>
-</li>
+<li>下图红框内的选项是默认勾选的，建议不要动。绿色框1是决定是否在桌面创建快捷方式的。绿色框2是决定在所有控制台窗口中使用TrueType字体和是否每天检查Git是否有Windows更新的。这些根据自己需要选择。</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>点击“Next”按钮进入下图界面</li>
 </ul>
 </blockquote>
 <img src="/article/4f595d21/image-20220328223158953.png" class="" title="image-20220328223158953">
@@ -602,7 +606,7 @@
 <ul>
 <li>这个界面是调整您的PATH环境。</li>
 <li>第一种配置是“仅从Git Bash使用Git”。这是最安全的选择，因为您的PATH根本不会被修改。您只能使用 Git Bash 的 Git 命令行工具。但是这将不能通过第三方软件使用。</li>
-<li>第二种配置是“从命令行以及第三方软件进行Git”。该选项被认为是安全的，因为它仅向PATH添加了一些最小的Git包装器，以避免使用可选的Unix工具造成环境混乱。  </li>
+<li>第二种配置是“从命令行以及第三方软件进行Git”。该选项被认为是安全的，因为它仅向PATH添加了一些最小的Git包装器，以避免使用可选的Unix工具造成环境混乱。</li>
 <li>您将能够从Git Bash，命令提示符和Windows PowerShell以及在PATH中寻找Git的任何第三方软件中使用Git。这也是推荐的选项。</li>
 <li>第三种配置是“从命令提示符使用Git和可选的Unix工具”。警告：这将覆盖Windows工具，如 “ find 和 sort ”。只有在了解其含义后才使用此选项。</li>
 <li>建议选择推荐的选项第二种配置</li>
@@ -653,7 +657,7 @@
 <ul>
 <li>这个界面是配置配置额外的选项。</li>
 <li>第一个选项是“启用文件系统缓存”。文件系统数据将被批量读取并缓存在内存中用于某些操作（“core.fscache”设置为“true”）。 这提供了显著的性能提升。</li>
-<li>第二个选项是“启用Git凭证管理器”。Windows的Git凭证管理器为Windows提供安全的Git凭证存储，最显着的是对Visual Studio Team Services和GitHub的多因素身份验证支持。 （需要.NET Framework v4.5.1或更高版本）。</li>
+<li>第二个选项是“启用Git凭证管理器”。Windows的Git凭证管理器为Windows提供安全的Git凭证存储，最显着的是对Visual Studio Team Services和GitHub的多因素身份验证支持。 （<a target="_blank" rel="noopener" href="http://xn--dw2at9x.NET">需要.NET</a> Framework v4.5.1或更高版本）。</li>
 <li>第三个选项是“启用符号链接”。启用符号链接（需要SeCreateSymbolicLink权限）。请注意，现有存储库不受此设置的影响。</li>
 <li>建议勾选默认的第一、第二选项</li>
 </ul>
@@ -670,7 +674,8 @@
 </ul>
 </blockquote>
 <img src="/article/4f595d21/image-20220328223258723.png" class="" title="image-20220328223258723">
-<h1 id="在Windows下部署Node-js"><a href="#在Windows下部署Node-js" class="headerlink" title="在Windows下部署Node.js"></a>在Windows下部署Node.js</h1><blockquote>
+<h1 id="在windows下部署nodejs"><a class="markdownIt-Anchor" href="#在windows下部署nodejs"></a> 在Windows下部署Node.js</h1>
+<blockquote>
 <p>此部分内容，部分图片来自<code>蜡笔小柯南（CSDN）</code>，链接见Ref</p>
 </blockquote>
 <ul>
@@ -688,22 +693,26 @@
 <img src="/article/4f595d21/image-20220328223400941.png" class="" title="image-20220328223400941">
 <img src="/article/4f595d21/image-20220328223406555.png" class="" title="image-20220328223406555">
 <ul>
-<li>检查一下环境变量是否写入，<code>win</code>+<code>R</code>打开运行→输入<code>cmd</code>→回车→<code>node -v</code>与<code>npm -v</code>查看对应版本<ul>
+<li>检查一下环境变量是否写入，<code>win</code>+<code>R</code>打开运行→输入<code>cmd</code>→回车→<code>node -v</code>与<code>npm -v</code>查看对应版本
+<ul>
 <li>若无报错信息，意味着配置完成</li>
 </ul>
 </li>
 </ul>
 <img src="/article/4f595d21/image-20220328223426298.png" class="" title="image-20220328223426298">
 <img src="/article/4f595d21/image-20220328223432826.png" class="" title="image-20220328223432826">
-<h1 id="Hexo部署"><a href="#Hexo部署" class="headerlink" title="Hexo部署"></a>Hexo部署</h1><ul>
-<li>先做好这两步<ul>
+<h1 id="hexo部署"><a class="markdownIt-Anchor" href="#hexo部署"></a> Hexo部署</h1>
+<ul>
+<li>
+<p>先做好这两步</p>
+<ul>
 <li><a href="./4add822c.html">npm无法在PowerShell运行解决办法</a></li>
 <li>[[Windows Terminal如何以管理员模式打开对应的Bash？]]</li>
 </ul>
 </li>
-</ul>
-<ul>
-<li>如果在管理员模式下的<code>Windows Terminal</code>内输入<code>node -v</code>与<code>npm -v</code>如下正常显示后，意味着环境变量配置完成</li>
+<li>
+<p>如果在管理员模式下的<code>Windows Terminal</code>内输入<code>node -v</code>与<code>npm -v</code>如下正常显示后，意味着环境变量配置完成</p>
+</li>
 </ul>
 <img src="/article/4f595d21/image-20220328223447109.png" class="" title="image-20220328223447109">
 <img src="/article/4f595d21/image-20220328223452219.png" class="" title="image-20220328223452219">
@@ -712,44 +721,64 @@
 </ul>
 <figure class="highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install <span class="literal">-g</span> hexo</span><br></pre></td></tr></tbody></table></figure>
 <ul>
-<li>为了在下面步骤中顺利使用<code>hexo d</code>指令，需要安装<code>hexo-deployer-git</code>，在管理员模式下的PowerShell内，输入如下指令<ul>
+<li>为了在下面步骤中顺利使用<code>hexo d</code>指令，需要安装<code>hexo-deployer-git</code>，在管理员模式下的PowerShell内，输入如下指令
+<ul>
 <li>[[ERROR Deployer not found报错解决]]</li>
 </ul>
 </li>
 </ul>
 <figure class="highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo<span class="literal">-deployer-git</span> <span class="literal">--save</span></span><br></pre></td></tr></tbody></table></figure>
-<h1 id="GitHub新建含GitHub-Pages的代码仓"><a href="#GitHub新建含GitHub-Pages的代码仓" class="headerlink" title="GitHub新建含GitHub Pages的代码仓"></a>GitHub新建含GitHub Pages的代码仓</h1><p>[[如何使用GitHub搭建个人网站，博客，blog？]]</p>
+<h1 id="github新建含github-pages的代码仓"><a class="markdownIt-Anchor" href="#github新建含github-pages的代码仓"></a> GitHub新建含GitHub Pages的代码仓</h1>
+<p>[[如何使用GitHub搭建个人网站，博客，blog？]]</p>
 <ul>
-<li>创建一个新的代码仓，必须选用<code>Public</code><ul>
-<li><img src="/article/4f595d21/image-20220328223533689.png" class="" title="image-20220328223533689"></li>
-</ul>
-</li>
-<li>创建代码仓后，进入<code>Settings</code>→<code>Options</code>→<code>GitHub Pages</code>→<code>Check it out here!</code>或者直接<code>Settings</code>→<code>Pages</code><ul>
-<li><img src="/article/4f595d21/image-20220328223546631.png" class="" title="image-20220328223546631"></li>
-<li><img src="/article/4f595d21/image-20220328223559862.png" class="" title="image-20220328223559862"></li>
-</ul>
-</li>
-<li>选择一个<code>Theme</code>，另外页面的访问网址也在此<ul>
-<li><img src="/article/4f595d21/image-20220328223607671.png" class="" title="image-20220328223607671"></li>
-<li><img src="/article/4f595d21/image-20220328223615236.png" class="" title="image-20220328223615236">
-</li>
-</ul>
-</li>
-</ul>
+<li>
+<p>创建一个新的代码仓，必须选用<code>Public</code></p>
 <ul>
-<li>通过<code>Git-Bash</code>进入空文件夹，将上述代码仓<code>git clone</code>到本地对应路径</li>
-</ul>
-<h1 id="本地创建个人blog环境"><a href="#本地创建个人blog环境" class="headerlink" title="本地创建个人blog环境"></a>本地创建个人blog环境</h1><ul>
-<li><p>记得要完成这个[[Windows Terminal如何以管理员模式打开对应的Bash？]]</p>
+<li>
+<img src="/article/4f595d21/image-20220328223533689.png" class="" title="image-20220328223533689">
 </li>
-<li><p>以管理员模式打开<code>Git-Bash</code>，进入你想要存放blog源码的文件夹，输入<code>hexo init</code>，然后将上一步里头，<code>git clone</code>下来的<code>GitHub Pages</code>源码内的<code>.git</code>文件夹，复制粘贴到你进行<code>hexo init</code>的文件夹，这一步是为了实现blog源码的备份</p>
+</ul>
+</li>
+<li>
+<p>创建代码仓后，进入<code>Settings</code>→<code>Options</code>→<code>GitHub Pages</code>→<code>Check it out here!</code>或者直接<code>Settings</code>→<code>Pages</code></p>
+<ul>
+<li>
+<img src="/article/4f595d21/image-20220328223546631.png" class="" title="image-20220328223546631">
+</li>
+<li>
+<img src="/article/4f595d21/image-20220328223559862.png" class="" title="image-20220328223559862">
+</li>
+</ul>
+</li>
+<li>
+<p>选择一个<code>Theme</code>，另外页面的访问网址也在此</p>
+<ul>
+<li>
+<img src="/article/4f595d21/image-20220328223607671.png" class="" title="image-20220328223607671">
+</li>
+<li>
+<img src="/article/4f595d21/image-20220328223615236.png" class="" title="image-20220328223615236">
+</li>
+</ul>
+</li>
+<li>
+<p>通过<code>Git-Bash</code>进入空文件夹，将上述代码仓<code>git clone</code>到本地对应路径</p>
+</li>
+</ul>
+<h1 id="本地创建个人blog环境"><a class="markdownIt-Anchor" href="#本地创建个人blog环境"></a> 本地创建个人blog环境</h1>
+<ul>
+<li>
+<p>记得要完成这个[[Windows Terminal如何以管理员模式打开对应的Bash？]]</p>
+</li>
+<li>
+<p>以管理员模式打开<code>Git-Bash</code>，进入你想要存放blog源码的文件夹，输入<code>hexo init</code>，然后将上一步里头，<code>git clone</code>下来的<code>GitHub Pages</code>源码内的<code>.git</code>文件夹，复制粘贴到你进行<code>hexo init</code>的文件夹，这一步是为了实现blog源码的备份</p>
 <ul>
 <li>具体见<a href="./f338e400.html">GitHub+Hexo的个人博客，blog，GitHub Page如何实现一个分支作为博客源码，一个分支用于全部源码备份？</a></li>
 </ul>
 </li>
-</ul>
+<li>
+<p>在<a target="_blank" rel="noopener" href="https://hexo.io/themes/">Themes | Hexo</a>内挑选喜欢的Theme，左键点击对应Theme→进入对应GitHub页面→进入一个空文件夹→输入<code>hexo init</code>→在<code>Git-Bash</code>内<code>cd blog文件夹/themes</code>→<code>git clone 对应模板</code></p>
 <ul>
-<li>在<a target="_blank" rel="noopener" href="https://hexo.io/themes/">Themes | Hexo</a>内挑选喜欢的Theme，左键点击对应Theme→进入对应GitHub页面→进入一个空文件夹→输入<code>hexo init</code>→在<code>Git-Bash</code>内<code>cd blog文件夹/themes</code>→<code>git clone 对应模板</code><ul>
 <li>例如<code>git clone https://github.com/Siricee/hexo-theme-Chic.git Chic</code></li>
 </ul>
 </li>
@@ -758,19 +787,24 @@
 <img src="/article/4f595d21/image-20220328223642924.png" class="" title="image-20220328223642924">
 <img src="/article/4f595d21/image-20220328223649679.png" class="" title="image-20220328223649679">
 <ul>
-<li>进行配置，此时你有2类<code>_config.yml</code><ul>
+<li>进行配置，此时你有2类<code>_config.yml</code>
+<ul>
 <li>一类在你存放blog源码的根目录下</li>
 <li>一类存放在<code>./themes/对应主题</code>下，如<code>./themes/Chic/</code>下</li>
 </ul>
 </li>
-<li>对根目录下配置文件<code>_config.yml</code>进行配置，此处仅讲必要的设置，<code>title</code>等个性化设置可以自行摸索，设置完记得<code>Ctrl</code>+<code>S</code>保存<ul>
+<li>对根目录下配置文件<code>_config.yml</code>进行配置，此处仅讲必要的设置，<code>title</code>等个性化设置可以自行摸索，设置完记得<code>Ctrl</code>+<code>S</code>保存
+<ul>
 <li><code>url:</code>后填写<code>GitHub Pages</code>的<code>publish site</code>，见GitHub代码仓→<code>Settings</code>→<code>Pages</code>，记住此处的<code>Source</code>要正确选择<code>branch</code></li>
 <li><code>theme:</code>后填写你选中的主题的项目名，比如此处是<code>Chic</code></li>
-<li><code>deploy:</code>后新建3行<ul>
+<li><code>deploy:</code>后新建3行
+<ul>
 <li><code>type:</code>填写<code>git</code></li>
 <li><code>repo:</code>填写你代码仓的地址</li>
-<li><code>branch:</code>填写对应的分支，这个分支用于<code>hexo</code>上传网页源码用<ul>
-<li>注意我们这边有2种上传，一种是<code>hexo d</code>，一种是<code>git push</code><ul>
+<li><code>branch:</code>填写对应的分支，这个分支用于<code>hexo</code>上传网页源码用
+<ul>
+<li>注意我们这边有2种上传，一种是<code>hexo d</code>，一种是<code>git push</code>
+<ul>
 <li><code>hexo d</code>用于提供网页显示的源码，通常在代码仓默认分支</li>
 <li><code>git push</code>用于保存全部blog源码，通常在代码仓非默认分支</li>
 </ul>
@@ -786,15 +820,19 @@
 <img src="/article/4f595d21/image-20220328223720970.png" class="" title="image-20220328223720970">
 <img src="/article/4f595d21/image-20220328223730262.png" class="" title="image-20220328223730262">
 <ul>
-<li><p>回到管理员模式打开的<code>Git-Bash</code>，准备部署blog，cd到存放Blog源码的根目录→输入<code>hexo clean</code>→<code>hexo s -g</code>部署并启动本地预览→在浏览器里打开<code>https://localhost:4000</code>即可看到部署的个人页面→回到<code>Git-Bash</code>→<code>Ctrl</code>+<code>C</code>停止预览→<code>hexo d</code>将源码上传到对应代码仓</p>
+<li>
+<p>回到管理员模式打开的<code>Git-Bash</code>，准备部署blog，cd到存放Blog源码的根目录→输入<code>hexo clean</code>→<code>hexo s -g</code>部署并启动本地预览→在浏览器里打开<code>https://localhost:4000</code>即可看到部署的个人页面→回到<code>Git-Bash</code>→<code>Ctrl</code>+<code>C</code>停止预览→<code>hexo d</code>将源码上传到对应代码仓</p>
 </li>
-<li><p>点开代码仓右下角可以查看编译进度，等<code>pending</code>变为<code>Active</code>即可，点击右侧<code>View deployment</code>即可进入自己的blog查看</p>
+<li>
+<p>点开代码仓右下角可以查看编译进度，等<code>pending</code>变为<code>Active</code>即可，点击右侧<code>View deployment</code>即可进入自己的blog查看</p>
 </li>
 </ul>
 <img src="/article/4f595d21/image-20220328223739971.png" class="" title="image-20220328223739971">
 <img src="/article/4f595d21/image-20220328223748149.png" class="" title="image-20220328223748149">
-<h1 id="分支备份源码思路"><a href="#分支备份源码思路" class="headerlink" title="分支备份源码思路"></a>分支备份源码思路</h1><p><a href="./f338e400.html">GitHub+Hexo的个人博客，blog，GitHub Page如何实现一个分支作为博客源码，一个分支用于全部源码备份？</a></p>
-<h1 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h1><ul>
+<h1 id="分支备份源码思路"><a class="markdownIt-Anchor" href="#分支备份源码思路"></a> 分支备份源码思路</h1>
+<p><a href="./f338e400.html">GitHub+Hexo的个人博客，blog，GitHub Page如何实现一个分支作为博客源码，一个分支用于全部源码备份？</a></p>
+<h1 id="ref"><a class="markdownIt-Anchor" href="#ref"></a> Ref</h1>
+<ul>
 <li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xueweisuoyong/p/11914045.html">Windows系统Git安装教程（详解Git安装过程）</a></li>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/Small_Yogurt/article/details/104968169">Node.js最新最详细安装教程（2020）</a></li>
 <li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/34452547/hexoerror-deployer-not-found-github">hexo:ERROR Deployer not found: github</a></li>

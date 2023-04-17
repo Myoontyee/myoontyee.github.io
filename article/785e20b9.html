@@ -284,7 +284,7 @@
 
 <!-- 2022年3月19日添加 代码高亮、显示行号 -->
 <!-- <link rel="stylesheet" href="/css/prettify.css" media="screen" type="text/css"> -->
-<meta name="generator" content="Hexo 5.4.2">
+<meta name="generator" content="Hexo 5.4.1">
 <style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
 </head>
 
@@ -528,7 +528,7 @@
                         
                             <span class="post-count">
                             📑字数:
-                            <a href="">354</a>  
+                            <a href="">345</a>  
                             </span>
                         
 
@@ -557,34 +557,46 @@
             <br><strong>⚠️警告：博客文章禁止一切形式的非授权非法转载！</strong>
             <br><strong>⚠️Attention: All forms of unauthorized illegal reposts are prohibited !</strong> 
             <hr>
-<p><strong>创建时间</strong>：2022年3月19日15:21:42<br><strong>最新更新</strong>：2022年3月27日21:20:33</p>
+<p><strong>创建时间</strong>：2022年3月19日15:21:42<br>
+<strong>最新更新</strong>：2022年3月27日21:20:33</p>
 <hr>
 <p><strong>核心思路</strong>：引入<strong>font-awesome</strong>字体，调用<code>fa-spinner</code>旋转小菊花</p>
 <hr>
-<h1 id="引用样式"><a href="#引用样式" class="headerlink" title="引用样式"></a>引用样式</h1><ul>
+<h1 id="引用样式"><a class="markdownIt-Anchor" href="#引用样式"></a> 引用样式</h1>
+<ul>
 <li>用代码编辑器（如<code>Visual Studio Code</code>）打开<code>themes\Chic\_config.yml</code>，将等待logo的样式进行全局引用</li>
 </ul>
 <figure class="highlight yml"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># stylesheets loaded in the &lt;head&gt;</span></span><br><span class="line"><span class="attr">stylesheets:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">/css/style.css</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css</span> <span class="comment"># 访客量的旋转等待logo</span></span><br></pre></td></tr></tbody></table></figure>
-<h1 id="调整样式"><a href="#调整样式" class="headerlink" title="调整样式"></a>调整样式</h1><ul>
+<h1 id="调整样式"><a class="markdownIt-Anchor" href="#调整样式"></a> 调整样式</h1>
+<ul>
 <li>用代码编辑器打开<code>themes\Chic\layout\_plugins\site-visitor.ejs</code>，按如下内容调整样式</li>
 </ul>
-<p></p><div style="overflow:auto;width:100%"> <br><br><br><p></p><p></p><br><br><br><br><p></p><h1 id="最终样式"><a href="#最终样式" class="headerlink" title="最终样式"></a>最终样式</h1><ul>
-<li>如下图</li>
-</ul><img src="/article/785e20b9/image-20220327213431115.png" class="" title="image-20220327213431115"><h1 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h1><ul>
-<li><a target="_blank" rel="noopener" href="http://ibruce.info/2015/04/04/busuanzi/">不蒜子</a></li>
-</ul><table width="auto" style="white-space:nowrap">    <tbody><tr>
+<div style="overflow:auto;width:100%"> <table width="auto" style="white-space:nowrap">
+    <tbody><tr>
         <td><div align="center">修改前</div></td>
         <td><div align="center">修改后</div></td>
-    </tr>    <tr>        <td>
+    </tr>
+    <tr>
+        <td>
 <figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;script async src=<span class="string">"//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"</span>&gt;&lt;/script&gt;</span><br><span class="line">&lt;% <span class="keyword">if</span> (theme.visit_counter.site_uv) { %&gt;</span><br><span class="line">&lt;span <span class="keyword">class</span>=<span class="string">"site-uv"</span>&gt;</span><br><span class="line">    | 总访客量:</span><br><span class="line">    &lt;i <span class="keyword">class</span>=<span class="string">"busuanzi-value"</span> id=<span class="string">"busuanzi_value_site_uv"</span>&gt;&lt;/i&gt;</span><br><span class="line">&lt;/span&gt;&amp;nbsp;</span><br><span class="line">&lt;% } %&gt;</span><br><span class="line">&lt;% <span class="keyword">if</span> (theme.visit_counter.site_pv) { %&gt;</span><br><span class="line">&lt;span <span class="keyword">class</span>=<span class="string">"site-pv"</span>&gt;</span><br><span class="line">    | 总访问量:</span><br><span class="line">    &lt;i <span class="keyword">class</span>=<span class="string">"busuanzi-value"</span> id=<span class="string">"busuanzi_value_site_pv"</span>&gt;&lt;/i&gt;</span><br><span class="line">&lt;/span&gt;</span><br><span class="line">&lt;% } %&gt;</span><br></pre></td></tr></tbody></table></figure>
 </td>
 <td>
 <figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;script async src=<span class="string">"//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"</span>&gt;&lt;/script&gt;</span><br><span class="line">&lt;% <span class="keyword">if</span> (theme.visit_counter.site_uv) { %&gt;</span><br><span class="line">&lt;span <span class="keyword">class</span>=<span class="string">"site-uv"</span>&gt;</span><br><span class="line">    | 总访客量:</span><br><span class="line">    &lt;i <span class="keyword">class</span>=<span class="string">"busuanzi-value"</span> id=<span class="string">"busuanzi_value_site_uv"</span>&gt;&lt;i <span class="keyword">class</span>=<span class="string">"fa fa-spinner fa-spin"</span>&gt;&lt;/i&gt;&lt;/i&gt;</span><br><span class="line">&lt;/span&gt;&amp;nbsp;</span><br><span class="line">&lt;% } %&gt;</span><br><span class="line">&lt;% <span class="keyword">if</span> (theme.visit_counter.site_pv) { %&gt;</span><br><span class="line">&lt;span <span class="keyword">class</span>=<span class="string">"site-pv"</span>&gt;</span><br><span class="line">    | 总访问量:</span><br><span class="line">    &lt;i <span class="keyword">class</span>=<span class="string">"busuanzi-value"</span> id=<span class="string">"busuanzi_value_site_pv"</span>&gt;&lt;i <span class="keyword">class</span>=<span class="string">"fa fa-spinner fa-spin"</span>&gt;&lt;/i&gt;&lt;/i&gt;</span><br><span class="line">&lt;/span&gt;</span><br><span class="line">&lt;% } %&gt;</span><br></pre></td></tr></tbody></table></figure>
 </td>
+</tr>
+</tbody></table>
+</div>
+​	
+<h1 id="最终样式"><a class="markdownIt-Anchor" href="#最终样式"></a> 最终样式</h1>
+<ul>
+<li>如下图</li>
+</ul>
+<img src="/article/785e20b9/image-20220327213431115.png" class="" title="image-20220327213431115">
+<h1 id="ref"><a class="markdownIt-Anchor" href="#ref"></a> Ref</h1>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://ibruce.info/2015/04/04/busuanzi/">不蒜子</a></li>
+</ul>
 
-
-
-</tr></tbody></table>&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;​    </div>
         </div>
         <section class="reward_class">
             <br>
