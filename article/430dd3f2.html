@@ -528,7 +528,7 @@
                         
                             <span class="post-count">
                             📑字数:
-                            <a href="">348</a>  
+                            <a href="">347</a>  
                             </span>
                         
 
@@ -557,20 +557,15 @@
             <br><strong>⚠️警告：博客文章禁止一切形式的非授权非法转载！</strong>
             <br><strong>⚠️Attention: All forms of unauthorized illegal reposts are prohibited !</strong> 
             <hr>
-<p><strong>创建时间</strong>：2022年3月18日22:33:08<br>
-<strong>最新更新</strong>：2022年3月19日10:54:04</p>
+<p><strong>创建时间</strong>：2022年3月18日22:33:08<br><strong>最新更新</strong>：2022年3月19日10:54:04</p>
 <hr>
-<h1>Visual Studio Code配置WSL</h1>
-<p>具体见<a href="./495264bf.html">WSL + Visual Studio Code + Anaconda配置方案</a></p>
-<h2 id="VS-Code装Remote-WSL插件"><a class="header-anchor" href="#VS-Code装Remote-WSL插件">﹣</a>VS Code装Remote - WSL插件</h2>
-<ul>
+<h1 id="Visual-Studio-Code配置WSL"><a href="#Visual-Studio-Code配置WSL" class="headerlink" title="Visual Studio Code配置WSL"></a>Visual Studio Code配置WSL</h1><p>具体见<a href="./495264bf.html">WSL + Visual Studio Code + Anaconda配置方案</a></p>
+<h2 id="VS-Code装Remote-WSL插件"><a href="#VS-Code装Remote-WSL插件" class="headerlink" title="VS Code装Remote - WSL插件"></a>VS Code装Remote - WSL插件</h2><ul>
 <li>打开<code>VS Code</code>，点击<code>扩展</code>→搜索<code>Remote - WSL</code>→点<code>安装</code></li>
 </ul>
 <img src="/article/430dd3f2/image-20220319095546037.png" class="" title="image-20220319095546037">
-<h2 id="通过VS-Code进入WSL，装插件"><a class="header-anchor" href="#通过VS-Code进入WSL，装插件">﹣</a>通过VS Code进入WSL，装插件</h2>
-<ul>
-<li>注意从这一步起，<code>VS Code</code>一直是链接<code>WSL</code>的状态，左下角得如图
-<ul>
+<h2 id="通过VS-Code进入WSL，装插件"><a href="#通过VS-Code进入WSL，装插件" class="headerlink" title="通过VS Code进入WSL，装插件"></a>通过VS Code进入WSL，装插件</h2><ul>
+<li>注意从这一步起，<code>VS Code</code>一直是链接<code>WSL</code>的状态，左下角得如图<ul>
 <li>即，在<code>Windows</code>下打开<code>VS Code</code>，在<code>VS Code</code>内链接<code>WSL</code>，再进行本步及以下步骤</li>
 </ul>
 </li>
@@ -581,10 +576,8 @@
 <li>注意此处打开的文件夹，可以从Windows下进入（默认打开是<code>\\wsl$\Ubuntu-20.04</code>），可以从下图侧进入</li>
 </ul>
 <img src="/article/430dd3f2/image-20220319095816041.png" class="" title="image-20220319095816041">
-<h1>安装库</h1>
-<ul>
-<li>在<code>WSL</code>内的某一特定文件夹，安装如下拓展
-<ul>
+<h1 id="安装库"><a href="#安装库" class="headerlink" title="安装库"></a>安装库</h1><ul>
+<li>在<code>WSL</code>内的某一特定文件夹，安装如下拓展<ul>
 <li><code>C/C++</code></li>
 <li><code>C++ Intellisense</code></li>
 <li><code>CMake Tools</code></li>
@@ -604,13 +597,21 @@
 </tr>
 <tr>
 <td> 
+
 <figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">{</span><br><span class="line">{</span><br><span class="line">    <span class="string">"configurations"</span>: [</span><br><span class="line">        {</span><br><span class="line">            <span class="string">"name"</span>: <span class="string">"Win32"</span>,</span><br><span class="line">            <span class="string">"includePath"</span>: [</span><br><span class="line">                <span class="string">"${workspaceFolder}/**"</span></span><br><span class="line">            ],</span><br><span class="line">            <span class="string">"defines"</span>: [</span><br><span class="line">                <span class="string">"_DEBUG"</span>,</span><br><span class="line">                <span class="string">"UNICODE"</span>,</span><br><span class="line">                <span class="string">"_UNICODE"</span></span><br><span class="line">            ],</span><br><span class="line">            <span class="string">"cStandard"</span>: <span class="string">"c17"</span>,</span><br><span class="line">            <span class="string">"cppStandard"</span>: <span class="string">"c++17"</span>,</span><br><span class="line">            <span class="string">"intelliSenseMode"</span>: <span class="string">"windows-msvc-x64"</span></span><br><span class="line">        }</span><br><span class="line">    ],</span><br><span class="line">    <span class="string">"version"</span>: <span class="number">4</span></span><br><span class="line">}</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
 </td>
 <td>
+
 <figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">{</span><br><span class="line">    <span class="string">"configurations"</span>: [</span><br><span class="line">        {</span><br><span class="line">            <span class="string">"name"</span>: <span class="string">"Win32"</span>,</span><br><span class="line">            <span class="string">"browse"</span>: {</span><br><span class="line">                <span class="string">"path"</span>: [</span><br><span class="line">                    <span class="string">"${workspaceFolder}/src"</span>,                                       <span class="comment">// 链接source</span></span><br><span class="line">                    <span class="string">"${workspaceFolder}/include"</span>,                                   <span class="comment">// 链接include</span></span><br><span class="line">                    <span class="string">"/mnt/d/Geant4/main/geant4.10.07.p02/install/include/Geant4"</span>    <span class="comment">// 链接Geant4头文件</span></span><br><span class="line"></span><br><span class="line">                ],</span><br><span class="line">                <span class="string">"limitSymbolsToIncludedHeaders"</span>: <span class="literal">true</span></span><br><span class="line">            },</span><br><span class="line">            <span class="string">"includePath"</span>: [</span><br><span class="line">                <span class="string">"${workspaceFolder}/src"</span>,                                       <span class="comment">// 链接source</span></span><br><span class="line">                <span class="string">"${workspaceFolder}/include"</span>,                                   <span class="comment">// 链接include</span></span><br><span class="line">                <span class="string">"/mnt/d/Geant4/main/geant4.10.07.p02/install/include/Geant4"</span>    <span class="comment">// 链接Geant4头文件</span></span><br><span class="line"></span><br><span class="line">            ],</span><br><span class="line">            <span class="comment">// "defines": [</span></span><br><span class="line">            <span class="comment">//     "_DEBUG",</span></span><br><span class="line">            <span class="comment">//     "UNICODE",</span></span><br><span class="line">            <span class="comment">//     "_UNICODE"</span></span><br><span class="line">            <span class="comment">// ],</span></span><br><span class="line">            <span class="string">"defines"</span>: [</span><br><span class="line">            ],</span><br><span class="line">            <span class="string">"cStandard"</span>: <span class="string">"c17"</span>,</span><br><span class="line">            <span class="string">"cppStandard"</span>: <span class="string">"c++17"</span>,</span><br><span class="line">            <span class="comment">// "intelliSenseMode": "windows-msvc-x64"</span></span><br><span class="line">            <span class="string">"intelliSenseMode"</span>: <span class="string">"clang-x64"</span></span><br><span class="line">        }</span><br><span class="line">    ],</span><br><span class="line">    <span class="string">"version"</span>: <span class="number">4</span></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
 </td>
 </tr></tbody></table>
 </div>
+
+
+
+
 <!-- <div style="overflow:auto;width:100%"> <table width="auto" style="white-space:nowrap">   
 
 | <div align = center> 修改前</div>                            | <div align = center> 修改后</div>                            |
@@ -618,14 +619,12 @@
 | <pre><code>&#123;<br>    "configurations": [<br>        &#123;<br>            "name": "Win32",<br>            "includePath": [<br>                "$&#123;workspaceFolder&#125;/**"<br>            ],<br>            "defines": [<br>                "_DEBUG",<br>                "UNICODE",<br>                "_UNICODE"<br>            ],<br>            "cStandard": "c17",<br>            "cppStandard": "c++17",<br>            "intelliSenseMode": "windows-msvc-x64"<br>        &#125;<br>    ],<br>    "version": 4<br>&#125;<br></code></pre> | <pre><code>&#123;<br>    "configurations": [<br>        &#123;<br>            "name": "Win32",<br>            "browse": &#123;<br>                "path": [<br>                    "$&#123;workspaceFolder&#125;/src",                                       // 链接source<br>                    "$&#123;workspaceFolder&#125;/include",                                   // 链接include<br>                    "/mnt/d/Geant4/main/geant4.10.07.p02/install/include/Geant4"    // 链接Geant4头文件<br><br>                ],<br>                "limitSymbolsToIncludedHeaders": true<br>            &#125;,<br>            "includePath": [<br>                "$&#123;workspaceFolder&#125;/src",                                       // 链接source<br>                "$&#123;workspaceFolder&#125;/include",                                   // 链接include<br>                "/mnt/d/Geant4/main/geant4.10.07.p02/install/include/Geant4"    // 链接Geant4头文件<br><br>            ],<br>            // "defines": [<br>            //     "_DEBUG",<br>            //     "UNICODE",<br>            //     "_UNICODE"<br>            // ],<br>            "defines": [<br>            ],<br>            "cStandard": "c17",<br>            "cppStandard": "c++17",<br>            // "intelliSenseMode": "windows-msvc-x64"<br>            "intelliSenseMode": "clang-x64"<br>        &#125;<br>    ],<br>    "version": 4<br>&#125;<br></code></pre> |
 
 </table> </div> -->
-<h1>配置完成</h1>
-<ul>
-<li>配置完成后代开代码，有自动补全，且库引用正常</li>
-</ul>
-<img src="/article/430dd3f2/image-20220319095847313.png" class="" title="image-20220319095847313">
+<h1 id="配置完成"><a href="#配置完成" class="headerlink" title="配置完成"></a>配置完成</h1><ul>
+<li>配置完成后代开代码，有自动补全，且库引用正常<img src="/article/430dd3f2/image-20220319095847313.png" class="" title="image-20220319095847313">
 <img src="/article/430dd3f2/image-20220319095856462.png" class="" title="image-20220319095856462">
-<h1>Ref</h1>
-<ul>
+</li>
+</ul>
+<h1 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h1><ul>
 <li><a target="_blank" rel="noopener" href="https://www.bilibili.com/read/cv6037918">VS Code中添加Geant4、Root的外部库</a></li>
 </ul>
 

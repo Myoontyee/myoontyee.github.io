@@ -528,7 +528,7 @@
                         
                             <span class="post-count">
                             📑字数:
-                            <a href="">370</a>  
+                            <a href="">368</a>  
                             </span>
                         
 
@@ -557,54 +557,42 @@
             <br><strong>⚠️警告：博客文章禁止一切形式的非授权非法转载！</strong>
             <br><strong>⚠️Attention: All forms of unauthorized illegal reposts are prohibited !</strong> 
             <hr>
-<p><strong>创建时间</strong>：2023年3月17日10:38:41<br>
-<strong>最新更新</strong>：2023年3月17日22:44:00</p>
+<p><strong>创建时间</strong>：2023年3月17日10:38:41<br><strong>最新更新</strong>：2023年3月17日22:44:00</p>
 <hr>
 <p><strong>Problem Description</strong>：How to Clear Commits in GitHub+Hexo Code Warehouse to Avoid Information Leakage?</p>
 <p><strong>核心思路</strong>：</p>
 <ul>
-<li>方法1
-<ul>
+<li>方法1<ul>
 <li>清空代码仓分支并覆盖，注意本教程针对的是基于<a href="./f338e400.html">GitHub+Hexo的个人博客，blog，GitHub Page如何实现一个分支作为博客源码，一个分支用于全部源码备份？</a>教程的部署情况</li>
 </ul>
 </li>
-<li>方法2
-<ul>
+<li>方法2<ul>
 <li>删<code>.deploy_git</code>文件夹后重新部署提交</li>
 </ul>
 </li>
 </ul>
 <hr>
 <ul>
-<li>最终实现效果</li>
+<li>最终实现效果<img src="/article/1b2e5417/Pasted-image-20230317105349.png" class="" title="Pasted image 20230317105349">
+</li>
 </ul>
-<img src="/article/1b2e5417/Pasted-image-20230317105349.png" class="" title="Pasted image 20230317105349">
 <hr>
-<h1>改配置</h1>
-<ul>
+<h1 id="改配置"><a href="#改配置" class="headerlink" title="改配置"></a>改配置</h1><ul>
 <li>首先在Windows下的bash内进入Blog代码所在的代码仓</li>
-<li>首先修改代码仓的<code>.git</code>文件夹，然后在bash内进行以下操作
-<ul>
+<li>首先修改代码仓的<code>.git</code>文件夹，然后在bash内进行以下操作<ul>
 <li>打开<code>.git/config</code>，将<code>url</code>设置修改为对应的代码仓代码</li>
 <li>然后进入bash内进行操作，注意操作完需将<code>url</code>调整回来</li>
 </ul>
 </li>
 </ul>
-<h1>清空commits与强制推送</h1>
-<ul>
-<li>新建空白分支</li>
-</ul>
-<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout --orphan latest_branch</span><br></pre></td></tr></tbody></table></figure>
-<ul>
-<li>添加所有文件</li>
-</ul>
-<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add -A</span><br></pre></td></tr></tbody></table></figure>
-<ul>
-<li>提交</li>
-</ul>
+<h1 id="清空commits与强制推送"><a href="#清空commits与强制推送" class="headerlink" title="清空commits与强制推送"></a>清空commits与强制推送</h1><ul>
+<li>新建空白分支<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout --orphan latest_branch</span><br></pre></td></tr></tbody></table></figure></li>
+<li>添加所有文件<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git add -A</span><br></pre></td></tr></tbody></table></figure></li>
+<li><p>提交</p>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -am <span class="string">"."</span></span><br></pre></td></tr></tbody></table></figure>
-<ul>
-<li>强制删除旧分支，此处用的分支是<code>master</code></li>
+</li>
+<li><p>强制删除旧分支，此处用的分支是<code>master</code></p>
+</li>
 </ul>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -D master</span><br></pre></td></tr></tbody></table></figure>
 <ul>
@@ -612,26 +600,23 @@
 </ul>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -m master</span><br></pre></td></tr></tbody></table></figure>
 <ul>
-<li>强制推送到远程仓库</li>
-</ul>
+<li><p>强制推送到远程仓库</p>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push -f origin master</span><br></pre></td></tr></tbody></table></figure>
-<ul>
-<li>最终实现效果</li>
-</ul>
+</li>
+<li><p>最终实现效果</p>
 <img src="/article/1b2e5417/Pasted-image-20230317105349.png" class="" title="Pasted image 20230317105349">
-<h1>网页部署</h1>
-<ul>
-<li>为了确保网页部署，可以在<code>bash</code>内进行如下指令</li>
+</li>
 </ul>
-<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></tbody></table></figure>
-<h1>方法2</h1>
-<ul>
+<h1 id="网页部署"><a href="#网页部署" class="headerlink" title="网页部署"></a>网页部署</h1><ul>
+<li>为了确保网页部署，可以在<code>bash</code>内进行如下指令<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></tbody></table></figure>
+</li>
+</ul>
+<h1 id="方法2"><a href="#方法2" class="headerlink" title="方法2"></a>方法2</h1><ul>
 <li>删除Blog代码目录下<code>.deploy_git</code>文件夹</li>
-<li>在bash内输入如下指令</li>
+<li>在bash内输入如下指令<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></tbody></table></figure>
+</li>
 </ul>
-<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></tbody></table></figure>
-<h1>Ref</h1>
-<ul>
+<h1 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h1><ul>
 <li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1987447">删除 GitHub 所有 Commit 记录</a></li>
 <li><a target="_blank" rel="noopener" href="https://ouoholly.github.io/post/hexo-delete-commit-history-in-github/#%E6%96%B9%E6%B3%95">Hexo 刪除 github 的 commit 歷史記錄</a></li>
 </ul>

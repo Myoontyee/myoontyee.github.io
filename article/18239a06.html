@@ -557,44 +557,35 @@
             <br><strong>⚠️警告：博客文章禁止一切形式的非授权非法转载！</strong>
             <br><strong>⚠️Attention: All forms of unauthorized illegal reposts are prohibited !</strong> 
             <hr>
-<p><strong>创建时间</strong>：2022年4月28日19:18:45<br>
-<strong>最新更新</strong>：2022年4月30日12:34:30</p>
+<p><strong>创建时间</strong>：2022年4月28日19:18:45<br><strong>最新更新</strong>：2022年4月30日12:34:30</p>
 <hr>
 <p><strong>Problem Description</strong>：Visual Studio Code Comment plugin recommended configuration combination, does it enable fast code jumping within VS Code + multi-level beautiful comments?</p>
 <p><strong>核心思路</strong>：</p>
 <ul>
-<li>几个插件
-<ul>
+<li>几个插件<ul>
 <li>快速跳转<code>Comment Anchors</code></li>
 <li>代码注释分段<code>Comment Divider</code></li>
-<li>代码Box注释<code>Box Comment</code>
-<ul>
+<li>代码Box注释<code>Box Comment</code><ul>
 <li><code>Comment Box</code>也行，就是感觉效果有待提高</li>
 </ul>
 </li>
 </ul>
 </li>
-<li>按位置分
-<ul>
+<li>按位置分<ul>
 <li>功能块头用<code>Box Comment</code>+<code>Comment Anchors</code>注释并设定锚点</li>
 <li>内容分段用<code>Comment Divider</code></li>
 </ul>
 </li>
 </ul>
 <hr>
-<h1>插件介绍</h1>
-<ul>
+<h1 id="插件介绍"><a href="#插件介绍" class="headerlink" title="插件介绍"></a>插件介绍</h1><ul>
 <li>见<a href="./dbacadce.html">Box Comment修复版Release——Visual Studio Code如何给注释块添加自定义的方框？如何添加带Box的美化注释块？</a></li>
 </ul>
-<h1>实现</h1>
-<ul>
-<li>
-<p>现希望实现区分功能头与内容分段的代码注释，如</p>
-<ul>
+<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><ul>
+<li>现希望实现区分功能头与内容分段的代码注释，如<ul>
 <li>代码块名字是<code>Function 1</code></li>
 <li>代码块的锚点是<code>ANCHOR: Function 1</code></li>
-<li>代码块有3段
-<ul>
+<li>代码块有3段<ul>
 <li>功能段1<code>Abi.1</code></li>
 <li>功能段2<code>Abi.2</code></li>
 <li>功能段3<code>Abi.3</code></li>
@@ -602,75 +593,52 @@
 </li>
 </ul>
 </li>
-<li>
-<p>注释实现</p>
+<li><p>注释实现</p>
 <ul>
-<li>功能块头用<code>Box Comment</code>
-<ul>
+<li>功能块头用<code>Box Comment</code><ul>
 <li><a target="_blank" rel="noopener" href="https://github.com/Myoontyee/vscode-box-comment-withRelease/releases/tag/v1.0.0">我整的Release</a></li>
-<li>
-<img src="/article/18239a06/image-20220430123813927.png" class="" title="image-20220430123813927">
-</li>
+<li><img src="/article/18239a06/image-20220430123813927.png" class="" title="image-20220430123813927"></li>
 </ul>
 </li>
-<li>锚点用<code>Comment Anchors</code>
-<ul>
-<li>
-<img src="/article/18239a06/image-20220430123827305.png" class="" title="image-20220430123827305">
-</li>
+<li>锚点用<code>Comment Anchors</code><ul>
+<li><img src="/article/18239a06/image-20220430123827305.png" class="" title="image-20220430123827305"></li>
 </ul>
 </li>
-<li>内容分段用<code>Comment Divider</code>
-<ul>
-<li>
-<img src="/article/18239a06/image-20220430123832656.png" class="" title="image-20220430123832656">
+<li>内容分段用<code>Comment Divider</code><ul>
+<li><img src="/article/18239a06/image-20220430123832656.png" class="" title="image-20220430123832656">
 </li>
 </ul>
 </li>
 </ul>
 </li>
-<li>
-<p>实现步骤如下几图</p>
+<li><p>实现步骤如下几图</p>
 <ul>
-<li>前面代码行数是个示例，不用管
-<ul>
-<li>
-<img src="/article/18239a06/image-20220429211317877.png" class="" title="image-20220429211317877">
-</li>
+<li>前面代码行数是个示例，不用管<ul>
+<li><img src="/article/18239a06/image-20220429211317877.png" class="" title="image-20220429211317877"></li>
 </ul>
 </li>
-<li>按快捷键<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>;</kbd>
-<ul>
-<li>
-<img src="/article/18239a06/image-20220429211324990.png" class="" title="image-20220429211324990">
-</li>
+<li>按快捷键<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>;</kbd><ul>
+<li><img src="/article/18239a06/image-20220429211324990.png" class="" title="image-20220429211324990"></li>
 </ul>
 </li>
 <li>功能块<code>Start</code>用<kbd>Shift</kbd>+<kbd>Alt</kbd>+<kbd>X</kbd></li>
 <li>功能块<code>End</code>用<kbd>Alt</kbd>+<kbd>X</kbd></li>
-<li>得到下下图
-<ul>
-<li>
-<img src="/article/18239a06/image-20220429211328454.png" class="" title="image-20220429211328454">
-</li>
-<li>
-<img src="/article/18239a06/image-20220429211331513.png" class="" title="image-20220429211331513">
+<li>得到下下图<ul>
+<li><img src="/article/18239a06/image-20220429211328454.png" class="" title="image-20220429211328454"></li>
+<li><img src="/article/18239a06/image-20220429211331513.png" class="" title="image-20220429211331513">
 </li>
 </ul>
 </li>
 </ul>
 </li>
-<li>
-<p>实现效果如下</p>
+<li><p>实现效果如下</p>
 </li>
 </ul>
 <figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* </span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">  ╔═════════════════════════════════════════════════════╗</span></span><br><span class="line"><span class="comment">  ║ Function 1                                          ║</span></span><br><span class="line"><span class="comment">  ╠═════════════════════════════════════════════════════╣</span></span><br><span class="line"><span class="comment">  ║ ANCHOR: Function 1                                  ║</span></span><br><span class="line"><span class="comment">  ╚═════════════════════════════════════════════════════╝</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">  <span class="comment">/* -------------------------------------------------------------------------- */</span></span><br><span class="line">  <span class="comment">/*                                 Abi.1 Start                                */</span></span><br><span class="line">  <span class="comment">/* -------------------------------------------------------------------------- */</span></span><br><span class="line">  G4cout &lt;&lt; <span class="string">"Abi.1"</span> &lt;&lt; G4endl;</span><br><span class="line">  <span class="comment">/* -------------------------------- Abi.1 End ------------------------------- */</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="comment">/* -------------------------------------------------------------------------- */</span></span><br><span class="line">  <span class="comment">/*                                 Abi.2 Start                                */</span></span><br><span class="line">  <span class="comment">/* -------------------------------------------------------------------------- */</span></span><br><span class="line">  G4cout &lt;&lt; <span class="string">"Abi.2"</span> &lt;&lt; G4endl;</span><br><span class="line">  <span class="comment">/* -------------------------------- Abi.2 End ------------------------------- */</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="comment">/* -------------------------------------------------------------------------- */</span></span><br><span class="line">  <span class="comment">/*                                 Abi.3 Start                                */</span></span><br><span class="line">  <span class="comment">/* -------------------------------------------------------------------------- */</span></span><br><span class="line">  G4cout &lt;&lt; <span class="string">"Abi.3"</span> &lt;&lt; G4endl;</span><br><span class="line">  <span class="comment">/* -------------------------------- Abi.3 End ------------------------------- */</span></span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
 <ul>
-<li>包含的锚点在这
-<ul>
+<li>包含的锚点在这<ul>
 <li><strong>锚点插件</strong>是<code>Comment Anchors</code></li>
-<li>
-<img src="/article/18239a06/image-20220429211337570.png" class="" title="image-20220429211337570">
+<li><img src="/article/18239a06/image-20220429211337570.png" class="" title="image-20220429211337570">
 </li>
 </ul>
 </li>

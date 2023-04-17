@@ -557,19 +557,15 @@
             <br><strong>⚠️警告：博客文章禁止一切形式的非授权非法转载！</strong>
             <br><strong>⚠️Attention: All forms of unauthorized illegal reposts are prohibited !</strong> 
             <hr>
-<p><strong>创建时间</strong>：2022年3月30日19:59:04<br>
-<strong>最新更新</strong>：2022年3月30日19:59:09</p>
+<p><strong>创建时间</strong>：2022年3月30日19:59:04<br><strong>最新更新</strong>：2022年3月30日19:59:09</p>
 <hr>
 <p><strong>核心思路</strong>：</p>
 <ul>
-<li>
-<p>部署<code>hexo-wordcount</code></p>
+<li><p>部署<code>hexo-wordcount</code></p>
 </li>
-<li>
-<p>主题下的<code>_config.yml</code>配置</p>
+<li><p>主题下的<code>_config.yml</code>配置</p>
 </li>
-<li>
-<p>主题下的post页面配置</p>
+<li><p>主题下的post页面配置</p>
 </li>
 </ul>
 <hr>
@@ -577,30 +573,25 @@
 <li>最终效果如下图</li>
 </ul>
 <img src="/article/11459889/image-20220330195825388.png" class="" title="image-20220330195825388">
-<h1>部署插件</h1>
-<ul>
+<h1 id="部署插件"><a href="#部署插件" class="headerlink" title="部署插件"></a>部署插件</h1><ul>
 <li>文章字数和阅读时长的统计都是借助 <code>hexo-wordcount</code> 插件实现，可以使用 <code>npm</code>安装</li>
 </ul>
 <figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">npm i --save hexo-wordcount</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
 <ul>
-<li><code>Node</code> 版本在 7.6.0 之前，需要安装 2.x 版本
-<ul>
+<li><code>Node</code> 版本在 7.6.0 之前，需要安装 2.x 版本<ul>
 <li>查看<code>Node</code>版本，需要在<code>Git-Bash</code>内输入<code>Node -v</code>即可查看</li>
 <li>安装2.x版本，需要在<code>Git-Bash</code>内输入<code>npm i --save hexo-wordcount@2</code></li>
 </ul>
 </li>
 </ul>
-<h1>配置文件</h1>
-<ul>
-<li>编译器（如<code>Visual Stuidio Code</code>）打开<code>themes\Chic\_config.yml</code>，添加如下内容
-<ul>
+<h1 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h1><ul>
+<li>编译器（如<code>Visual Stuidio Code</code>）打开<code>themes\Chic\_config.yml</code>，添加如下内容<ul>
 <li>注意2个<code>_enable</code>开关，即<code>post_wordcount_enable</code>与<code>post_min2read_enable</code>不能放在<code>post_wordcount:</code>内</li>
 </ul>
 </li>
 </ul>
 <figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 文章字数和阅读时长</span><br><span class="line"></span><br><span class="line"># Post wordcount display settings</span><br><span class="line"></span><br><span class="line"># Dependencies: https://github.com/willin/hexo-wordcount</span><br><span class="line"></span><br><span class="line">post_wordcount:</span><br><span class="line"></span><br><span class="line"> item_text: true</span><br><span class="line"></span><br><span class="line"> wordcount: true # 单篇 字数统计</span><br><span class="line"></span><br><span class="line"> min2read: true # 单篇 阅读时长</span><br><span class="line"></span><br><span class="line"> totalcount: false # 网站 字数统计</span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">post_wordcount_enable: true # 字数统计</span><br><span class="line"></span><br><span class="line">post_min2read_enable: true # 阅读时长</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
-<h1>post页面配置</h1>
-<ul>
+<h1 id="post页面配置"><a href="#post页面配置" class="headerlink" title="post页面配置"></a>post页面配置</h1><ul>
 <li>编译器打开<code>themes\Chic\layout\_page\post.ejs</code>，按如下方式添加修改内容，在下图位置替换对应内容</li>
 </ul>
 <img src="/article/11459889/image-20220330195848393.png" class="" title="image-20220330195848393">
@@ -608,8 +599,7 @@
 <figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;% if(page.categories.length!==0 &amp;&amp; theme.post_category_enable){ %&gt;</span><br><span class="line"></span><br><span class="line">&lt;span class="post-category"&gt;</span><br><span class="line"></span><br><span class="line">Category:</span><br><span class="line"></span><br><span class="line">&lt;% page.categories.forEach(item=&gt;{ %&gt;</span><br><span class="line"></span><br><span class="line">&lt;a href="&lt;%- url_for(item.path) %&gt;"&gt;&lt;%- item.name %&gt;&lt;/a&gt;</span><br><span class="line"></span><br><span class="line">&lt;% }) %&gt;</span><br><span class="line"></span><br><span class="line">&lt;/span&gt;</span><br><span class="line"></span><br><span class="line">&lt;% } %&gt;</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
 <p><strong>修改后</strong></p>
 <figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;% if(page.categories.length!==0 &amp;&amp; theme.post_category_enable){ %&gt;</span><br><span class="line"></span><br><span class="line">&lt;span class="post-category"&gt;</span><br><span class="line"></span><br><span class="line">Category:</span><br><span class="line"></span><br><span class="line">&lt;% page.categories.forEach(item=&gt;{ %&gt;</span><br><span class="line"></span><br><span class="line">&lt;a href="&lt;%- url_for(item.path) %&gt;"&gt;&lt;%- item.name %&gt;&lt;/a&gt;</span><br><span class="line"></span><br><span class="line">&lt;% }) %&gt;</span><br><span class="line"></span><br><span class="line">&lt;/span&gt;</span><br><span class="line"></span><br><span class="line">&lt;% } %&gt;</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">&lt;% if(page.content &amp;&amp; theme.post_wordcount_enable){ %&gt;</span><br><span class="line"></span><br><span class="line">&lt;span class="post-count"&gt;</span><br><span class="line"></span><br><span class="line">Words:</span><br><span class="line"></span><br><span class="line">&lt;a href=""&gt;&lt;%= wordcount(page.content) %&gt;&lt;/a&gt; </span><br><span class="line"></span><br><span class="line">&lt;/span&gt;</span><br><span class="line"></span><br><span class="line">&lt;% } %&gt;</span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line">&lt;% if(page.content &amp;&amp; theme.post_min2read_enable){ %&gt;</span><br><span class="line"></span><br><span class="line">&lt;span class="post-count"&gt;</span><br><span class="line"></span><br><span class="line">Time:</span><br><span class="line"></span><br><span class="line">&lt;a href=""&gt;&lt;%= min2read(post.content) %&gt;min&lt;/a&gt; </span><br><span class="line"></span><br><span class="line">&lt;/span&gt;</span><br><span class="line"></span><br><span class="line">&lt;% } %&gt;</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
-<h1>Ref</h1>
-<ul>
+<h1 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h1><ul>
 <li><a target="_blank" rel="noopener" href="https://www.foxerlee.top/2020/02/17/wordcount/">Hexo 添加文章字数和阅读时长</a></li>
 </ul>
 

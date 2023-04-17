@@ -557,13 +557,11 @@
             <br><strong>⚠️警告：博客文章禁止一切形式的非授权非法转载！</strong>
             <br><strong>⚠️Attention: All forms of unauthorized illegal reposts are prohibited !</strong> 
             <hr>
-<p><strong>创建时间</strong>：2022年3月27日22:19:18<br>
-<strong>最新更新</strong>：2022年3月28日17:09:59</p>
+<p><strong>创建时间</strong>：2022年3月27日22:19:18<br><strong>最新更新</strong>：2022年3月28日17:09:59</p>
 <hr>
 <p><strong>核心思路</strong>：装生成sitemap的插件，谷歌站长控制台提交网站地图，再提示谷歌爬取</p>
 <hr>
-<h1>装插件</h1>
-<ul>
+<h1 id="装插件"><a href="#装插件" class="headerlink" title="装插件"></a>装插件</h1><ul>
 <li>装插件，在<code>Git-Bash</code>内进入Blog代码根目录，输入如下指令</li>
 </ul>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-generator-sitemap --save </span><br><span class="line">npm install hexo-generator-baidu-sitemap --save</span><br></pre></td></tr></tbody></table></figure>
@@ -575,25 +573,20 @@
 <li>在<code>Git-Bash</code>内通过<code>hexo clean</code>，<code>hexo g</code>部署后，在<code>public</code>文件夹下能看到这两个文件，就算是配置成功</li>
 </ul>
 <img src="/article/67414c31/image-20220330202126175.png" class="" title="image-20220330202126175">
-<h1>推送至谷歌站长控制台</h1>
-<ul>
+<h1 id="推送至谷歌站长控制台"><a href="#推送至谷歌站长控制台" class="headerlink" title="推送至谷歌站长控制台"></a>推送至谷歌站长控制台</h1><ul>
 <li>打开<a target="_blank" rel="noopener" href="https://search.google.com/search-console">谷歌站长控制台</a>，点击<code>站点地图</code>→在Blog地址后输入<code>sitemap.xml</code>，下下图是一个示例→点击提交→过1、2天or1周左右，<code>状态</code>会显示<code>成功</code></li>
 </ul>
 <img src="/article/67414c31/image-20220330202134454.png" class="" title="image-20220330202134454">
 <img src="/article/67414c31/image-20220330202142231.png" class="" title="image-20220330202142231">
-<h1>状态出现无法获取、Cloudn’t Fetch咋办？</h1>
-<h2 id="网址检查"><a class="header-anchor" href="#网址检查">﹣</a>网址检查</h2>
-<ul>
-<li>首先要确保提交的网址没有问题，可以通过<code>网址检查</code>→输入网址（sitemap的网址，比如<code>https://myoontyee.github.io/sitemap.xml</code>）→<code>测试实际网址</code>，如果没问题，那就走下面的办法，如果有问题…那就对应调整问题…看看不是大小写啊，<code>https</code>打成<code>http</code>，或者多打了一个斜杆<code>/</code>啥的</li>
+<h1 id="状态出现无法获取、Cloudn’t-Fetch咋办？"><a href="#状态出现无法获取、Cloudn’t-Fetch咋办？" class="headerlink" title="状态出现无法获取、Cloudn’t Fetch咋办？"></a>状态出现无法获取、Cloudn’t Fetch咋办？</h1><h2 id="网址检查"><a href="#网址检查" class="headerlink" title="网址检查"></a>网址检查</h2><ul>
+<li>首先要确保提交的网址没有问题，可以通过<code>网址检查</code>→输入网址（sitemap的网址，比如<code>https://myoontyee.github.io/sitemap.xml</code>）→<code>测试实际网址</code>，如果没问题，那就走下面的办法，如果有问题..那就对应调整问题..看看不是大小写啊，<code>https</code>打成<code>http</code>，或者多打了一个斜杆<code>/</code>啥的</li>
 </ul>
 <img src="/article/67414c31/image-20220330202156089.png" class="" title="image-20220330202156089">
-<h2 id="开始给谷歌邦邦两拳"><a class="header-anchor" href="#开始给谷歌邦邦两拳">﹣</a>开始给谷歌邦邦两拳</h2>
-<ul>
+<h2 id="开始给谷歌邦邦两拳"><a href="#开始给谷歌邦邦两拳" class="headerlink" title="开始给谷歌邦邦两拳"></a>开始给谷歌邦邦两拳</h2><ul>
 <li>显示这个的原因，是因为目前谷歌的控制台，即便他正在爬取，也给你显示无法获取，所以你不晓得到底是正在爬取，还是网址出了别的啥问题</li>
 <li>几个方法，先查看一下自己源码目录下的<code>robot.txt</code>文件，调整好后，以防万一再通过第三方网站生成<code>sitemap.xml</code>，放在<code>public</code>文件夹下，然后提示谷歌抓紧爬取，具体方法如下</li>
 </ul>
-<h3 id="检查robot-txt文件"><a class="header-anchor" href="#检查robot-txt文件">﹣</a>检查robot.txt文件</h3>
-<ul>
+<h3 id="检查robot-txt文件"><a href="#检查robot-txt文件" class="headerlink" title="检查robot.txt文件"></a>检查robot.txt文件</h3><ul>
 <li>直接在Blog源码所在文件夹里搜索，挨个改</li>
 </ul>
 <img src="/article/67414c31/image-20220330202207917.png" class="" title="image-20220330202207917">
@@ -602,8 +595,7 @@
 </ul>
 <figure class="highlight txt"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">User-agent: Googlebot</span><br><span class="line">Disallow: /</span><br></pre></td></tr></tbody></table></figure>
 <figure class="highlight txt"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">User-agent: *</span><br><span class="line">Disallow: /</span><br></pre></td></tr></tbody></table></figure>
-<h3 id="第三方网站生成sitemap-xml"><a class="header-anchor" href="#第三方网站生成sitemap-xml">﹣</a>第三方网站生成sitemap.xml</h3>
-<ul>
+<h3 id="第三方网站生成sitemap-xml"><a href="#第三方网站生成sitemap-xml" class="headerlink" title="第三方网站生成sitemap.xml"></a>第三方网站生成sitemap.xml</h3><ul>
 <li>打开<a target="_blank" rel="noopener" href="https://www.xml-sitemaps.com/">xml-sitemaps</a>→输入网址，如下图，输的是Blog网址，如我的是<code>https://myoontyee.github.io</code>→点<code>START</code></li>
 </ul>
 <img src="/article/67414c31/image-20220330202256213.png" class="" title="image-20220330202256213">
@@ -612,22 +604,18 @@
 </ul>
 <img src="/article/67414c31/image-20220330202335225.png" class="" title="image-20220330202335225">
 <img src="/article/67414c31/image-20220330202343395.png" class="" title="image-20220330202343395">
-<h3 id="提醒谷歌网站地图更新了，赶紧爬取一下哎"><a class="header-anchor" href="#提醒谷歌网站地图更新了，赶紧爬取一下哎">﹣</a>提醒谷歌网站地图更新了，赶紧爬取一下哎</h3>
-<ul>
+<h3 id="提醒谷歌网站地图更新了，赶紧爬取一下哎"><a href="#提醒谷歌网站地图更新了，赶紧爬取一下哎" class="headerlink" title="提醒谷歌网站地图更新了，赶紧爬取一下哎"></a>提醒谷歌网站地图更新了，赶紧爬取一下哎</h3><ul>
 <li>在你的浏览器输入以下网址</li>
-<li><code>http://www.google.com/ping?sitemap=&lt;完整的网站地图地址&gt;</code>
-<ul>
+<li><code>http://www.google.com/ping?sitemap=&lt;完整的网站地图地址&gt;</code><ul>
 <li>比如我的是<code>https://www.google.com/ping?sitemap=https://myoontyee.github.io/sitemap.xml</code>，记住修改成对应的sitemap地址</li>
 </ul>
 </li>
 </ul>
-<h1>结果</h1>
-<ul>
-<li>我隔了2-3天才成功…</li>
+<h1 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h1><ul>
+<li>我隔了2-3天才成功..</li>
 </ul>
 <img src="/article/67414c31/image-20220330202406086.png" class="" title="image-20220330202406086">
-<h1>Ref</h1>
-<ul>
+<h1 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h1><ul>
 <li><a target="_blank" rel="noopener" href="https://ahrefs.com/blog/zh/google-index/">10个让谷歌索引网站的方法（真实可行）</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/9c2d6db2f855">hexo(3)-生成sitemap站点地图</a></li>
 </ul>

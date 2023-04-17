@@ -557,30 +557,25 @@
             <br><strong>⚠️警告：博客文章禁止一切形式的非授权非法转载！</strong>
             <br><strong>⚠️Attention: All forms of unauthorized illegal reposts are prohibited !</strong> 
             <hr>
-<p><strong>创建时间</strong>：2022年4月7日15:29:08<br>
-<strong>最新更新</strong>：2022年4月8日10:16:03</p>
+<p><strong>创建时间</strong>：2022年4月7日15:29:08<br><strong>最新更新</strong>：2022年4月8日10:16:03</p>
 <hr>
 <p><strong>Problem Description</strong>：C++ defines global variables, how to define all parameters in the header file? How to use a file to store all the parameters in the project? How to pass global parameters? ——Take Geant4 passing ray exit coordinates as an example</p>
 <p><strong>核心思路</strong>：</p>
 <ul>
-<li>通常操作
-<ul>
+<li>通常操作<ul>
 <li>头文件<code>.h</code>里声明，源文件<code>.cpp</code>里定义</li>
 <li>Geant4头文件是<code>.hh</code>，源文件是<code>.cc</code></li>
 </ul>
 </li>
-<li>Geant4里的操作
-<ul>
+<li>Geant4里的操作<ul>
 <li><code>include/B5Constants.hh</code>声明变量（<code>extern</code>，不赋值）</li>
 <li>对应头文件<code>public</code>内声明变量，如<code>include/B5PrimaryGeneratorAction.hh</code>（<code>extern</code>，不赋值）</li>
-<li>对应源文件
-<ul>
+<li>对应源文件<ul>
 <li>头部初始化变量（没有<code>extern</code>，只定义，如<code>G4double</code>，初始化赋值）</li>
 <li>函数部分赋值（没有<code>extern</code>，没有定义，直接赋值）</li>
 </ul>
 </li>
-<li>写到<code>.root</code>文件里
-<ul>
+<li>写到<code>.root</code>文件里<ul>
 <li><code>src/B5RunAction.cc</code>初始化表格，记下<code>Column Id</code></li>
 <li><code>src/B5EventAction.cc</code>内直接使用上面定义的变量传递数据（没有<code>extern</code>，没有定义，直接使用）</li>
 </ul>
@@ -589,44 +584,35 @@
 </li>
 </ul>
 <hr>
-<h1>基本思路与概念</h1>
-<ul>
-<li>例子
-<ul>
+<h1 id="基本思路与概念"><a href="#基本思路与概念" class="headerlink" title="基本思路与概念"></a>基本思路与概念</h1><ul>
+<li>例子<ul>
 <li>头文件<code>state.h</code></li>
 <li>源文件<code>state.cpp</code></li>
-<li>其他源文件<code>t1.cpp</code>,<code>t2.cpp</code>,<code>t3.cpp</code>
-<ul>
+<li>其他源文件<code>t1.cpp</code>,<code>t2.cpp</code>,<code>t3.cpp</code><ul>
 <li>这些源文件都包含头文件<code>state.h</code></li>
 </ul>
 </li>
 <li>需要定义一个全局变量供这些源文件使用</li>
 </ul>
 </li>
-<li>方法如下
-<ul>
+<li>方法如下<ul>
 <li>在<code>state.h</code>中声明全局变量<code>extern int a;</code></li>
 <li>在<code>state.cpp</code>中定义该全局变量<code>int a = 10;</code></li>
 </ul>
 </li>
-<li>概念区别
-<ul>
-<li>声明
-<ul>
-<li>一个声明必须满足两个条件，否则就是定义
-<ul>
+<li>概念区别<ul>
+<li>声明<ul>
+<li>一个声明必须满足两个条件，否则就是定义<ul>
 <li>声明必须使用<code>extern</code>关键字</li>
 <li>不能给变量赋初始值</li>
 </ul>
 </li>
 </ul>
 </li>
-<li>例子如下  <figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="type">int</span> a; <span class="comment">// 声明</span></span><br><span class="line"><span class="type">int</span> a; <span class="comment">// 定义</span></span><br><span class="line"><span class="type">int</span> a = <span class="number">0</span>; <span class="comment">// 定义</span></span><br><span class="line"><span class="keyword">extern</span> <span class="type">int</span> a = <span class="number">0</span>; 定义</span><br></pre></td></tr></tbody></table></figure>
-</li>
+<li>例子如下  <figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> <span class="type">int</span> a; <span class="comment">// 声明</span></span><br><span class="line"><span class="type">int</span> a; <span class="comment">// 定义</span></span><br><span class="line"><span class="type">int</span> a = <span class="number">0</span>; <span class="comment">// 定义</span></span><br><span class="line"><span class="keyword">extern</span> <span class="type">int</span> a = <span class="number">0</span>; 定义</span><br></pre></td></tr></tbody></table></figure></li>
 </ul>
 </li>
-<li>注意事项
-<ul>
+<li>注意事项<ul>
 <li>头文件中应使用<code>extern</code>关键字声明全局变量（不定义）</li>
 <li>如果这个变量有多个文件用到，可以新建一个<code>.cpp</code>文件，在其中定义，并把该文件加入工程并调用</li>
 <li>头文件尽量不要定义任何变量</li>
@@ -638,26 +624,21 @@
 </ul>
 </li>
 </ul>
-<h1>魔改exampleB5实现射线位置传递</h1>
-<h2 id="声明变量"><a class="header-anchor" href="#声明变量">﹣</a>声明变量</h2>
-<ul>
-<li>用代码编辑器打开<code>include/B5Constants.hh</code>，添加以下内容</li>
-</ul>
+<h1 id="魔改exampleB5实现射线位置传递"><a href="#魔改exampleB5实现射线位置传递" class="headerlink" title="魔改exampleB5实现射线位置传递"></a>魔改exampleB5实现射线位置传递</h1><h2 id="声明变量"><a href="#声明变量" class="headerlink" title="声明变量"></a>声明变量</h2><ul>
+<li><p>用代码编辑器打开<code>include/B5Constants.hh</code>，添加以下内容</p>
 <figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">extern</span> G4double Primary_worldpos_x;</span><br><span class="line"><span class="keyword">extern</span> G4double Primary_worldpos_y;</span><br><span class="line"><span class="keyword">extern</span> G4double Primary_worldpos_z;</span><br></pre></td></tr></tbody></table></figure>
-<ul>
-<li>用代码编辑器打开<code>include/B5PrimaryGeneratorAction.hh</code>，在<code>#include</code>各种库下方，<code>class B5PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction</code>上方添加以下内容</li>
+</li>
+<li><p>用代码编辑器打开<code>include/B5PrimaryGeneratorAction.hh</code>，在<code>#include</code>各种库下方，<code>class B5PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction</code>上方添加以下内容</p>
+</li>
 </ul>
 <figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// =============================================================================</span></span><br><span class="line"><span class="comment">// 传递变量</span></span><br><span class="line"><span class="comment">// =============================================================================</span></span><br><span class="line"><span class="comment">// 2022年4月7日</span></span><br><span class="line"><span class="comment">// 首次添加</span></span><br><span class="line"><span class="comment">// 粒子出射位置的x、y、z坐标</span></span><br><span class="line"><span class="comment">// =============================================================================</span></span><br><span class="line"><span class="keyword">extern</span> G4double Primary_worldpos_x;</span><br><span class="line"><span class="keyword">extern</span> G4double Primary_worldpos_y;</span><br><span class="line"><span class="keyword">extern</span> G4double Primary_worldpos_z;</span><br><span class="line"><span class="comment">// =============================================================================</span></span><br></pre></td></tr></tbody></table></figure>
-<h2 id="定义变量"><a class="header-anchor" href="#定义变量">﹣</a>定义变量</h2>
-<ul>
-<li>
-<p>用代码编辑器打开<code>src/B5PrimaryGeneratorAction.cc</code>，添加修改以下内容</p>
+<h2 id="定义变量"><a href="#定义变量" class="headerlink" title="定义变量"></a>定义变量</h2><ul>
+<li><p>用代码编辑器打开<code>src/B5PrimaryGeneratorAction.cc</code>，添加修改以下内容</p>
 <ul>
 <li>别忘记该文件要<code>#include "Randomize.hh"</code>用于产生随机数</li>
 </ul>
 </li>
-<li>
-<p>在<code>#include</code>下方，<code>B5PrimaryGeneratorAction::B5PrimaryGeneratorAction()</code>上方进行初始化</p>
+<li><p>在<code>#include</code>下方，<code>B5PrimaryGeneratorAction::B5PrimaryGeneratorAction()</code>上方进行初始化</p>
 </li>
 </ul>
 <figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">G4double Primary_worldpos_x = <span class="number">0.</span>; <span class="comment">// 初始化</span></span><br><span class="line">G4double Primary_worldpos_y = <span class="number">0.</span>; <span class="comment">// 初始化</span></span><br><span class="line">G4double Primary_worldpos_z = <span class="number">0.</span>; <span class="comment">// 初始化</span></span><br></pre></td></tr></tbody></table></figure>
@@ -681,29 +662,25 @@
 </td>
 </tr></tbody></table>
 </div>
-<h2 id="初始化表格"><a class="header-anchor" href="#初始化表格">﹣</a>初始化表格</h2>
-<ul>
-<li>用代码编辑器打开<code>src/B5RunAction.cc</code>，在<code>B5RunAction::B5RunAction(B5EventAction* eventAction) : G4UserRunAction(), fEventAction(eventAction)</code>内添加以下内容
-<ul>
-<li>我这3列对应的Id是26~28，具体到自己的代码里，要自己数一下对应的<code>column Id</code></li>
+
+
+<h2 id="初始化表格"><a href="#初始化表格" class="headerlink" title="初始化表格"></a>初始化表格</h2><ul>
+<li>用代码编辑器打开<code>src/B5RunAction.cc</code>，在<code>B5RunAction::B5RunAction(B5EventAction* eventAction) : G4UserRunAction(), fEventAction(eventAction)</code>内添加以下内容<ul>
+<li>我这3列对应的Id是26~28，具体到自己的代码里，要自己数一下对应的<code>column Id</code><figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 2022年4月7日</span></span><br><span class="line"><span class="comment">// 射线出射位置</span></span><br><span class="line">analysisManager-&gt;<span class="built_in">CreateNtupleDColumn</span>(<span class="string">"Primary_pox_x"</span>);   <span class="comment">// column Id = 26</span></span><br><span class="line">analysisManager-&gt;<span class="built_in">CreateNtupleDColumn</span>(<span class="string">"Primary_pox_y"</span>);   <span class="comment">// column Id = 27</span></span><br><span class="line">analysisManager-&gt;<span class="built_in">CreateNtupleDColumn</span>(<span class="string">"Primary_pox_z"</span>);   <span class="comment">// column Id = 28</span></span><br></pre></td></tr></tbody></table></figure>
+</li>
 </ul>
 </li>
 </ul>
-<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 2022年4月7日</span></span><br><span class="line"><span class="comment">// 射线出射位置</span></span><br><span class="line">analysisManager-&gt;<span class="built_in">CreateNtupleDColumn</span>(<span class="string">"Primary_pox_x"</span>);   <span class="comment">// column Id = 26</span></span><br><span class="line">analysisManager-&gt;<span class="built_in">CreateNtupleDColumn</span>(<span class="string">"Primary_pox_y"</span>);   <span class="comment">// column Id = 27</span></span><br><span class="line">analysisManager-&gt;<span class="built_in">CreateNtupleDColumn</span>(<span class="string">"Primary_pox_z"</span>);   <span class="comment">// column Id = 28</span></span><br></pre></td></tr></tbody></table></figure>
-<h2 id="输出进-root"><a class="header-anchor" href="#输出进-root">﹣</a>输出进.root</h2>
-<ul>
+<h2 id="输出进-root"><a href="#输出进-root" class="headerlink" title="输出进.root"></a>输出进.root</h2><ul>
 <li>用代码编辑器打开<code>src/B5EventAction.cc</code>，在<code>void B5EventAction::EndOfEventAction(const G4Event *event)</code>对应位置添加以下内容</li>
 </ul>
 <figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// columns 26-28</span></span><br><span class="line"><span class="comment">// 出射粒子 位置</span></span><br><span class="line"><span class="comment">// 下面这个输出的注释，当你需要确认参数是否传递过来，可以取消下面这个注释，检查效果</span></span><br><span class="line"><span class="comment">// G4cout  &lt;&lt; "=================================" &lt;&lt; G4endl</span></span><br><span class="line"><span class="comment">//         &lt;&lt; "Primary_pox_x(mm) : " &lt;&lt; (Primary_worldpos_x/mm) &lt;&lt; G4endl</span></span><br><span class="line"><span class="comment">//         &lt;&lt; "Primary_pox_y(mm) : " &lt;&lt; (Primary_worldpos_y/mm) &lt;&lt; G4endl</span></span><br><span class="line"><span class="comment">//         &lt;&lt; "Primary_pox_z(mm) : " &lt;&lt; (Primary_worldpos_z/mm) &lt;&lt; G4endl</span></span><br><span class="line"><span class="comment">//         &lt;&lt; "=================================" &lt;&lt; G4endl;</span></span><br><span class="line"><span class="comment">// 下面这个对应的是Column Id，我是26-28</span></span><br><span class="line">analysisManager-&gt;<span class="built_in">FillNtupleDColumn</span>(<span class="number">26</span>, (Primary_worldpos_x));</span><br><span class="line">analysisManager-&gt;<span class="built_in">FillNtupleDColumn</span>(<span class="number">27</span>, (Primary_worldpos_y));</span><br><span class="line">analysisManager-&gt;<span class="built_in">FillNtupleDColumn</span>(<span class="number">28</span>, (Primary_worldpos_z));</span><br></pre></td></tr></tbody></table></figure>
-<h2 id="输出效果"><a class="header-anchor" href="#输出效果">﹣</a>输出效果</h2>
-<img src="/article/c86dac85/image-20220407154648659.png" class="" title="image-20220407154648659">
-<h2 id="结果"><a class="header-anchor" href="#结果">﹣</a>结果</h2>
-<ul>
+<h2 id="输出效果"><a href="#输出效果" class="headerlink" title="输出效果"></a>输出效果</h2><img src="/article/c86dac85/image-20220407154648659.png" class="" title="image-20220407154648659">
+<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><ul>
 <li>你就可以把这几个数据传递到输出的<code>.root</code>文件里了！</li>
 <li>读取<code>.root</code>文件见<a href="./b20a8a22.html">Python如何基于uproot库读取.root文件，如何查看其内部数据，如何将其转化为DataFrame</a></li>
 </ul>
-<h1>Ref</h1>
-<ul>
+<h1 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h1><ul>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/m1109048058/article/details/79485064">c++多个文件中如何共用一个全局变量</a></li>
 </ul>
 

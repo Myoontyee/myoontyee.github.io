@@ -563,8 +563,7 @@
             <br><strong>⚠️警告：博客文章禁止一切形式的非授权非法转载！</strong>
             <br><strong>⚠️Attention: All forms of unauthorized illegal reposts are prohibited !</strong> 
             <hr>
-<p><strong>创建时间</strong>：2022年4月25日11:31:01<br>
-<strong>最新更新</strong>：2022年4月26日09:53:09</p>
+<p><strong>创建时间</strong>：2022年4月25日11:31:01<br><strong>最新更新</strong>：2022年4月26日09:53:09</p>
 <hr>
 <p><strong>Problem Description</strong>：WSL2 + Visual Studio Code + LaTeX configuration tutorial</p>
 <p><strong>核心思路</strong>：</p>
@@ -586,42 +585,30 @@
 <li>LaTeX Workshop v8.25.0</li>
 </ul>
 <hr>
-<h1>安装Tex Live</h1>
-<ul>
-<li>
-<p>进入<a target="_blank" rel="noopener" href="https://mirrors.huaweicloud.com/CTAN/systems/texlive/tlnet/">华为云镜像</a>，选<code>install-tl-unx.tar.gz</code>这个安装</p>
-<ul>
-<li>
-<img src="/article/485df768/image-20220425232150743.png" class="" title="image-20220425232150743">
-</li>
+<h1 id="安装Tex-Live"><a href="#安装Tex-Live" class="headerlink" title="安装Tex Live"></a>安装Tex Live</h1><ul>
+<li>进入<a target="_blank" rel="noopener" href="https://mirrors.huaweicloud.com/CTAN/systems/texlive/tlnet/">华为云镜像</a>，选<code>install-tl-unx.tar.gz</code>这个安装<ul>
+<li><img src="/article/485df768/image-20220425232150743.png" class="" title="image-20220425232150743"></li>
 </ul>
 </li>
-<li>
-<p>下载下来以后，先解压这个<code>install-tl-unx.tar.gz</code>，得到<code>install-tl-20220424</code>这样一个文件夹</p>
-<ul>
+<li>下载下来以后，先解压这个<code>install-tl-unx.tar.gz</code>，得到<code>install-tl-20220424</code>这样一个文件夹<ul>
 <li>根据你下载的版本不同，后面的数字也会不同</li>
-<li>
-<img src="/article/485df768/image-20220425232155695.png" class="" title="image-20220425232155695">
+<li><img src="/article/485df768/image-20220425232155695.png" class="" title="image-20220425232155695">
 </li>
 </ul>
 </li>
-<li>
-<p>然后打开<code>bash</code>（<code>WSL</code>的<code>bash</code>），进对应目录（解压<code>install-tl-unx.tar.gz</code>的目录，这里是进入到<code>install-tl-20220424</code>里头）</p>
-</li>
-<li>
-<p>在<code>bash</code>内输入如下指令进行在线安装</p>
+</ul>
 <ul>
+<li>然后打开<code>bash</code>（<code>WSL</code>的<code>bash</code>），进对应目录（解压<code>install-tl-unx.tar.gz</code>的目录，这里是进入到<code>install-tl-20220424</code>里头）</li>
+<li>在<code>bash</code>内输入如下指令进行在线安装<ul>
 <li>看到下图信息后，输入<code>I</code>，按回车</li>
 </ul>
 </li>
 </ul>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./install-tl -repository https://mirrors.huaweicloud.com/CTAN/systems/texlive/tlnet/</span><br></pre></td></tr></tbody></table></figure>
 <ul>
-<li>
-<img src="/article/485df768/image-20220425232206110.png" class="" title="image-20220425232206110">
+<li><img src="/article/485df768/image-20220425232206110.png" class="" title="image-20220425232206110">
 </li>
-<li>
-<p>添加到环境变量，在<code>bash</code>内输入如下信息</p>
+<li><p>添加到环境变量，在<code>bash</code>内输入如下信息</p>
 <ul>
 <li>先进<code>/usr/local/texlive</code>看看下面的数字文件夹是啥，我装的是<code>2022</code>版本所以是<code>2022</code></li>
 </ul>
@@ -632,8 +619,7 @@
 <li>在<code>bash</code>内输入如下信息安装缺少的库+更新</li>
 </ul>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt-get install build-essential</span><br><span class="line">tlmgr update --self --all</span><br></pre></td></tr></tbody></table></figure>
-<h1>同步字体</h1>
-<ul>
+<h1 id="同步字体"><a href="#同步字体" class="headerlink" title="同步字体"></a>同步字体</h1><ul>
 <li>在<code>bash</code>内输入如下指令安装<code>fontconfig</code></li>
 </ul>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install fontconfig</span><br></pre></td></tr></tbody></table></figure>
@@ -642,8 +628,7 @@
 </ul>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/fonts/local.conf</span><br></pre></td></tr></tbody></table></figure>
 <ul>
-<li>配置写入，在上一步操作完成后把下面信息复制粘贴进去
-<ul>
+<li>配置写入，在上一步操作完成后把下面信息复制粘贴进去<ul>
 <li>然后<code>ESC</code>，<code>:wq</code>保存</li>
 </ul>
 </li>
@@ -653,42 +638,31 @@
 <li>在<code>bash</code>内输入如下指令刷新字体缓存</li>
 </ul>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fc-cache -fv</span><br></pre></td></tr></tbody></table></figure>
-<h1>WSL + Visual Studio Code安装插件</h1>
-<ul>
-<li>先在对应目录打开<code>Remote - WSL</code>，启动<code>WSL</code>环境，后在拓展中找到<code>LaTeX Workshop</code>安装
-<ul>
-<li>
-<img src="/article/485df768/image-20220425232244903.png" class="" title="image-20220425232244903">
-</li>
-<li>
-<img src="/article/485df768/image-20220425232224189.png" class="" title="image-20220425232224189">
+<h1 id="WSL-Visual-Studio-Code安装插件"><a href="#WSL-Visual-Studio-Code安装插件" class="headerlink" title="WSL + Visual Studio Code安装插件"></a>WSL + Visual Studio Code安装插件</h1><ul>
+<li>先在对应目录打开<code>Remote - WSL</code>，启动<code>WSL</code>环境，后在拓展中找到<code>LaTeX Workshop</code>安装<ul>
+<li><img src="/article/485df768/image-20220425232244903.png" class="" title="image-20220425232244903"></li>
+<li><img src="/article/485df768/image-20220425232224189.png" class="" title="image-20220425232224189">
 </li>
 </ul>
 </li>
 </ul>
-<h1>Visual Studio Code配置</h1>
-<ul>
-<li>
-<p>在<code>Visual Studio Code</code>内按<kbd>F1</kbd>，输入<code>setjson</code>，选择<code>打开设置(json)</code></p>
+<h1 id="Visual-Studio-Code配置"><a href="#Visual-Studio-Code配置" class="headerlink" title="Visual Studio Code配置"></a>Visual Studio Code配置</h1><ul>
+<li><p>在<code>Visual Studio Code</code>内按<kbd>F1</kbd>，输入<code>setjson</code>，选择<code>打开设置(json)</code></p>
 <ul>
 <li><kbd>F1</kbd>这个快捷键冲突的话，就按<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd></li>
-<li>
-<img src="/article/485df768/image-20220425232253235.png" class="" title="image-20220425232253235">
+<li><img src="/article/485df768/image-20220425232253235.png" class="" title="image-20220425232253235">
 </li>
 </ul>
 </li>
-<li>
-<p>在<code>"latex-workshop.intellisense.biblatexJSON.replace": {},</code>语句下方添加如下语句，然后保存</p>
+<li><p>在<code>"latex-workshop.intellisense.biblatexJSON.replace": {},</code>语句下方添加如下语句，然后保存</p>
 <ul>
 <li>注意一定要在最外侧的大括号<code>{}</code>内添加</li>
 </ul>
 </li>
 </ul>
 <figure class="highlight json"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">"latex-workshop.latex.tools"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">{</span></span><br><span class="line">      <span class="attr">"name"</span><span class="punctuation">:</span> <span class="string">"texify"</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">"command"</span><span class="punctuation">:</span> <span class="string">"texify"</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">"args"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="string">"--synctex"</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">"--pdf"</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">"--tex-option=\"-interaction=nonstopmode\""</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">"--tex-option=\"-file-line-error\""</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">"%DOC%.tex"</span></span><br><span class="line">      <span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">}</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">{</span></span><br><span class="line">        <span class="comment">// 编译工具和命令</span></span><br><span class="line">        <span class="attr">"name"</span><span class="punctuation">:</span> <span class="string">"xelatex"</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">"command"</span><span class="punctuation">:</span> <span class="string">"xelatex"</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">"args"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">            <span class="string">"-synctex=1"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="string">"-interaction=nonstopmode"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="string">"-file-line-error"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="string">"%DOC%"</span></span><br><span class="line">        <span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">}</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">{</span></span><br><span class="line">        <span class="attr">"name"</span><span class="punctuation">:</span> <span class="string">"pdflatex"</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">"command"</span><span class="punctuation">:</span> <span class="string">"pdflatex"</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">"args"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">            <span class="string">"-synctex=1"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="string">"-interaction=nonstopmode"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="string">"-file-line-error"</span><span class="punctuation">,</span></span><br><span class="line">            <span class="string">"%DOC%"</span></span><br><span class="line">        <span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">}</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">{</span></span><br><span class="line">        <span class="attr">"name"</span><span class="punctuation">:</span> <span class="string">"bibtex"</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">"command"</span><span class="punctuation">:</span> <span class="string">"bibtex"</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">"args"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">            <span class="string">"%DOCFILE%"</span></span><br><span class="line">        <span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">}</span></span><br><span class="line">  <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line"><span class="attr">"latex-workshop.latex.recipes"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">{</span></span><br><span class="line">      <span class="attr">"name"</span><span class="punctuation">:</span> <span class="string">"PDFLaTeX"</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">"tools"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="string">"pdflatex"</span></span><br><span class="line">      <span class="punctuation">]</span></span><br><span class="line">  	<span class="punctuation">}</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">{</span></span><br><span class="line">      <span class="attr">"name"</span><span class="punctuation">:</span> <span class="string">"XeLaTeX"</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">"tools"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="string">"xelatex"</span></span><br><span class="line">      <span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">}</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">{</span></span><br><span class="line">      <span class="attr">"name"</span><span class="punctuation">:</span> <span class="string">"latexmk"</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">"tools"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="string">"latexmk"</span></span><br><span class="line">      <span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">}</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">{</span></span><br><span class="line">      <span class="attr">"name"</span><span class="punctuation">:</span> <span class="string">"BibTeX"</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">"tools"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="string">"bibtex"</span></span><br><span class="line">      <span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">}</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">{</span></span><br><span class="line">      <span class="attr">"name"</span><span class="punctuation">:</span> <span class="string">"pdflatex -&gt; bibtex -&gt; pdflatex*2"</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">"tools"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="string">"pdflatex"</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">"bibtex"</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">"pdflatex"</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">"pdflatex"</span></span><br><span class="line">      <span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">}</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">{</span></span><br><span class="line">      <span class="attr">"name"</span><span class="punctuation">:</span> <span class="string">"xelatex -&gt; bibtex -&gt; xelatex*2"</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">"tools"</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="string">"xelatex"</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">"bibtex"</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">"xelatex"</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">"xelatex"</span></span><br><span class="line">      <span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">}</span></span><br><span class="line"><span class="punctuation">]</span><span class="punctuation">,</span></span><br></pre></td></tr></tbody></table></figure>
-<h1>做个测试</h1>
-<ul>
-<li>在<code>Visual Studio Code</code>的项目文件夹内新建一个<code>test.tex</code>，输入以下内容，然后<code>Build LaTeX project</code>，再<code>View LaTeX PDF file</code>
-<ul>
+<h1 id="做个测试"><a href="#做个测试" class="headerlink" title="做个测试"></a>做个测试</h1><ul>
+<li>在<code>Visual Studio Code</code>的项目文件夹内新建一个<code>test.tex</code>，输入以下内容，然后<code>Build LaTeX project</code>，再<code>View LaTeX PDF file</code><ul>
 <li><code>Build LaTeX project</code>是下图那个绿色三角形</li>
 <li><code>View LaTeX PDF file</code>是下图绿色三角形旁边那个</li>
 </ul>
@@ -697,12 +671,10 @@
 </ul>
 <figure class="highlight tex"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">%! TeX program = pdflatex</span></span><br><span class="line"><span class="keyword">\documentclass</span>{article}</span><br><span class="line"></span><br><span class="line"><span class="keyword">\begin</span>{document}</span><br><span class="line">    press ctrl+b to complie, press ctrl+alt+v to view pdf</span><br><span class="line"><span class="keyword">\end</span>{document}</span><br></pre></td></tr></tbody></table></figure>
 <ul>
-<li>
-<img src="/article/485df768/image-20220425232300688.png" class="" title="image-20220425232300688">
+<li><img src="/article/485df768/image-20220425232300688.png" class="" title="image-20220425232300688">
 </li>
 </ul>
-<h1>Ref</h1>
-<ul>
+<h1 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h1><ul>
 <li><a target="_blank" rel="noopener" href="https://www.shushuwoa.com/2021/02/05/%E5%9C%A8-WSL-%E4%B8%AD%E5%AE%89%E8%A3%85-LaTeX/">在 WSL 中安装 LaTeX</a></li>
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/38178015">使用VSCode编写LaTeX</a></li>
 </ul>

@@ -557,55 +557,45 @@
             <br><strong>⚠️警告：博客文章禁止一切形式的非授权非法转载！</strong>
             <br><strong>⚠️Attention: All forms of unauthorized illegal reposts are prohibited !</strong> 
             <hr>
-<p><strong>创建时间</strong>：2022年3月30日19:49:49<br>
-<strong>最新更新</strong>：2022年3月30日19:49:54</p>
+<p><strong>创建时间</strong>：2022年3月30日19:49:49<br><strong>最新更新</strong>：2022年3月30日19:49:54</p>
 <hr>
 <p><strong>核心思路</strong>：</p>
 <ul>
-<li>
-<p>加CSS插件</p>
+<li><p>加CSS插件</p>
 </li>
-<li>
-<p>修改页面布局</p>
+<li><p>修改页面布局</p>
 </li>
-<li>
-<p>对主题进行配置</p>
+<li><p>对主题进行配置</p>
 </li>
 </ul>
 <hr>
 <ul>
-<li>
-<p>单篇博文阅读量配置见[[Hexo + Chic 增加单篇文章浏览统计]]</p>
+<li><p>单篇博文阅读量配置见[[Hexo + Chic 增加单篇文章浏览统计]]</p>
 </li>
-<li>
-<p>最终效果如下图</p>
+<li><p>最终效果如下图</p>
 </li>
 </ul>
 <img src="/article/a976f1c7/image-20220330195043878.png" class="" title="image-20220330195043878">
-<h1>添加CSS插件<code>site-visitor.ejs</code></h1>
-<ul>
+<h1 id="添加CSS插件site-visitor-ejs"><a href="#添加CSS插件site-visitor-ejs" class="headerlink" title="添加CSS插件site-visitor.ejs"></a>添加CSS插件<code>site-visitor.ejs</code></h1><ul>
 <li>用代码编译器（如<code>Visual Studio Code</code>）打开<code>themes\Chic\layout\_plugins\site-visitor.ejs</code>，输入以下内容</li>
 </ul>
 <figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"&gt;&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;% if (theme.visit_counter.site_uv) { %&gt;</span><br><span class="line"></span><br><span class="line">&lt;span class="site-uv"&gt;</span><br><span class="line"></span><br><span class="line"> 总访客量:</span><br><span class="line"></span><br><span class="line"> &lt;i class="busuanzi-value" id="busuanzi_value_site_uv"&gt;&lt;/i&gt;</span><br><span class="line"></span><br><span class="line">&lt;/span&gt;&amp;nbsp;</span><br><span class="line"></span><br><span class="line">&lt;% } %&gt;</span><br><span class="line"></span><br><span class="line">&lt;% if (theme.visit_counter.site_pv) { %&gt;</span><br><span class="line"></span><br><span class="line">&lt;span class="site-pv"&gt;</span><br><span class="line"></span><br><span class="line"> | 总访问量:</span><br><span class="line"></span><br><span class="line"> &lt;i class="busuanzi-value" id="busuanzi_value_site_pv"&gt;&lt;/i&gt;</span><br><span class="line"></span><br><span class="line">&lt;/span&gt;</span><br><span class="line"></span><br><span class="line">&lt;% } %&gt;</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
 <ul>
 <li>其中<code>&lt;script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"&gt;&lt;/script&gt;</code>用于在页面中引入<code>busuanzi.js</code></li>
 </ul>
-<h1>修改页面布局</h1>
-<ul>
-<li>用代码编辑器打开<code>themes\Chic\layout\_partial\footer.ejs</code>，在<code>&lt;span&gt;&lt;/span&gt;</code>标签内添加如下代码</li>
+<h1 id="修改页面布局"><a href="#修改页面布局" class="headerlink" title="修改页面布局"></a>修改页面布局</h1><ul>
+<li>用代码编辑器打开<code>themes\Chic\layout\_partial\footer.ejs</code>，在<code>&lt;span&gt;&lt;/span&gt;</code>标签内添加如下代码<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;% if (theme.visit_counter) { %&gt;  </span><br><span class="line"> &lt;%- partial("../_plugins/site-visitor") %&gt;  </span><br><span class="line">&lt;% } %&gt;</span><br></pre></td></tr></tbody></table></figure>
+</li>
 </ul>
-<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;% if (theme.visit_counter) { %&gt;  </span><br><span class="line"> &lt;%- partial("../_plugins/site-visitor") %&gt;  </span><br><span class="line">&lt;% } %&gt;</span><br></pre></td></tr></tbody></table></figure>
 <p>即，<strong>修改前</strong></p>
 <figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;footer id="footer" class="footer"&gt;</span><br><span class="line"></span><br><span class="line"> &lt;div class="copyright"&gt;</span><br><span class="line"></span><br><span class="line"> &lt;span&gt;© &lt;%= config.author %&gt; | Powered by &lt;a href="https://hexo.io" target="_blank"&gt;Hexo&lt;/a&gt; &amp; &lt;a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank"&gt;Chic&lt;/a&gt;&lt;/span&gt;</span><br><span class="line"></span><br><span class="line"> &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;/footer&gt;</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
 <p><strong>修改后</strong></p>
 <figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;footer id="footer" class="footer"&gt;</span><br><span class="line"></span><br><span class="line"> &lt;div class="copyright"&gt;</span><br><span class="line"></span><br><span class="line"> &lt;span&gt;© &lt;%= config.author %&gt; | Powered by &lt;a href="https://hexo.io" target="_blank"&gt;Hexo&lt;/a&gt; &amp; &lt;a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank"&gt;Chic&lt;/a&gt;</span><br><span class="line"></span><br><span class="line"> |</span><br><span class="line"></span><br><span class="line"> &lt;!-- 访客数量 --&gt;</span><br><span class="line"></span><br><span class="line"> &lt;% if (theme.visit_counter) { %&gt;</span><br><span class="line"></span><br><span class="line"> &lt;%- partial("../_plugins/site-visitor") %&gt;</span><br><span class="line"></span><br><span class="line"> &lt;% } %&gt;</span><br><span class="line"></span><br><span class="line"> &lt;/span&gt;</span><br><span class="line"></span><br><span class="line"> &lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;/footer&gt;</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
-<h1>配置主题</h1>
-<ul>
+<h1 id="配置主题"><a href="#配置主题" class="headerlink" title="配置主题"></a>配置主题</h1><ul>
 <li>用代码编辑器打开<code>themes\Chic\_config.yml</code>，在最下方添加以下内容</li>
 </ul>
 <figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 站浏览数统计  </span><br><span class="line">visit_counter:   </span><br><span class="line"> site_uv: true # 访客数量  </span><br><span class="line"> site_pv: true # 浏览次数</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
-<h1>Ref</h1>
-<ul>
+<h1 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h1><ul>
 <li><a target="_blank" rel="noopener" href="https://yuanlichenai.cn/2020/02/02/chic/">Chic主题</a></li>
 </ul>
 

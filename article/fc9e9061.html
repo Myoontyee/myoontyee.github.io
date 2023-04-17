@@ -557,14 +557,12 @@
             <br><strong>⚠️警告：博客文章禁止一切形式的非授权非法转载！</strong>
             <br><strong>⚠️Attention: All forms of unauthorized illegal reposts are prohibited !</strong> 
             <hr>
-<p><strong>创建时间</strong>：2022年4月5日10:16:53<br>
-<strong>最新更新</strong>：2022年4月5日14:12:41</p>
+<p><strong>创建时间</strong>：2022年4月5日10:16:53<br><strong>最新更新</strong>：2022年4月5日14:12:41</p>
 <hr>
 <p><strong>Problem Description</strong>：WSL + Geant4 configure C++ boost library, configure external library can also refer to this post</p>
 <p><strong>核心思路</strong>：</p>
 <ul>
-<li>两种配置方式
-<ul>
+<li>两种配置方式<ul>
 <li>外部库放<code>.\geant4.10.07.p02\install\include\Geant4</code>这个文件夹下</li>
 <li>外部库放项目文件夹下的<code>.\include</code>下</li>
 </ul>
@@ -574,13 +572,12 @@
 <ul>
 <li>目前我<code>string</code>分割是用<code>boost</code>库搞的，没库苦手啥都干不动啊…从头写要老命了，效率又丢人，说出去都不好意思，那好吧，那就发挥聪明才智让Geant4能调用<code>C++</code>的外部库呗！</li>
 </ul>
-<h1>背景</h1>
-<ul>
+<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><ul>
 <li>下面这大段话来自<code>Ref</code>，简单来说就是<code>Boost</code>库真的很<code>Boost</code>，能<code>Boost</code>我的代码</li>
 </ul>
 <blockquote>
 <p>Boost 是一个功能强大、构造精巧、跨平台、开源并且完全免费的 C++ 程序库。</p>
-<p>1998 年，Beman G.Dawes（C<ins>标准委员会成员之一）发起倡议并建立了 Boost 社区，其目的是向 C</ins> 程序员提供免费的、经同行审查的、可移植的、高质量的 C++ 源程序库。</p>
+<p>1998 年，Beman G.Dawes（C++标准委员会成员之一）发起倡议并建立了 Boost 社区，其目的是向 C++ 程序员提供免费的、经同行审查的、可移植的、高质量的 C++ 源程序库。</p>
 <p>Boost 强调程序库要与 C++ 标准库很好地共同工作，建立在“既有的实践”之上并提供参考实现，因此 Boost 库可以适合最后的标准化。</p>
 <p>自创立以来，Boost 社区的工作已经取得了卓越的成果，C++ 标准库中有三分之二来自 Boost 库，而且将来 Boost 库中还会有更多的库进入新标准。</p>
 <p>C++ 四十余年的发展历史中产生了数不清的程序库，有影响力的程序库也不计其数，然而其中没有一个程序库能够与 Boost 相提并论，Boost 有着其他程序库无法比拟的优点，具体如下：</p>
@@ -590,8 +587,7 @@
 <p>Boost 的发布采用 Boost Software License，这是一个不同于 GPL 和 Apache 的非常宽松的许可证，该许可证允许库用户将 Boost 用于任何用途，既鼓励非商业用途，也鼓励商业用途。用户无须支付任何费用，不受任何限制，即可轻松享有 Boost 的全部功能。</p>
 <p>Boost 官方于 2019 年 12 月发布的 1.72 版本，共包含 160 余个库/组件，涵盖字符串与文本处理、容器、迭代器、算法、图像处理、模板元编程、并发编程等多个领域，使用 Boost，将大大增强 C++ 的功能和表现力。</p>
 </blockquote>
-<h1>下载部署库</h1>
-<ul>
+<h1 id="下载部署库"><a href="#下载部署库" class="headerlink" title="下载部署库"></a>下载部署库</h1><ul>
 <li>从<a target="_blank" rel="noopener" href="https://www.boost.org/users/download/">Boost官网下载页面</a>下载如下其中一个，我下的是<code>boost_1_78_0.zip</code></li>
 </ul>
 <img src="/article/fc9e9061/image-20220405103117825.png" class="" title="image-20220405103117825">
@@ -602,26 +598,21 @@
 <ul>
 <li>部署位置1、2按本机设置来</li>
 </ul>
-<h2 id="部署位置1"><a class="header-anchor" href="#部署位置1">﹣</a>部署位置1</h2>
-<img src="/article/fc9e9061/image-20220405103131137.png" class="" title="image-20220405103131137">
-<h2 id="部署位置2"><a class="header-anchor" href="#部署位置2">﹣</a>部署位置2</h2>
-<img src="/article/fc9e9061/image-20220405141333931.png" class="" title="image-20220405141333931">
-<h1>调用</h1>
-<ul>
+<h2 id="部署位置1"><a href="#部署位置1" class="headerlink" title="部署位置1"></a>部署位置1</h2><img src="/article/fc9e9061/image-20220405103131137.png" class="" title="image-20220405103131137">
+<h2 id="部署位置2"><a href="#部署位置2" class="headerlink" title="部署位置2"></a>部署位置2</h2><img src="/article/fc9e9061/image-20220405141333931.png" class="" title="image-20220405141333931">
+<h1 id="调用"><a href="#调用" class="headerlink" title="调用"></a>调用</h1><ul>
 <li>在你的Geant4内调用它，比如我要做字符串分割，那么我可以按如下指令调用</li>
 </ul>
 <figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">"boost/algorithm/string.hpp"</span> <span class="comment">// 2022年4月5日 字符串处理</span></span></span><br></pre></td></tr></tbody></table></figure>
 <ul>
-<li>可以按如下方式使用</li>
+<li>可以按如下方式使用<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ===========================================================================</span></span><br><span class="line"><span class="comment">// 2022年4月5日</span></span><br><span class="line"><span class="comment">// 字符串分割，分割小数点前的整数部分</span></span><br><span class="line"><span class="comment">// ===========================================================================</span></span><br><span class="line"><span class="comment">// 按字符分割string</span></span><br><span class="line">std::string str = std::<span class="built_in">to_string</span>((<span class="type">double</span>)((fTargetAngle/deg)));</span><br><span class="line">std::vector&lt;std::string&gt; strs;</span><br><span class="line">boost::<span class="built_in">split</span>(strs, str, boost::<span class="built_in">is_any_of</span>(<span class="string">"."</span>));</span><br><span class="line"><span class="comment">// ===========================================================================</span></span><br></pre></td></tr></tbody></table></figure>
+</li>
 </ul>
-<figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ===========================================================================</span></span><br><span class="line"><span class="comment">// 2022年4月5日</span></span><br><span class="line"><span class="comment">// 字符串分割，分割小数点前的整数部分</span></span><br><span class="line"><span class="comment">// ===========================================================================</span></span><br><span class="line"><span class="comment">// 按字符分割string</span></span><br><span class="line">std::string str = std::<span class="built_in">to_string</span>((<span class="type">double</span>)((fTargetAngle/deg)));</span><br><span class="line">std::vector&lt;std::string&gt; strs;</span><br><span class="line">boost::<span class="built_in">split</span>(strs, str, boost::<span class="built_in">is_any_of</span>(<span class="string">"."</span>));</span><br><span class="line"><span class="comment">// ===========================================================================</span></span><br></pre></td></tr></tbody></table></figure>
-<h1>编译</h1>
-<ul>
+<h1 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h1><ul>
 <li>按正常情况编译即可，即进入<code>.\build</code>文件夹，在<code>Bash</code>（如<code>WSL</code>）内输入<code>cmake ..</code>，<code>make -jN</code>（<code>N</code>是线程数，按需输入，我的电脑是<code>make -j16</code>），编译成功！</li>
 </ul>
 <img src="/article/fc9e9061/image-20220405103137475.png" class="" title="image-20220405103137475">
-<h1>Ref</h1>
-<ul>
+<h1 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h1><ul>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41854911/article/details/118440683">boost库在visual studio、DevC++和vscode上的环境配置</a></li>
 </ul>
 

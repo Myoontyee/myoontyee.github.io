@@ -557,8 +557,7 @@
             <br><strong>⚠️警告：博客文章禁止一切形式的非授权非法转载！</strong>
             <br><strong>⚠️Attention: All forms of unauthorized illegal reposts are prohibited !</strong> 
             <hr>
-<p><strong>创建时间</strong>：2022年4月28日17:47:58<br>
-<strong>最新更新</strong>：2022年4月29日11:43:49</p>
+<p><strong>创建时间</strong>：2022年4月28日17:47:58<br><strong>最新更新</strong>：2022年4月29日11:43:49</p>
 <hr>
 <p><strong>Problem Description</strong>：How do I compile plugin source code for Visual Studio Code? How do I do secondary development?</p>
 <p><strong>核心思路</strong>：</p>
@@ -570,17 +569,13 @@
 <li>通过<code>.vsix</code>给<code>Visual Studio Code</code>装插件</li>
 </ul>
 <hr>
-<h1>装必备插件</h1>
-<ul>
+<h1 id="装必备插件"><a href="#装必备插件" class="headerlink" title="装必备插件"></a>装必备插件</h1><ul>
 <li>打开<code>Bash</code>（我用的<code>Git-Bash</code>），输入如下指令</li>
 </ul>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g yo generator-code</span><br></pre></td></tr></tbody></table></figure>
-<h2 id="你要有源码不用干这步：自己初始化一个项目，你也可以yo一下"><a class="header-anchor" href="#你要有源码不用干这步：自己初始化一个项目，你也可以yo一下">﹣</a>你要有源码不用干这步：自己初始化一个项目，你也可以yo一下</h2>
-<ul>
-<li>你如果想自己搞一个新的插件项目，你就在<code>Bash</code>输入如下指令
-<ul>
-<li>按照你的需求选，你也可以依次选择，下面是一个示例
-<ul>
+<h2 id="你要有源码不用干这步：自己初始化一个项目，你也可以yo一下"><a href="#你要有源码不用干这步：自己初始化一个项目，你也可以yo一下" class="headerlink" title="你要有源码不用干这步：自己初始化一个项目，你也可以yo一下"></a>你要有源码不用干这步：自己初始化一个项目，你也可以yo一下</h2><ul>
+<li>你如果想自己搞一个新的插件项目，你就在<code>Bash</code>输入如下指令<ul>
+<li>按照你的需求选，你也可以依次选择，下面是一个示例<ul>
 <li><code>New Extension (JavaScript)</code></li>
 <li>设你想要的插件名</li>
 <li>设你想要的项目名，或者直接用括号里的</li>
@@ -590,8 +585,7 @@
 <li>选你想要的包管理方式：<code>yarn</code></li>
 </ul>
 </li>
-<li>各个选项的区别
-<ul>
+<li>各个选项的区别<ul>
 <li><code>New Extension (TypeScript)</code> ：<code>TypeScript</code>语法的项目，内置hello world命令</li>
 <li><code>New Extension (JavaScript)</code> : <code>JavaScript</code>语法的项目，内置了hello world命令</li>
 <li><code>New Color Theme</code> ：主题项目，内置了主题，用于自定义主题</li>
@@ -607,92 +601,59 @@
 </ul>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yo code</span><br></pre></td></tr></tbody></table></figure>
 <ul>
-<li>
-<img src="/article/abf71111/image-20220429151149043.png" class="" title="image-20220429151149043">
-</li>
-<li>
-<img src="/article/abf71111/image-20220429151154257.png" class="" title="image-20220429151154257">
-</li>
-<li>
-<img src="/article/abf71111/image-20220429151159737.png" class="" title="image-20220429151159737">
-</li>
-<li>
-<img src="/article/abf71111/image-20220429151207361.png" class="" title="image-20220429151207361">
-</li>
-<li>
-<img src="/article/abf71111/image-20220429151213172.png" class="" title="image-20220429151213172">
-</li>
-<li>
-<img src="/article/abf71111/image-20220429151217746.png" class="" title="image-20220429151217746">
-</li>
-<li>
-<img src="/article/abf71111/image-20220429151221355.png" class="" title="image-20220429151221355">
+<li><img src="/article/abf71111/image-20220429151149043.png" class="" title="image-20220429151149043"></li>
+<li><img src="/article/abf71111/image-20220429151154257.png" class="" title="image-20220429151154257"></li>
+<li><img src="/article/abf71111/image-20220429151159737.png" class="" title="image-20220429151159737"></li>
+<li><img src="/article/abf71111/image-20220429151207361.png" class="" title="image-20220429151207361"></li>
+<li><img src="/article/abf71111/image-20220429151213172.png" class="" title="image-20220429151213172"></li>
+<li><img src="/article/abf71111/image-20220429151217746.png" class="" title="image-20220429151217746"></li>
+<li><img src="/article/abf71111/image-20220429151221355.png" class="" title="image-20220429151221355">
 </li>
 </ul>
-<h1>yarn</h1>
-<ul>
-<li>不装可能报错，在<code>Bash</code>里输入如下指令装<code>yarn</code>
-<ul>
+<h1 id="yarn"><a href="#yarn" class="headerlink" title="yarn"></a>yarn</h1><ul>
+<li>不装可能报错，在<code>Bash</code>里输入如下指令装<code>yarn</code><ul>
 <li>报错见<a href="./a88b7358.html">配置Visual Studio Code插件时提示’yarn’ 不是内部或外部命令，也不是可运行的程序 解决办法</a></li>
 </ul>
 </li>
 </ul>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g yarn</span><br></pre></td></tr></tbody></table></figure>
-<h1>vsce</h1>
-<ul>
-<li>在<code>Bash</code>内输入如下指令安装<code>vsce</code>
-<ul>
+<h1 id="vsce"><a href="#vsce" class="headerlink" title="vsce"></a>vsce</h1><ul>
+<li>在<code>Bash</code>内输入如下指令安装<code>vsce</code><ul>
 <li>下面给出2个指令，一个不行就换另一个~</li>
-<li>我用<code>npm install -g vsce</code>会报错…用下面就行</li>
+<li>我用<code>npm install -g vsce</code>会报错…用下面就行<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g vsce</span><br></pre></td></tr></tbody></table></figure>
+</li>
 </ul>
 </li>
 </ul>
-<figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g vsce</span><br></pre></td></tr></tbody></table></figure>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --global vsce</span><br></pre></td></tr></tbody></table></figure>
-<h1>编译出.vsix</h1>
-<ul>
-<li>进入你搞到的插件源码所在目录，如下图，在<code>Bash</code>内输入如下指令即可得到<code>.vsix</code>文件
-<ul>
+<h1 id="编译出-vsix"><a href="#编译出-vsix" class="headerlink" title="编译出.vsix"></a>编译出.vsix</h1><ul>
+<li>进入你搞到的插件源码所在目录，如下图，在<code>Bash</code>内输入如下指令即可得到<code>.vsix</code>文件<ul>
 <li>一个成功的示例如下下图</li>
 </ul>
 </li>
 </ul>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vsce package</span><br></pre></td></tr></tbody></table></figure>
 <ul>
-<li>
-<img src="/article/abf71111/image-20220429151254074.png" class="" title="image-20220429151254074">
-</li>
-<li>
-<img src="/article/abf71111/image-20220429151301774.png" class="" title="image-20220429151301774">
-</li>
-<li>编译出来长这样
-<ul>
-<li>
-<img src="/article/abf71111/image-20220429151307220.png" class="" title="image-20220429151307220">
+<li><img src="/article/abf71111/image-20220429151254074.png" class="" title="image-20220429151254074"></li>
+<li><img src="/article/abf71111/image-20220429151301774.png" class="" title="image-20220429151301774"></li>
+<li>编译出来长这样<ul>
+<li><img src="/article/abf71111/image-20220429151307220.png" class="" title="image-20220429151307220">
 </li>
 </ul>
 </li>
 </ul>
-<h1>给Visual Studio Code装插件</h1>
-<ul>
-<li>打开<code>Visual Studio Code</code>，点<code>扩展</code>→<code>···</code>→<code>从VSIX安装...</code>→选他→<code>安装</code>→安装成功后右下角会有提示，你也能在<code>扩展</code>里找到他
-<ul>
-<li>
-<img src="/article/abf71111/image-20220429151311361.png" class="" title="image-20220429151311361">
-</li>
-<li>
-<img src="/article/abf71111/image-20220429151316025.png" class="" title="image-20220429151316025">
-</li>
-<li>
-<img src="/article/abf71111/image-20220429151321523.png" class="" title="image-20220429151321523">
+<h1 id="给Visual-Studio-Code装插件"><a href="#给Visual-Studio-Code装插件" class="headerlink" title="给Visual Studio Code装插件"></a>给Visual Studio Code装插件</h1><ul>
+<li>打开<code>Visual Studio Code</code>，点<code>扩展</code>→<code>···</code>→<code>从VSIX安装...</code>→选他→<code>安装</code>→安装成功后右下角会有提示，你也能在<code>扩展</code>里找到他<ul>
+<li><img src="/article/abf71111/image-20220429151311361.png" class="" title="image-20220429151311361"></li>
+<li><img src="/article/abf71111/image-20220429151316025.png" class="" title="image-20220429151316025"></li>
+<li><img src="/article/abf71111/image-20220429151321523.png" class="" title="image-20220429151321523">
 </li>
 </ul>
 </li>
 </ul>
-<h1>Ref</h1>
-<ul>
+<h1 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h1><ul>
 <li><a target="_blank" rel="noopener" href="https://www.npmjs.com/package/vsce">vsce</a></li>
-<li><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000038553748">记一次前端"vscode插件编写实战"超详细的分享会(建议收藏哦)(上篇)</a></li>
+<li><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000038553748">记一次前端”vscode插件编写实战”超详细的分享会(建议收藏哦)(上篇)</a></li>
 <li><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000040720760">从0到1开发一款自己的vscode插件</a></li>
 <li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6960626872791072798">vscode插件开发指南(一)-理论篇</a></li>
 </ul>

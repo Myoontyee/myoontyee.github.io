@@ -528,7 +528,7 @@
                         
                             <span class="post-count">
                             📑字数:
-                            <a href="">563</a>  
+                            <a href="">572</a>  
                             </span>
                         
 
@@ -557,38 +557,32 @@
             <br><strong>⚠️警告：博客文章禁止一切形式的非授权非法转载！</strong>
             <br><strong>⚠️Attention: All forms of unauthorized illegal reposts are prohibited !</strong> 
             <hr>
-<p><strong>创建时间</strong>：2022年3月28日17:46:33<br>
-<strong>最新更新</strong>：2022年3月28日17:52:25</p>
+<p><strong>创建时间</strong>：2022年3月28日17:46:33<br><strong>最新更新</strong>：2022年3月28日17:52:25</p>
 <hr>
 <p><strong>核心思路</strong>：注释掉首页对应的样式</p>
 <hr>
-<h1>配置</h1>
-<ul>
-<li>用代码编辑器打开<code>themes\Chic\layout\_page\profile.ejs</code>，这个是首页的样式文件，注释掉以下代码</li>
-</ul>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><ul>
+<li><p>用代码编辑器打开<code>themes\Chic\layout\_page\profile.ejs</code>，这个是首页的样式文件，注释掉以下代码</p>
 <figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href="&lt;%- url_for(theme.nav.Posts) %&gt;"&gt;&lt;img src="&lt;%- url_for(theme.avatar) %&gt;"&gt;&lt;/a&gt;</span><br><span class="line">&lt;a href="&lt;%- url_for(theme.nav.Posts) %&gt;"&gt;&lt;img src="&lt;%- url_for(theme.avatar) %&gt;"&gt;&lt;/a&gt;</span><br></pre></td></tr></tbody></table></figure>
-<ul>
-<li>即</li>
+</li>
+<li><p>即</p>
+</li>
 </ul>
-<div style="overflow:auto;width:100%"> <table width="auto" style="white-space:nowrap">
+<p></p><div style="overflow:auto;width:100%"> <p></p><p></p><p></p><p></p><br><p></p><p></p><p></p><p></p><p></p><p></p><br><br><br><p></p><ul>
+<li>打开<code>Git-Bash</code>，输入<code>hexo clean</code>，<code>hexo g</code>，<code>hexo d</code>或<code>hexo clean</code>，<code>hexo s -g</code>就能看到对应效果，首页的原型头像Logo没了，如下图</li>
+</ul><img src="/article/ebea8ed0/image-20220330194056002.png" class="" title="image-20220330194056002"><table width="auto" style="white-space:nowrap">
 <tbody><tr>
 <td> <div align="center"> <strong>修改前</strong></div> </td> <td> <div align="center"> <strong>修改后</strong></div> </td>
-</tr>
-<tr>
+</tr><tr>
 <td>
 <figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 这个文件是首页 --&gt;</span><br><span class="line">&lt;!-- 再进行代码编写 --&gt;</span><br><span class="line">&lt;div class="container profile-container"&gt;</span><br><span class="line">    &lt;div class="intro"&gt;</span><br><span class="line">        &lt;div class="avatar"&gt;</span><br><span class="line">            &lt;a href="&lt;%- url_for(theme.nav.Posts) %&gt;"&gt;&lt;img src="&lt;%- url_for(theme.avatar) %&gt;"&gt;&lt;/a&gt;</span><br><span class="line">            &lt;a href="&lt;%- url_for(theme.nav.Posts) %&gt;"&gt;&lt;img src="&lt;%- url_for(theme.avatar) %&gt;"&gt;&lt;/a&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">        &lt;div class="nickname"&gt;&lt;%- theme.nickname %&gt;&lt;/div&gt;</span><br><span class="line">        &lt;div class="description"&gt;&lt;%- markdown(theme.description) %&gt;&lt;/div&gt;</span><br><span class="line">        &lt;div class="links"&gt;</span><br><span class="line">            &lt;% if (theme.links !== undefined) { %&gt;</span><br><span class="line">                &lt;% for (var key in theme.links){ %&gt;</span><br><span class="line">                    &lt;a class="link-item" title="&lt;%- key %&gt;" href="&lt;%= theme.links[key] %&gt;"&gt;</span><br><span class="line">                        &lt;% if(theme.links_text_enable) { %&gt;</span><br><span class="line">                            &lt;%= key %&gt;</span><br><span class="line">                        &lt;%}%&gt;</span><br><span class="line">                        &lt;%if(theme.links_icon_enable){ %&gt;</span><br><span class="line">                            &lt;i class="iconfont icon-&lt;%- key.toLowerCase() %&gt;"&gt;&lt;/i&gt;</span><br><span class="line">                        &lt;%}%&gt;</span><br><span class="line">                    &lt;/a&gt;</span><br><span class="line">                &lt;% } %&gt;</span><br><span class="line">            &lt;% } %&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></tbody></table></figure>
 </td>
 <td>
 <figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 这个文件是首页 --&gt;</span><br><span class="line">&lt;!-- 先要引用这个icon库 --&gt;</span><br><span class="line">&lt;link rel="stylesheet" href="../fonts/iconfont2/iconfont.css"&gt; </span><br><span class="line">&lt;!-- 再进行代码编写 --&gt;</span><br><span class="line">&lt;div class="container profile-container"&gt;</span><br><span class="line">    &lt;div class="intro"&gt;</span><br><span class="line">        &lt;!-- &lt;div class="avatar"&gt; --&gt;</span><br><span class="line">            &lt;!-- &lt;a href="&lt;%- url_for(theme.nav.Posts) %&gt;"&gt;&lt;img src="&lt;%- url_for(theme.avatar) %&gt;"&gt;&lt;/a&gt; --&gt;</span><br><span class="line">            &lt;!-- &lt;a href="&lt;%- url_for(theme.nav.Posts) %&gt;"&gt;&lt;img src="&lt;%- url_for(theme.avatar) %&gt;"&gt;&lt;/a&gt; --&gt;</span><br><span class="line">        &lt;!-- &lt;/div&gt; --&gt;</span><br><span class="line">        &lt;div class="nickname"&gt;&lt;%- theme.nickname %&gt;&lt;/div&gt;</span><br><span class="line">        &lt;div class="description"&gt;&lt;%- markdown(theme.description) %&gt;&lt;/div&gt;</span><br><span class="line">        &lt;div class="links"&gt;</span><br><span class="line">            &lt;% if (theme.links !== undefined) { %&gt;</span><br><span class="line">                &lt;% for (var key in theme.links){ %&gt;</span><br><span class="line">                    &lt;a class="link-item" title="&lt;%- key %&gt;" href="&lt;%= theme.links[key] %&gt;"&gt;</span><br><span class="line"></span><br><span class="line">                        &lt;% if(theme.links_text_enable) { %&gt;</span><br><span class="line">                            &lt;%= key %&gt;</span><br><span class="line">                        &lt;%}%&gt;</span><br><span class="line">                        &lt;%if(theme.links_icon_enable){ %&gt;</span><br><span class="line">                            &lt;i class="iconfont icon-&lt;%- key.toLowerCase() %&gt;"&gt;&lt;/i&gt;</span><br><span class="line">                        &lt;%}%&gt;</span><br><span class="line">                    &lt;/a&gt;</span><br><span class="line">                &lt;% } %&gt;</span><br><span class="line">            &lt;% } %&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
 </td>
-</tr></tbody></table>
-</div>
-```
-<ul>
-<li>打开<code>Git-Bash</code>，输入<code>hexo clean</code>，<code>hexo g</code>，<code>hexo d</code>或<code>hexo clean</code>，<code>hexo s -g</code>就能看到对应效果，首页的原型头像Logo没了，如下图</li>
-</ul>
-<img src="/article/ebea8ed0/image-20220330194056002.png" class="" title="image-20220330194056002">
 
+
+</tr></tbody></table>&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;```</div>
         </div>
         <section class="reward_class">
             <br>
