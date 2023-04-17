@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="google-site-verification" content="os9wPImIjpPcEDGL25ZsjCp2wh2hzb3B7Y8E4Lm1nb0" />
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Myoontyee">
+
+
+
+
+
+<title>Chic过长博文名如何实现省略，过长博文名，如何实现三个点省略方案 | Myoontyee | MSF: iCT &amp; Robotic</title>
+
+
+
+    <link rel="icon" href="/rocket_favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont2/iconfont.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont3/iconfont.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont4/iconfont.css">
+    
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/jquery.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+
+
+<!-- 搜索的部分 -->
+
+
+
+    <script>
+    // function searchToggle() {
+    //     const width = $(document.body).width()
+    //     if(width > 479) {
+    //         return;
+    //     }
+    //     const search = $('.search');
+    //     const searchForm = $('.form-search')
+
+    //     if(!search.hasClass("mobile-search")) {
+    //         search.addClass("mobile-search");
+    //     } else {
+    //         search.removeClass("mobile-search");
+    //     } 
+    // }
+
+    function searchToggle() {
+        const width = $(document.body).width()
+        if(width > 479) {
+            return;
+        }
+        const search = $('.search');
+        const searchForm = $('.form-search');
+        const menuToggle = $('.menu-toggle');
+        const title = $('.navbar-header-title ');
+
+        if(!search.hasClass("mobile-search")) {
+            search.addClass("mobile-search");
+            menuToggle.addClass("open-search")
+            title.addClass("mobile-title-hidden")
+        } else {
+            search.removeClass("mobile-search");
+            menuToggle.removeClass("open-search")
+            // title.css({visibility: 'visible'})
+            title.removeClass("mobile-title-hidden")
+        } 
+    }
+
+
+
+    function search(searchInputEl, formEl, flag) {
+        const path = "/" + "search.json"; // 可以在public 下查看这个search.json
+        $(formEl).submit(function(e){
+            e.preventDefault();
+            let target = null
+            if(searchInputEl == null) {
+                const screenWidth = $(document.body).width();
+                target = screenWidth > 479 ? $('#pc-search-input') : $('#mobile-search-input');
+                console.log(target);
+            } else {
+                target = $(searchInputEl)
+            }
+
+            if(!flag && target.val() === '') {
+                return ;
+            }
+
+            $("#u-search").fadeIn(500, function() {
+                $("body > .wrapper").addClass("modal-active");
+
+                $.ajax({
+                    url: path,
+                    dataType: "json",
+                    beforeSend: function (xhr) {
+                        $input = target.val();
+                        $(".form-input").val($input);
+                        const loadingBar = $('.search-loading-bar') 
+                        loadingBar.css({
+                            width:'100%',
+                            display: 'block'
+                        });
+                    },
+                    success: function( datas ) {
+                        console.log(datas);
+                        const $resultPanel = $(".modal-body")[0];
+                        let str = `<ul class="modal-results">`;
+                        var keywords = $(".form-input").val().trim().toLowerCase().split(/[\s\-]+/);
+                        $resultPanel.innerHTML = "";
+                        let hasResult = false
+                        let text = `<div class="no-result">找不到与关键词相关的内容....</div>`;
+
+                        if ($(".form-input").val().trim().length <= 0) {
+                            // 没有结果
+                            $resultPanel.innerHTML = text;
+                            return;
+                        }
+                        datas.forEach(function (data, index) {
+                            var isMatch = true;
+                            if (!data.title || data.title.trim() === '') {
+                                data.title = "Untitled";
+                            }
+                            var data_title = data.title.trim().toLowerCase();
+                            var data_content = data.content && data.content.trim().replace(/<[^>]+>/g, "").toLowerCase() || '';
+                            var data_url = data.url;
+                            var index_title = -1;
+                            var index_content = -1;
+                            var first_occur = -1;
+                            // only match artiles with not empty contents
+                            if (data_content !== '') {
+                                keywords.forEach(function (keyword, i) {
+                                    index_title = data_title.indexOf(keyword);
+                                    index_content = data_content.indexOf(keyword);
+
+                                    if (index_title < 0 && index_content < 0) {
+                                        isMatch = false;
+                                    } else {
+                                        hasResult = true
+                                        if (index_content < 0) {
+                                            index_content = 0;
+                                        }
+                                        if (i == 0) {
+                                            first_occur = index_content;
+                                        }
+                                    }
+                                });
+                            } else {
+                                isMatch = false;
+                            }
+                            // show search results
+                            if (isMatch) {
+                                str += `<li class='result-item'><a href='${data_url}' class='result-item-detail'> <span class="title">${data_title}</span>`;
+                                var content = data.content.trim().replace(/<[^>]+>/g, "");
+                                if (first_occur >= 0) {
+                                    // cut out 200 characters
+                                    var start = first_occur - 40;
+                                    var end = first_occur + 160;
+
+                                    if (start < 0) {
+                                        start = 0;
+                                    }
+
+                                    if (start == 0) {
+                                        end = 200;
+                                    }
+
+                                    if (end > content.length) {
+                                        end = content.length;
+                                    }
+
+                                    var match_content = content.substring(start, end);
+
+                                    // highlight all keywords
+                                    keywords.forEach(function (keyword) {
+                                        var regS = new RegExp(keyword, "gi");
+                                        match_content = match_content.replace(regS, `<em class="search-keyword">${keyword}</em>`);
+                                    });
+
+                                    str += `<span class="content"> ${match_content} ...</span></a>`;
+                                }
+                                str += "</li>";
+                            }
+                        });
+                        str += "</ul>";
+                        if(hasResult) {
+                            $resultPanel.innerHTML = str;
+                        } else {
+                            $resultPanel.innerHTML = text;
+                        }
+
+                    },
+                    complete: function() {
+                        setTimeout(() => {
+                                const loadingBar = $('.search-loading-bar') 
+                                loadingBar.css({
+                                    width:'0%',
+                                    display: 'none'
+                                });
+                        }, 300)
+                    }
+                });
+            })
+
+        });
+    }
+
+    $(document).ready(function() {
+        $('.modal-close').click(function () { 
+            $("#u-search").fadeOut();
+            $("body > .wrapper").removeClass("modal-active")
+        })
+
+        $('.modal-overlay').click(function() {
+            $("#u-search").fadeOut();
+            $("body > .wrapper").removeClass("modal-active")
+        })
+        search(null, ".form-search", false)
+        search("#u-search-modal-form .form-input", ".u-search-modal-form", true)
+    })
+</script>
+
+
+
+<!-- 搜索框 -->
+<!-- 
+
+    <div class="search ">
+        <div class="search-btn" onClick="searchToggle()">
+            <img src="/image/search.png" class="search-btn-img" />
+        </div>
+        <form class="form-search">
+            <input class="input" placeholder="点此搜索" autocomplete="off" id="pc-search-input"/>
+        </form>
+    </div>
+ -->
+
+<!-- // 这里是 mobile 的menu -->
+<!-- <div class="navbar-mobile-right">
+    
+    
+    <div class="search ">
+        <div class="search-btn" onClick="searchToggle()">
+            <img src="/image/search.png" class="search-btn-img" />
+        </div>
+        <form class="form-search">
+            <input class="input" placeholder="点此搜索" autocomplete="off" id="mobile-search-input"/>
+        </form>
+    </div>
+
+    <div class="menu-toggle" onclick="mobileBtn()">&#9776; 目录</div>
+</div> -->
+
+<!-- 2022年3月19日添加 代码高亮、显示行号 -->
+<!-- <link rel="stylesheet" href="/css/prettify.css" media="screen" type="text/css"> -->
+<meta name="generator" content="Hexo 5.4.2">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <!-- 引入标签 -->
+<link rel="stylesheet" href="../fonts/iconfont3/iconfont.css"> 
+
+<header>
+    <nav class="navbar">
+        <div class="container">
+            <!-- <div class="navbar-header header-logo"><a href="/">主页</a></div> -->
+            <div class="navbar-header header-logo"><a href="/"><i class="iconfont icon-zhuye" style="font-size: 1em;"></i>主页</a></div>
+            <div class="menu navbar-right">
+                <!-- 这里表示的是pc端搜索框 -->
+                
+                
+    <div class="search ">
+        <div class="search-btn" onClick="searchToggle()">
+            <img src="/image/search.png" class="search-btn-img" />
+        </div>
+        <form class="form-search">
+            <input class="input" placeholder="点此搜索" autocomplete="off" id="pc-search-input"/>
+        </form>
+    </div>
+
+                
+                    <!-- <a class="menu-item" href="/top">博文</a> -->
+                    
+                        <a class="menu-item" href="/top"><i class="iconfont icon-wenzhang" style="font-size: 1em;"></i>博文</a>
+                    
+                    
+                    
+                    
+                    
+                    
+                
+                    <!-- <a class="menu-item" href="/category">类别</a> -->
+                    
+                    
+                        <a class="menu-item" href="/category"><i class="iconfont icon-fenlei" style="font-size: 1em;"></i>类别</a>
+                    
+                    
+                    
+                    
+                    
+                
+                    <!-- <a class="menu-item" href="/tag">标签</a> -->
+                    
+                    
+                    
+                        <a class="menu-item" href="/tag"><i class="iconfont icon-biaoqian-" style="font-size: 1em;"></i>标签</a>
+                    
+                    
+                    
+                    
+                
+                    <!-- <a class="menu-item" href="/about">关于</a> -->
+                    
+                    
+                    
+                    
+                        <a class="menu-item" href="/about"><i class="iconfont icon-guanyu1" style="font-size: 1em;"></i>关于</a>
+                    
+                    
+                    
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">主页</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="navbar-mobile-right">
+                    
+                    
+    <div class="search ">
+        <div class="search-btn" onClick="searchToggle()">
+            <img src="/image/search.png" class="search-btn-img" />
+        </div>
+        <form class="form-search">
+            <input class="input" placeholder="点此搜索" autocomplete="off" id="mobile-search-input"/>
+        </form>
+    </div>
+
+                    <div class="menu-toggle" onclick="mobileBtn()">&#9776; 目录</div>
+                </div>
+                
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/top">博文</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+    
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+
+            <div class="main">
+                <!-- 引入标签 -->
+<link rel="stylesheet" href="../fonts/iconfont3/iconfont.css"> 
+<!-- 这个文件是某个具体的文章的布局 -->
+<div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Chic过长博文名如何实现省略，过长博文名，如何实现三个点省略方案</h1>
+            
+                <div class="post-meta">
+                    
+                        👨‍🎓作者: <a itemprop="author" rel="author" href="/">Myoontyee</a>
+                    
+
+                    
+                        <span class="post-time">
+                        📅日期: <a href="#">三月 12, 2022&nbsp;&nbsp;20:34:21</a>
+                        </span>
+                    
+                <div>
+                    
+                        <span class="post-category">
+                            📚类别:
+                            
+                                <!-- <a href="/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">博客搭建</a> -->
+                                <a href="/categories/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/"><i class="iconfont icon-fenlei" style="font-size: 1em;"></i>博客搭建</a> | 
+                            
+                        </span>
+                    
+                </div>
+                    
+                    <div>
+                        
+                            <span class="post-count">
+                            📑字数:
+                            <a href="">758</a>  
+                            </span>
+                        
+
+                        
+                            <span class="post-count">
+                            ⏱️阅读时长:
+                            <a href="">3min</a>  
+                            </span>
+                        
+
+                        
+                            <span id="busuanzi_container_page_pv">  
+                            🕵️‍♂️阅读数:<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>
+                            </span>
+                        
+                        
+                    </div>
+                </div>
+                        
+            
+        </header>
+
+        <div class="post-content">
+                <strong>💡 参考文章见Ref，感谢提供思路！</strong>
+            <br><strong>🗺️当前这篇博文地址：https://myoontyee.github.io/article/321a7025/</strong>
+            <br><strong>⚠️警告：博客文章禁止一切形式的非授权非法转载！</strong>
+            <br><strong>⚠️Attention: All forms of unauthorized illegal reposts are prohibited !</strong> 
+            <hr>
+<p><strong>核心思路</strong>：调对应页面样式，用<code>li</code></p>
+<hr>
+<h1 id="配置页面样式"><a class="markdownIt-Anchor" href="#配置页面样式"></a> 配置页面样式</h1>
+<ul>
+<li>
+<p>用代码编辑器，如<code>Visual Studio Code</code>打开<code>themes\Chic\layout\_page\archive.ejs</code>，做如下两处修改</p>
+<ul>
+<li>在代码标题前后加<code>&lt;li&gt;&lt;/li&gt;</code></li>
+<li>在<code>li</code>样式里设置宽、高、溢出情况的处理方式</li>
+</ul>
+</li>
+<li>
+<p>添加<code>&lt;li&gt;&lt;/li&gt;</code><br>
+修改前</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&lt;article class="archive-item"&gt;</span><br><span class="line"></span><br><span class="line">&lt;a class="archive-item-link" href="&lt;%- url_for(post.path) %&gt;"&gt;</span><br><span class="line"></span><br><span class="line">&lt;%= post.title %&gt;</span><br><span class="line"></span><br><span class="line">&lt;/a&gt;</span><br><span class="line"></span><br><span class="line">&lt;span class="archive-item-date"&gt;&lt;%- date(post.date, theme.date_format) %&gt;&lt;/span&gt;</span><br><span class="line"></span><br><span class="line">&lt;/article&gt;</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+<p>修改后</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;article class="archive-item"&gt;</span><br><span class="line"></span><br><span class="line">&lt;a class="archive-item-link" href="&lt;%- url_for(post.path) %&gt;"&gt;</span><br><span class="line"></span><br><span class="line">&lt;li&gt;</span><br><span class="line"></span><br><span class="line">&lt;%= post.title %&gt;</span><br><span class="line"></span><br><span class="line">&lt;/li&gt;</span><br><span class="line"></span><br><span class="line">&lt;/a&gt;</span><br><span class="line"></span><br><span class="line">&lt;span class="archive-item-date"&gt;&lt;%- date(post.date, theme.date_format) %&gt;&lt;/span&gt;</span><br><span class="line"></span><br><span class="line">&lt;/article&gt;</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li>在<code>li</code>样式里设置宽、高、溢出情况的处理方式</li>
+</ul>
+<p>在<code>themes\Chic\layout\_page\archive.ejs</code>最下方添加以下内容</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line">&lt;style&gt;</span><br><span class="line"></span><br><span class="line"> li{</span><br><span class="line"></span><br><span class="line"> width: 650px;</span><br><span class="line"></span><br><span class="line"> height: 29.5px;</span><br><span class="line"></span><br><span class="line"> /*不换行*/</span><br><span class="line"></span><br><span class="line"> white-space: nowrap;</span><br><span class="line"></span><br><span class="line"> /*溢出的话，隐藏*/</span><br><span class="line"></span><br><span class="line"> overflow: hidden;</span><br><span class="line"></span><br><span class="line"> /*文本溢出时，是否....*/</span><br><span class="line"></span><br><span class="line"> text-overflow: ellipsis;</span><br><span class="line"></span><br><span class="line"> }</span><br><span class="line"></span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li><code>themes\Chic\layout\_page\archive.ejs</code>整个文件修改前如下</li>
+</ul>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line">&lt;div class="post-wrap archive"&gt;</span><br><span class="line"></span><br><span class="line"> &lt;!-- 添加了页面的头部与空一行 --&gt;</span><br><span class="line"></span><br><span class="line"> &lt;h2 class="post-title"&gt;-&amp;nbsp;📖文章&amp;nbsp;-&lt;/h2&gt;</span><br><span class="line"></span><br><span class="line"> &lt;br&gt;</span><br><span class="line"></span><br><span class="line"> &lt;!-- 上面是添加的内容 --&gt;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line"> &lt;% var last_year = ''; %&gt;</span><br><span class="line"></span><br><span class="line"> &lt;% page.posts.each(function (post) { %&gt;</span><br><span class="line"></span><br><span class="line"> &lt;% var cur_year = post.date.year(); %&gt;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line"> &lt;% if(last_year !== cur_year){ %&gt;</span><br><span class="line"></span><br><span class="line"> &lt;h3&gt;&lt;%- cur_year %&gt;&lt;/h3&gt;</span><br><span class="line"></span><br><span class="line"> &lt;% last_year = cur_year; } %&gt;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line"> &lt;article class="archive-item"&gt;</span><br><span class="line"></span><br><span class="line"> &lt;a class="archive-item-link" href="&lt;%- url_for(post.path) %&gt;"&gt;</span><br><span class="line"></span><br><span class="line"> &lt;%= post.title %&gt;</span><br><span class="line"></span><br><span class="line"> &lt;/a&gt;</span><br><span class="line"></span><br><span class="line"> &lt;span class="archive-item-date"&gt;&lt;%- date(post.date, theme.date_format) %&gt;&lt;/span&gt;</span><br><span class="line"></span><br><span class="line"> &lt;/article&gt;</span><br><span class="line"></span><br><span class="line"> &lt;% }) %&gt;</span><br><span class="line"></span><br><span class="line"> &lt;%- partial('_partial/paginator') %&gt;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+<ul>
+<li><code>themes\Chic\layout\_page\archive.ejs</code>整个文件修改后如下</li>
+</ul>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line">&lt;div class="post-wrap archive"&gt;</span><br><span class="line"></span><br><span class="line"> &lt;!-- 添加了页面的头部与空一行 --&gt;</span><br><span class="line"></span><br><span class="line"> &lt;h2 class="post-title"&gt;-&amp;nbsp;📖文章&amp;nbsp;-&lt;/h2&gt;</span><br><span class="line"></span><br><span class="line"> &lt;br&gt;</span><br><span class="line"></span><br><span class="line"> &lt;!-- 上面是添加的内容 --&gt;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line"> &lt;% var last_year = ''; %&gt;</span><br><span class="line"></span><br><span class="line"> &lt;% page.posts.each(function (post) { %&gt;</span><br><span class="line"></span><br><span class="line"> &lt;% var cur_year = post.date.year(); %&gt;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line"> &lt;% if(last_year !== cur_year){ %&gt;</span><br><span class="line"></span><br><span class="line"> &lt;h3&gt;&lt;%- cur_year %&gt;&lt;/h3&gt;</span><br><span class="line"></span><br><span class="line"> &lt;% last_year = cur_year; } %&gt;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line"> &lt;article class="archive-item"&gt;</span><br><span class="line"></span><br><span class="line"> &lt;a class="archive-item-link" href="&lt;%- url_for(post.path) %&gt;"&gt;</span><br><span class="line"></span><br><span class="line"> &lt;!-- &lt;ul&gt; --&gt;</span><br><span class="line"></span><br><span class="line"> &lt;li&gt;</span><br><span class="line"></span><br><span class="line"> &lt;%= post.title %&gt;</span><br><span class="line"></span><br><span class="line"> &lt;/li&gt;</span><br><span class="line"></span><br><span class="line"> &lt;!-- &lt;/ul&gt; --&gt;</span><br><span class="line"></span><br><span class="line"> &lt;/a&gt;</span><br><span class="line"></span><br><span class="line"> &lt;span class="archive-item-date"&gt;&lt;%- date(post.date, theme.date_format) %&gt;&lt;/span&gt;</span><br><span class="line"></span><br><span class="line"> &lt;/article&gt;</span><br><span class="line"></span><br><span class="line"> &lt;% }) %&gt;</span><br><span class="line"></span><br><span class="line"> &lt;%- partial('_partial/paginator') %&gt;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">&lt;style&gt;</span><br><span class="line"></span><br><span class="line"> li{</span><br><span class="line"></span><br><span class="line"> width: 650px;</span><br><span class="line"></span><br><span class="line"> height: 29.5px;</span><br><span class="line"></span><br><span class="line"> /*不换行*/</span><br><span class="line"></span><br><span class="line"> white-space: nowrap;</span><br><span class="line"></span><br><span class="line"> /*溢出的话，隐藏*/</span><br><span class="line"></span><br><span class="line"> overflow: hidden;</span><br><span class="line"></span><br><span class="line"> /*文本溢出时，是否....*/</span><br><span class="line"></span><br><span class="line"> text-overflow: ellipsis;</span><br><span class="line"></span><br><span class="line"> }</span><br><span class="line"></span><br><span class="line">&lt;/style&gt;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+<h1 id="定义和用法"><a class="markdownIt-Anchor" href="#定义和用法"></a> 定义和用法</h1>
+<ul>
+<li>
+<p><code>&lt;li&gt;</code>标签定义列表项目。</p>
+</li>
+<li>
+<p><code>&lt;li&gt;</code> 标签可用在有序列表 (<code>&lt;ol&gt;</code>) 和无序列表 (<code>&lt;ul&gt;</code>) 中。</p>
+<ul>
+<li><code>ol</code> 有序列表。
+<ul>
+<li>表现为：123的序号</li>
+</ul>
+</li>
+<li><code>ul</code> 无序列表
+<ul>
+<li>表现为<code>li</code>前面是大圆点而不是123</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>定义</th>
+<th>全称</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ul</td>
+<td>unordered lists</td>
+</tr>
+<tr>
+<td>ol</td>
+<td>ordered lists</td>
+</tr>
+<tr>
+<td>li</td>
+<td>Lists</td>
+</tr>
+</tbody>
+</table>
+<h1 id="效果"><a class="markdownIt-Anchor" href="#效果"></a> 效果</h1>
+<ul>
+<li>部署前，箭头所指是页面布局出现错误的地方</li>
+</ul>
+<img src="/article/321a7025/image-20220312202703121.png" class="" title="image-20220312202703121">
+<ul>
+<li>部署后</li>
+</ul>
+<img src="/article/321a7025/image-20220312202710336.png" class="" title="image-20220312202710336">
+<h1 id="ref"><a class="markdownIt-Anchor" href="#ref"></a> Ref</h1>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://blog.51cto.com/slddyb/421853">HTML中ul等标签的用法</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.shuzhiduo.com/A/WpdK0PnMzV/">css：文章标题过长时，使用省略号</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.w3school.com.cn/tags/tag_li.asp">HTML  li  标签</a></li>
+</ul>
+
+        </div>
+        <section class="reward_class">
+            <br>
+            <div class="reward" id="reward">
+                <div class="sponser">
+                    <div class="sponser_btn"><strong>💎支持博主</strong></div>
+                    <div class="sponser_img">
+                        <div class="sponser_container">
+                            <div class="sponser_header">请我吃肯德基🍗！</div>
+                            <div class="sponser_body">
+                                <div class="alipay">
+                                    <span class="sponser_alipay_title">谢谢各位大佬🏌️‍♂️！</span>
+                                    <div>
+                                        <img class="sponser_alipay" src="/image/Paying.jpg">
+                                
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <br> -->
+        </section>
+        
+
+        
+            <section class="post-copyright">
+                
+                
+                
+                
+
+            </section>
+        
+
+        <!-- <section class="reward_class">
+            <br>
+            <div class="reward" id="reward">
+                <div class="sponser">
+                    <div class="sponser_btn">支持博主</div>
+                    <div class="sponser_img">
+                        <div class="sponser_container">
+                            <div class="sponser_header">请我吃肯德基！</div>
+                            <div class="sponser_body">
+                                <div class="alipay">
+                                    <span class="sponser_alipay_title">谢谢各位大佬！</span>
+                                    <div>
+                                        <img class="sponser_alipay" src="/image/Paying.jpg">
+                                
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+        </section> -->
+
+        <section class="post-tags">
+            <div>
+                <span>标签:</span>
+                <span class="tag">
+                    
+                    
+                        <!-- <a href="/tags/Hexo/"># Hexo</a> -->
+                        <!-- <a href="/tags/Hexo/">🏷️Hexo</a> -->
+                        <a href="/tags/Hexo/"><i class="iconfont icon-biaoqian-" style="font-size: 1em;"></i>Hexo </a>
+                        
+                    
+                        <!-- <a href="/tags/Chic/"># Chic</a> -->
+                        <!-- <a href="/tags/Chic/">🏷️Chic</a> -->
+                        <a href="/tags/Chic/"><i class="iconfont icon-biaoqian-" style="font-size: 1em;"></i>Chic </a>
+                        
+                    
+                        
+                </span>
+            </div>
+            
+
+            
+
+            <div>
+                <a href="javascript:window.history.back();">返回</a>
+                <span>· </span>
+                <a href="/">主页</a>
+            </div>
+        </section>
+
+
+
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/article/495264bf/">WSL + Visual Studio Code + Anaconda配置方案</a>
+            
+            
+            <a class="next" rel="next" href="/article/d101e67c/">Hexo + Chic + Typora如何实现便捷的文章插入图片方案？Hexo文章图片无法显示问题如何解决？</a>
+            
+        </section>
+
+
+    </article>
+
+
+
+</div>
+
+
+
+
+
+
+<!-- <div class="empty-font">选中这一段文字，点击 ctrl+C 或 者右键选择复制</div> -->
+<!-- <script type="text/javascript">
+	//监听整个页面的 copy 事件
+	document.addEventListener('copy',function(e){
+		// clipboardData 对象是为通过编辑菜单、快捷菜单和快捷键执行的编辑操作所保留的，也就是你复制或者剪切内容
+		let clipboardData = e.clipboardData || window.clipboardData;
+		// 如果 未复制或者未剪切，直接 return 
+		if(!clipboardData) return ;
+		// Selection 对象 表示用户选择的文本范围或光标的当前位置。
+		// 声明一个变量接收 -- 用户输入的剪切或者复制的文本转化为字符串
+		let text = window.getSelection().toString();
+		if(text){
+			// 如果文本存在，首先取消默认行为
+			e.preventDefault();
+			// 通过调用 clipboardData 对象的 setData(format,data) 方法，设置相关文本 
+			// format 一个 DOMString 类型 表示要添加到 drag object 的拖动数据的类型
+			// data 一个 DOMString 表示要添加到 drag object 的数据
+            var myDate = new Date(); // 日期
+            var StealerInfo=
+                '\n ================================================'    
+            +   '\n 非法转载者 | 类型               | 状态'
+            +   '\n itcn.blog | 未授权转载、爬取    | 未回复、未删除'
+            +   '\n python.iitter.com | 未授权转载、爬取    | 未回复、未删除'
+            +   '\n www.techfm.club | 未授权转载、爬取    | 未回复、未删除'
+            +   '\n ================================================'   
+            ;
+            
+            var copyright = '\n\n'
+            + '\n'
+            + '\n⚠️著作权归作者所有！'
+            + '\n⚠️博客内容禁止一切形式的非法、非授权转载！'
+            + '\n💡 参考文章见博文Ref！'
+            + '\n作者: Myoontyee Chen'
+            + '\n原文地址: https://myoontyee.github.io/article/321a7025/'
+            + '\n'
+            + '\n'
+            + '\n 当前非法爬取信息统计如下表，保留一切追责权利'
+            + '\n 日期： ' + myDate.toLocaleDateString()
+            + StealerInfo
+
+			clipboardData.setData('text/plain', text + copyright)
+		}
+	})
+</script> -->
+
+<!-- Gitalk模块的js启动 -->
+  
+    <div id="gitalk-container"></div>  
+    <link rel="stylesheet" href="//unpkg.com/gitalk/dist/gitalk.css">
+<script src="//unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+      var gitalk = new Gitalk({
+        clientID: '84b52a29ce9e713ad7d4',
+        clientSecret: '95578b09122163e717247e0b28e6c76fc3976dcf',
+        repo: 'myoontyee.github.io',
+        owner: 'Myoontyee',
+        admin: 'Myoontyee',
+        id: md5(location.pathname),      
+        labels: 'Gitalk'.split(',').filter(l => l),
+        perPage: 10,
+        pagerDirection: 'last',
+        createIssueManually: true,
+        distractionFreeMode: false
+      })
+      gitalk.render('gitalk-container')
+</script>  
+
+
+
+
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <!-- 2022年3月19日 添加 代码高亮、访客量 -->
+        <!-- <script src="/js/prettify.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+             $('pre').addClass('prettyprint linenums');
+             $('code').addClass('prettyprint');
+             prettyPrint();
+             })
+        </script> -->
+        <!-- 2022年3月23日 添加mermaid支持 -->
+        
+            <script src='https://unpkg.com/mermaid@8.14.0/dist/mermaid.min.js'></script>
+            <script>
+              if (window.mermaid) {
+                mermaid.initialize({
+                                startOnLoad: true,
+                                theme: 'neural',
+                                     });
+              }
+            </script>
+        
+
+        <!-- <span>© Myoontyee | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a> -->
+            <span>© Myoontyee  
+            <!-- 访客数量 -->
+            <!-- <div> -->
+            
+                <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<span class="site-uv">
+    | 总访客量:
+    <i class="busuanzi-value" id="busuanzi_value_site_uv"><i class="fa fa-spinner fa-spin"></i></i>
+</span>&nbsp;
+
+
+<span class="site-pv">
+    | 总访问量:
+    <i class="busuanzi-value" id="busuanzi_value_site_pv"><i class="fa fa-spinner fa-spin"></i></i>
+</span>
+
+            
+            <!-- </div> -->
+        </span>
+    </div>
+</footer>
+
+
+
+    </div>
+
+
+
+    <!-- 搜索功能 -->
+    <!-- Chic/layout.ejs -->
+    <div id="u-search">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="container">
+                    <form id="u-search-modal-form" class="u-search-modal-form">
+                        <button type="submit" class="form-submit-btn">
+                            <img src="/image/search.png" class="search-btn-img" />
+                        </button>
+                        <input placeholder="搜索内容..." class="form-input" id="modal-form-input">
+                    </form>
+                    <a class="modal-close">x</a>
+                </div>
+                <div class="search-loading">
+                    <div class="search-loading-bar"></div>
+                </div>
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
+        <div class="modal-overlay"></div>
+    </div>
+</body>
+
+</html>

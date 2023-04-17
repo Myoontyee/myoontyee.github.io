@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="google-site-verification" content="os9wPImIjpPcEDGL25ZsjCp2wh2hzb3B7Y8E4Lm1nb0" />
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="Myoontyee">
+
+
+
+
+
+<title>范数是什么含义？有什么实际用途？对范数的理解？ | Myoontyee | MSF: iCT &amp; Robotic</title>
+
+
+
+    <link rel="icon" href="/rocket_favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont2/iconfont.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont3/iconfont.css">
+    
+    <link rel="stylesheet" href="/../fonts/iconfont4/iconfont.css">
+    
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+    <script src="/js/jquery.min.js"></script>
+    
+
+
+
+    
+    
+        
+            <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+        
+    
+
+
+
+
+<!-- 搜索的部分 -->
+
+
+
+    <script>
+    // function searchToggle() {
+    //     const width = $(document.body).width()
+    //     if(width > 479) {
+    //         return;
+    //     }
+    //     const search = $('.search');
+    //     const searchForm = $('.form-search')
+
+    //     if(!search.hasClass("mobile-search")) {
+    //         search.addClass("mobile-search");
+    //     } else {
+    //         search.removeClass("mobile-search");
+    //     } 
+    // }
+
+    function searchToggle() {
+        const width = $(document.body).width()
+        if(width > 479) {
+            return;
+        }
+        const search = $('.search');
+        const searchForm = $('.form-search');
+        const menuToggle = $('.menu-toggle');
+        const title = $('.navbar-header-title ');
+
+        if(!search.hasClass("mobile-search")) {
+            search.addClass("mobile-search");
+            menuToggle.addClass("open-search")
+            title.addClass("mobile-title-hidden")
+        } else {
+            search.removeClass("mobile-search");
+            menuToggle.removeClass("open-search")
+            // title.css({visibility: 'visible'})
+            title.removeClass("mobile-title-hidden")
+        } 
+    }
+
+
+
+    function search(searchInputEl, formEl, flag) {
+        const path = "/" + "search.json"; // 可以在public 下查看这个search.json
+        $(formEl).submit(function(e){
+            e.preventDefault();
+            let target = null
+            if(searchInputEl == null) {
+                const screenWidth = $(document.body).width();
+                target = screenWidth > 479 ? $('#pc-search-input') : $('#mobile-search-input');
+                console.log(target);
+            } else {
+                target = $(searchInputEl)
+            }
+
+            if(!flag && target.val() === '') {
+                return ;
+            }
+
+            $("#u-search").fadeIn(500, function() {
+                $("body > .wrapper").addClass("modal-active");
+
+                $.ajax({
+                    url: path,
+                    dataType: "json",
+                    beforeSend: function (xhr) {
+                        $input = target.val();
+                        $(".form-input").val($input);
+                        const loadingBar = $('.search-loading-bar') 
+                        loadingBar.css({
+                            width:'100%',
+                            display: 'block'
+                        });
+                    },
+                    success: function( datas ) {
+                        console.log(datas);
+                        const $resultPanel = $(".modal-body")[0];
+                        let str = `<ul class="modal-results">`;
+                        var keywords = $(".form-input").val().trim().toLowerCase().split(/[\s\-]+/);
+                        $resultPanel.innerHTML = "";
+                        let hasResult = false
+                        let text = `<div class="no-result">找不到与关键词相关的内容....</div>`;
+
+                        if ($(".form-input").val().trim().length <= 0) {
+                            // 没有结果
+                            $resultPanel.innerHTML = text;
+                            return;
+                        }
+                        datas.forEach(function (data, index) {
+                            var isMatch = true;
+                            if (!data.title || data.title.trim() === '') {
+                                data.title = "Untitled";
+                            }
+                            var data_title = data.title.trim().toLowerCase();
+                            var data_content = data.content && data.content.trim().replace(/<[^>]+>/g, "").toLowerCase() || '';
+                            var data_url = data.url;
+                            var index_title = -1;
+                            var index_content = -1;
+                            var first_occur = -1;
+                            // only match artiles with not empty contents
+                            if (data_content !== '') {
+                                keywords.forEach(function (keyword, i) {
+                                    index_title = data_title.indexOf(keyword);
+                                    index_content = data_content.indexOf(keyword);
+
+                                    if (index_title < 0 && index_content < 0) {
+                                        isMatch = false;
+                                    } else {
+                                        hasResult = true
+                                        if (index_content < 0) {
+                                            index_content = 0;
+                                        }
+                                        if (i == 0) {
+                                            first_occur = index_content;
+                                        }
+                                    }
+                                });
+                            } else {
+                                isMatch = false;
+                            }
+                            // show search results
+                            if (isMatch) {
+                                str += `<li class='result-item'><a href='${data_url}' class='result-item-detail'> <span class="title">${data_title}</span>`;
+                                var content = data.content.trim().replace(/<[^>]+>/g, "");
+                                if (first_occur >= 0) {
+                                    // cut out 200 characters
+                                    var start = first_occur - 40;
+                                    var end = first_occur + 160;
+
+                                    if (start < 0) {
+                                        start = 0;
+                                    }
+
+                                    if (start == 0) {
+                                        end = 200;
+                                    }
+
+                                    if (end > content.length) {
+                                        end = content.length;
+                                    }
+
+                                    var match_content = content.substring(start, end);
+
+                                    // highlight all keywords
+                                    keywords.forEach(function (keyword) {
+                                        var regS = new RegExp(keyword, "gi");
+                                        match_content = match_content.replace(regS, `<em class="search-keyword">${keyword}</em>`);
+                                    });
+
+                                    str += `<span class="content"> ${match_content} ...</span></a>`;
+                                }
+                                str += "</li>";
+                            }
+                        });
+                        str += "</ul>";
+                        if(hasResult) {
+                            $resultPanel.innerHTML = str;
+                        } else {
+                            $resultPanel.innerHTML = text;
+                        }
+
+                    },
+                    complete: function() {
+                        setTimeout(() => {
+                                const loadingBar = $('.search-loading-bar') 
+                                loadingBar.css({
+                                    width:'0%',
+                                    display: 'none'
+                                });
+                        }, 300)
+                    }
+                });
+            })
+
+        });
+    }
+
+    $(document).ready(function() {
+        $('.modal-close').click(function () { 
+            $("#u-search").fadeOut();
+            $("body > .wrapper").removeClass("modal-active")
+        })
+
+        $('.modal-overlay').click(function() {
+            $("#u-search").fadeOut();
+            $("body > .wrapper").removeClass("modal-active")
+        })
+        search(null, ".form-search", false)
+        search("#u-search-modal-form .form-input", ".u-search-modal-form", true)
+    })
+</script>
+
+
+
+<!-- 搜索框 -->
+<!-- 
+
+    <div class="search ">
+        <div class="search-btn" onClick="searchToggle()">
+            <img src="/image/search.png" class="search-btn-img" />
+        </div>
+        <form class="form-search">
+            <input class="input" placeholder="点此搜索" autocomplete="off" id="pc-search-input"/>
+        </form>
+    </div>
+ -->
+
+<!-- // 这里是 mobile 的menu -->
+<!-- <div class="navbar-mobile-right">
+    
+    
+    <div class="search ">
+        <div class="search-btn" onClick="searchToggle()">
+            <img src="/image/search.png" class="search-btn-img" />
+        </div>
+        <form class="form-search">
+            <input class="input" placeholder="点此搜索" autocomplete="off" id="mobile-search-input"/>
+        </form>
+    </div>
+
+    <div class="menu-toggle" onclick="mobileBtn()">&#9776; 目录</div>
+</div> -->
+
+<!-- 2022年3月19日添加 代码高亮、显示行号 -->
+<!-- <link rel="stylesheet" href="/css/prettify.css" media="screen" type="text/css"> -->
+<meta name="generator" content="Hexo 5.4.2">
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <!-- 引入标签 -->
+<link rel="stylesheet" href="../fonts/iconfont3/iconfont.css"> 
+
+<header>
+    <nav class="navbar">
+        <div class="container">
+            <!-- <div class="navbar-header header-logo"><a href="/">主页</a></div> -->
+            <div class="navbar-header header-logo"><a href="/"><i class="iconfont icon-zhuye" style="font-size: 1em;"></i>主页</a></div>
+            <div class="menu navbar-right">
+                <!-- 这里表示的是pc端搜索框 -->
+                
+                
+    <div class="search ">
+        <div class="search-btn" onClick="searchToggle()">
+            <img src="/image/search.png" class="search-btn-img" />
+        </div>
+        <form class="form-search">
+            <input class="input" placeholder="点此搜索" autocomplete="off" id="pc-search-input"/>
+        </form>
+    </div>
+
+                
+                    <!-- <a class="menu-item" href="/top">博文</a> -->
+                    
+                        <a class="menu-item" href="/top"><i class="iconfont icon-wenzhang" style="font-size: 1em;"></i>博文</a>
+                    
+                    
+                    
+                    
+                    
+                    
+                
+                    <!-- <a class="menu-item" href="/category">类别</a> -->
+                    
+                    
+                        <a class="menu-item" href="/category"><i class="iconfont icon-fenlei" style="font-size: 1em;"></i>类别</a>
+                    
+                    
+                    
+                    
+                    
+                
+                    <!-- <a class="menu-item" href="/tag">标签</a> -->
+                    
+                    
+                    
+                        <a class="menu-item" href="/tag"><i class="iconfont icon-biaoqian-" style="font-size: 1em;"></i>标签</a>
+                    
+                    
+                    
+                    
+                
+                    <!-- <a class="menu-item" href="/about">关于</a> -->
+                    
+                    
+                    
+                    
+                        <a class="menu-item" href="/about"><i class="iconfont icon-guanyu1" style="font-size: 1em;"></i>关于</a>
+                    
+                    
+                    
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">主页</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="navbar-mobile-right">
+                    
+                    
+    <div class="search ">
+        <div class="search-btn" onClick="searchToggle()">
+            <img src="/image/search.png" class="search-btn-img" />
+        </div>
+        <form class="form-search">
+            <input class="input" placeholder="点此搜索" autocomplete="off" id="mobile-search-input"/>
+        </form>
+    </div>
+
+                    <div class="menu-toggle" onclick="mobileBtn()">&#9776; 目录</div>
+                </div>
+                
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/top">博文</a>
+                
+                    <a class="menu-item" href="/category">类别</a>
+                
+                    <a class="menu-item" href="/tag">标签</a>
+                
+                    <a class="menu-item" href="/about">关于</a>
+                
+            </div>
+        </div>
+    </nav>
+    
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+
+            <div class="main">
+                <!-- 引入标签 -->
+<link rel="stylesheet" href="../fonts/iconfont3/iconfont.css"> 
+<!-- 这个文件是某个具体的文章的布局 -->
+<div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">全部展开</a>
+        <a onclick="go_top()">回到顶部</a>
+        <a onclick="go_bottom()">回到底部</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">范数是什么含义？有什么实际用途？对范数的理解？</h1>
+            
+                <div class="post-meta">
+                    
+                        👨‍🎓作者: <a itemprop="author" rel="author" href="/">Myoontyee</a>
+                    
+
+                    
+                        <span class="post-time">
+                        📅日期: <a href="#">四月 5, 2022&nbsp;&nbsp;21:17:28</a>
+                        </span>
+                    
+                <div>
+                    
+                        <span class="post-category">
+                            📚类别:
+                            
+                                <!-- <a href="/categories/%E6%95%B0%E7%90%86%E4%B8%8E%E7%AE%97%E6%B3%95/">数理与算法</a> -->
+                                <a href="/categories/%E6%95%B0%E7%90%86%E4%B8%8E%E7%AE%97%E6%B3%95/"><i class="iconfont icon-fenlei" style="font-size: 1em;"></i>数理与算法</a> | 
+                            
+                        </span>
+                    
+                </div>
+                    
+                    <div>
+                        
+                            <span class="post-count">
+                            📑字数:
+                            <a href="">1.9k</a>  
+                            </span>
+                        
+
+                        
+                            <span class="post-count">
+                            ⏱️阅读时长:
+                            <a href="">7min</a>  
+                            </span>
+                        
+
+                        
+                            <span id="busuanzi_container_page_pv">  
+                            🕵️‍♂️阅读数:<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>
+                            </span>
+                        
+                        
+                    </div>
+                </div>
+                        
+            
+        </header>
+
+        <div class="post-content">
+                <strong>💡 参考文章见Ref，感谢提供思路！</strong>
+            <br><strong>🗺️当前这篇博文地址：https://myoontyee.github.io/article/21abacaf/</strong>
+            <br><strong>⚠️警告：博客文章禁止一切形式的非授权非法转载！</strong>
+            <br><strong>⚠️Attention: All forms of unauthorized illegal reposts are prohibited !</strong> 
+            <hr>
+<p><strong>创建时间</strong>：2022年4月5日21:17:28<br>
+<strong>最新更新</strong>：2022年4月8日11:09:27</p>
+<hr>
+<p><strong>Problem Description</strong>：What does norm mean? What is the practical use? Understanding of norm?</p>
+<p><strong>核心思路</strong>：范数就是在求距离，只不过是不同场景里的距离</p>
+<hr>
+<h1 id="背景是什么"><a class="markdownIt-Anchor" href="#背景是什么"></a> 背景，是什么？</h1>
+<hr>
+<p><strong>概念</strong>：</p>
+<ul>
+<li>范数是对向量（或者矩阵）的度量，是一个标量（scalar）</li>
+<li>范数是具有“长度“概念的函数</li>
+<li>在线性代数、泛函分析及相关的数学领域，是一个函数，其为向量空间内所有向量赋予非零的正长度或大小</li>
+<li>半范数反而可以为非零的向量赋予零长度</li>
+</ul>
+<hr>
+<p><strong>简单来说</strong>：</p>
+<ul>
+<li>范数就是算距离的，不同场景下的距离</li>
+<li>范数提供了比较向量/矩阵是否“优秀”的一种标准</li>
+</ul>
+<hr>
+<blockquote>
+<p>范数（英语：Norm），是具有“长度”概念的函数。在线性代数、泛函分析及相关的数学领域，是一个函数，其为向量空间内的所有向量赋予非零的正长度或大小。另一方面，半范数（英语：seminorm）可以为非零的向量赋予零长度。</p>
+<p>举一个简单的例子，一个二维度的欧氏几何空间$ \mathbb{R}^{2} $就有欧氏范数。在这个向量空间的元素（譬如：(3,7)）常常在笛卡尔坐标系统被画成一个从原点出发的箭号。每一个向量的欧氏范数就是箭号的长度。</p>
+<p>拥有范数的向量空间就是赋范向量空间。同样，拥有半范数的向量空间就是赋半范向量空间。</p>
+</blockquote>
+<h2 id="分别是什么"><a class="markdownIt-Anchor" href="#分别是什么"></a> 分别是什么？</h2>
+<h3 id="零范数"><a class="markdownIt-Anchor" href="#零范数"></a> 零范数</h3>
+<hr>
+<p><strong>简单来说</strong>：$ L_{0} $ 范数是指向量中非0的元素的个数</p>
+<hr>
+<blockquote>
+<ul>
+<li>矩阵的L0范数就是非0元素的个数，通常用它来表示稀疏，L0范数越小，0元素越多，也就越稀疏。</li>
+</ul>
+<p class="katex-block katex-error" title="ParseError: KaTeX parse error: No such environment: equation at position 7: \begin{̲e̲q̲u̲a̲t̲i̲o̲n̲}̲\label{eq1}
+\| …">\begin{equation}\label{eq1}
+\| \mathbf{ x } \|_{0} = \lim _{ p \rightarrow 0 } \| \mathbf{ x } \|_{ p }^{ p } = \lim_{ p \rightarrow 0 } \sum_{ k=1 }^{ m}\left| x_{ k }\right|^{ p } = \#\left\{ i: x _{ i } \neq 0 \right\} 
+\end{equation}</p>
+<ul>
+<li>如下图所示，p 趋近于0时，函数就只有在$ x=0 $的时候等于0，其他的位置都为1。下图纵轴是元素的取值</li>
+<li>也就是说，$ L_{0} $ -Norm可以用于表达一个向量/矩阵的稀疏性，且是非凸函数。</li>
+</ul>
+<img src="/article/21abacaf/image-20220405211346473.png" class="" title="image-20220405211346473">
+</blockquote>
+<h3 id="一范数"><a class="markdownIt-Anchor" href="#一范数"></a> 一范数</h3>
+<hr>
+<p><strong>简单来说</strong>：$ L_{1} $就是算城市区块最短距离的，只能走区块四周的街或者路，算他总共有多长</p>
+<hr>
+<blockquote>
+<p>一范数又称绝对值范数，是在由实数或虚数构成的一维向量空间中的范数。绝对值范数是曼哈顿范数的特殊形式。</p>
+</blockquote>
+<p><strong>算法</strong>：</p>
+<p><span class="katex-error" title="ParseError: KaTeX parse error: No such environment: equation at position 7: \begin{̲e̲q̲u̲a̲t̲i̲o̲n̲}̲ \|x\|_{1}=\sum…">\begin{equation} \|x\|_{1}=\sum_{i=1}^{N}\left|x_{i}\right|\end{equation}</span></p>
+<p><strong>概念</strong>：</p>
+<ul>
+<li>一范数是向量元素绝对值之和</li>
+</ul>
+<h3 id="二范数"><a class="markdownIt-Anchor" href="#二范数"></a> 二范数</h3>
+<hr>
+<p><strong>简单来说</strong>：$ L_{2} $就是通常我们口中的距离，空中直线距离</p>
+<hr>
+<p>二范数又称欧几里德范数，在n维欧几里德空间 $ \mathbb{R}^{n} $ 上，向量 $ \boldsymbol{x}=\left(x_{1}, x_{2}, \ldots, x_{n}\right)^{\mathrm{T}} $ 的最符合直觉的长度由以下公式给出</p>
+<p class="katex-block katex-error" title="ParseError: KaTeX parse error: No such environment: equation at position 7: \begin{̲e̲q̲u̲a̲t̲i̲o̲n̲}̲ \|\boldsymbol{…">\begin{equation} \|\boldsymbol{x}\|_{2} = \sqrt{x_{1}^{2}+\cdots+x_{n}^{2}} \end{equation}
+</p>
+<h3 id="无穷范数"><a class="markdownIt-Anchor" href="#无穷范数"></a> 无穷范数</h3>
+<hr>
+<p><strong>简单来说</strong>：$ L_{-\infty} $ 是向量的所有元素的绝对值中最小的，$ L_{+\infty} $ 是向量的所有元素的绝对值中最大的</p>
+<hr>
+<p><strong>逻辑推导</strong>：</p>
+<p>最常用的范数是p-范数，即对 $ x=\left[x_{1}, x_{2}, \cdots, x_{n}\right]^{\mathrm{T}} $ ，有</p>
+<p class="katex-block katex-error" title="ParseError: KaTeX parse error: No such environment: equation at position 7: \begin{̲e̲q̲u̲a̲t̲i̲o̲n̲}̲ \|x\|_{p}=\lef…">\begin{equation} \|x\|_{p}=\left(\left|x_{1}\right|^{p}+\left|x_{2}\right|^{p}+\cdots+\left|x_{n}\right|^{p}\right)^{\frac{1}{p}} \end{equation}
+</p>
+<p>当p取无穷大时，该取值只与其中元素的最大值有关</p>
+<p class="katex-block katex-error" title="ParseError: KaTeX parse error: No such environment: equation at position 7: \begin{̲e̲q̲u̲a̲t̲i̲o̲n̲}̲ \|x\| _{+\inft…">\begin{equation} \|x\| _{+\infty}=\max \left(\left|x_{1}\right|,\left|x_{2}\right|, \ldots,\left|x_{n}\right|\right) \end{equation}
+</p>
+<p>当p取无穷小时，该取值只与其中元素的最小值有关</p>
+<p class="katex-block katex-error" title="ParseError: KaTeX parse error: No such environment: equation at position 7: \begin{̲e̲q̲u̲a̲t̲i̲o̲n̲}̲ \|x\| _{-\inft…">\begin{equation} \|x\| _{-\infty}=\min \left(\left|x_{1}\right|,\left|x_{2}\right|, \ldots,\left|x_{n}\right|\right) \end{equation}
+</p>
+<h3 id="它们的关系"><a class="markdownIt-Anchor" href="#它们的关系"></a> 它们的关系？</h3>
+<ul>
+<li>
+<p>下图中</p>
+<ul>
+<li>红色、蓝色、黄色线表示所有曼哈顿距离，他们都有一样的长度，为12</li>
+<li>绿色线表示欧几里得距离，$  6×\sqrt{2} ≈ 8.48  $</li>
+</ul>
+</li>
+<li>
+<p>我们可以定义<strong>曼哈顿距离</strong>的正式意义为 $ L_{1} $ -距离或城市区块距离，也就是在欧几里得空间的固定直角坐标系上两点所形成的线段对轴产生的投影的距离总和。</p>
+<ul>
+<li>例如在平面上，坐标 $ (x_{1}, y_{1}) $ 的点 $ P_{1} $ 与坐标 $ (x_{2}, y_{2}) $ 的点 $ P_{2} $ 的曼哈顿距离为：</li>
+</ul>
+</li>
+</ul>
+<p class="katex-block katex-error" title="ParseError: KaTeX parse error: No such environment: equation at position 7: \begin{̲e̲q̲u̲a̲t̲i̲o̲n̲}̲ d(x, y)=\left|…">\begin{equation} d(x, y)=\left|x_{1}-x_{2}\right|+\left|y_{1}-y_{2}\right| \end{equation}
+</p>
+<ul>
+<li>要注意的是，曼哈顿距离依赖座标系统的旋转，而非系统在座标轴上的平移或映射</li>
+<li>曼哈顿距离的命名原因是从规划为方型建筑区块的城市（如曼哈顿）间，最短的行车路径而来（忽略曼哈顿的单向车道以及只存在于3、14大道的斜向车道）。任何往东三区块、往北六区块的的路径一定最少要走九区块，没有其他捷径。</li>
+</ul>
+<img src="/article/21abacaf/image-20220405211355540.png" class="" title="image-20220405211355540">
+<ul>
+<li>别称
+<ul>
+<li>曼哈顿距离</li>
+<li>方格线距离</li>
+<li>最小绝对误差</li>
+<li>$ L_{1} $ -距离</li>
+<li>城市区块距离</li>
+</ul>
+</li>
+</ul>
+<h1 id="为什么为啥这么起名"><a class="markdownIt-Anchor" href="#为什么为啥这么起名"></a> 为什么？为啥这么起名？</h1>
+<hr>
+<p><strong>简单来说</strong>：“范”指代范围、规范之意，范数有点像我“铸造”矩阵用的模体的参数（长宽高、工艺等），所以范数取的是矩阵的各种特性</p>
+<hr>
+<blockquote>
+<ul>
+<li>英文单词Norm是规范的意思，但是这么解释又感觉有点不对劲，没有那种老一辈数学家命名时的智慧感</li>
+<li>“范（乙组图11）”常用作一种制造东西的模子，一般认为是“法也”之“笵”的通假。制造模子的材料不同，模子也就有了不同的名称。木制的模子叫“模”，竹制的模子叫“范（乙组图11）”，土制的模子叫“型”。一个模子造出来的东西，当然都和模子一个样。这个模子，实际上就是一个榜样，一个典型。所以这三个字都引申出榜样的意思，如“模范”，“模”和“范”都是榜样的意思，是同义词。“范文”就是作为榜样的文章。“示范”就是做出一个榜样来。用模子造东西，是出不了模子的范围的，模子实际上就是一种范围。所以“范”字就由模子的意思，引申出范围的意思。这里，“范”和“围”是同义词，都是指一种指定的圈子。</li>
+</ul>
+<img src="/article/21abacaf/image-20220405212216965.png" class="" title="image-20220405212216965">
+</blockquote>
+<h1 id="怎么用举个例子"><a class="markdownIt-Anchor" href="#怎么用举个例子"></a> 怎么用？举个例子？</h1>
+<h2 id="python函数"><a class="markdownIt-Anchor" href="#python函数"></a> Python函数</h2>
+<h3 id="nplinalgnorm"><a class="markdownIt-Anchor" href="#nplinalgnorm"></a> np.linalg.norm</h3>
+<ul>
+<li>linalg=linear+algebra，norm 则表示范数</li>
+<li>手册表示的接口<code>norm(x, ord=None, axis=None, keepdims=False)</code>
+<ul>
+<li><code>ord</code>是具体的范数值</li>
+<li><code>axis</code>是向量计算的方向</li>
+<li><code>keepdims</code>表示是否保持维度不变</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>含义</th>
+<th>原理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>默认</td>
+<td>二范数 $ l_{2} $ : $ \ \Vert x \Vert_2 $</td>
+<td>$  \sqrt{ x_{1}^{2} + x_{2}^{2} + \ldots + x_{n}^{2} }  $</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>ord = 1</td>
+<td>一范数 $ l_{1} $ : $ \ \Vert x \Vert_1 $</td>
+<td>$  | x_{1} | + | x_{2} | + \ldots + | x_{n} |  $</td>
+</tr>
+<tr>
+<td>ord = 2</td>
+<td>二范数 $ l_{2} $ : $ \ \Vert x \Vert_2 $</td>
+<td>$  \sqrt{ x_{1}^{2} + x_{2}^{2} + \ldots + x_{n}^{2} }  $</td>
+</tr>
+<tr>
+<td>ord = np.inf</td>
+<td>无穷范数 $ l_{\infty} $ : $ \ \Vert x \Vert_\infty $</td>
+<td>$ max( | x_{i} | )$</td>
+</tr>
+</tbody>
+</table>
+<h1 id="ref"><a class="markdownIt-Anchor" href="#ref"></a> Ref</h1>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/wangdong2017/article/details/81297654">python求向量的三种范式</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/devilmaycry812839668/p/9352814.html">python 库 Numpy 中如何求取向量范数 np.linalg.norm(求范数)（向量的第二范数为传统意义上的向量长度），（如何求取向量的单位向量）</a></li>
+<li><a target="_blank" rel="noopener" href="http://arthur503.github.io/blog/2013/10/02/Statistical-Methods-appendix-norm.html">统计学习方法BR-附录：范数</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/nymph_h/article/details/95068873">【数学知识】||x||（范数 norm）</a></li>
+<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E6%9B%BC%E5%93%88%E9%A0%93%E8%B7%9D%E9%9B%A2">曼哈顿距离</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/21868680">范数对于数学的意义？1范数、2范数、无穷范数该怎么用？</a></li>
+<li><a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E8%8C%83%E6%95%B0">范数</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhidao.baidu.com/question/266281552.html">无穷范数的“无穷”是什么意思，还有“1范数”中的“1”等等</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/28023308">L1范数与L2范数的区别</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/168969380">为什么不用L0范数做正则化？</a></li>
+<li><a target="_blank" rel="noopener" href="https://baike.baidu.com/item/%E8%8C%83/34046">范 （汉语文字）</a></li>
+</ul>
+
+        </div>
+        <section class="reward_class">
+            <br>
+            <div class="reward" id="reward">
+                <div class="sponser">
+                    <div class="sponser_btn"><strong>💎支持博主</strong></div>
+                    <div class="sponser_img">
+                        <div class="sponser_container">
+                            <div class="sponser_header">请我吃肯德基🍗！</div>
+                            <div class="sponser_body">
+                                <div class="alipay">
+                                    <span class="sponser_alipay_title">谢谢各位大佬🏌️‍♂️！</span>
+                                    <div>
+                                        <img class="sponser_alipay" src="/image/Paying.jpg">
+                                
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <br> -->
+        </section>
+        
+
+        
+            <section class="post-copyright">
+                
+                
+                
+                
+
+            </section>
+        
+
+        <!-- <section class="reward_class">
+            <br>
+            <div class="reward" id="reward">
+                <div class="sponser">
+                    <div class="sponser_btn">支持博主</div>
+                    <div class="sponser_img">
+                        <div class="sponser_container">
+                            <div class="sponser_header">请我吃肯德基！</div>
+                            <div class="sponser_body">
+                                <div class="alipay">
+                                    <span class="sponser_alipay_title">谢谢各位大佬！</span>
+                                    <div>
+                                        <img class="sponser_alipay" src="/image/Paying.jpg">
+                                
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+        </section> -->
+
+        <section class="post-tags">
+            <div>
+                <span>标签:</span>
+                <span class="tag">
+                    
+                    
+                        <!-- <a href="/tags/%E6%95%B0%E7%90%86%E4%B8%8E%E7%AE%97%E6%B3%95/"># 数理与算法</a> -->
+                        <!-- <a href="/tags/%E6%95%B0%E7%90%86%E4%B8%8E%E7%AE%97%E6%B3%95/">🏷️数理与算法</a> -->
+                        <a href="/tags/%E6%95%B0%E7%90%86%E4%B8%8E%E7%AE%97%E6%B3%95/"><i class="iconfont icon-biaoqian-" style="font-size: 1em;"></i>数理与算法 </a>
+                        
+                    
+                        <!-- <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/"># 线性代数</a> -->
+                        <!-- <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/">🏷️线性代数</a> -->
+                        <a href="/tags/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0/"><i class="iconfont icon-biaoqian-" style="font-size: 1em;"></i>线性代数 </a>
+                        
+                    
+                        <!-- <a href="/tags/%E8%8C%83%E6%95%B0/"># 范数</a> -->
+                        <!-- <a href="/tags/%E8%8C%83%E6%95%B0/">🏷️范数</a> -->
+                        <a href="/tags/%E8%8C%83%E6%95%B0/"><i class="iconfont icon-biaoqian-" style="font-size: 1em;"></i>范数 </a>
+                        
+                    
+                        
+                </span>
+            </div>
+            
+
+            
+
+            <div>
+                <a href="javascript:window.history.back();">返回</a>
+                <span>· </span>
+                <a href="/">主页</a>
+            </div>
+        </section>
+
+
+
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/article/4ef81417/">有部分文件夹不想push到GitHub上应如何设置？</a>
+            
+            
+            <a class="next" rel="next" href="/article/fc9e9061/">WSL + Geant4 配置 C++ boost库，配置外部库也可参考</a>
+            
+        </section>
+
+
+    </article>
+
+
+
+</div>
+
+
+
+
+
+
+<!-- <div class="empty-font">选中这一段文字，点击 ctrl+C 或 者右键选择复制</div> -->
+<!-- <script type="text/javascript">
+	//监听整个页面的 copy 事件
+	document.addEventListener('copy',function(e){
+		// clipboardData 对象是为通过编辑菜单、快捷菜单和快捷键执行的编辑操作所保留的，也就是你复制或者剪切内容
+		let clipboardData = e.clipboardData || window.clipboardData;
+		// 如果 未复制或者未剪切，直接 return 
+		if(!clipboardData) return ;
+		// Selection 对象 表示用户选择的文本范围或光标的当前位置。
+		// 声明一个变量接收 -- 用户输入的剪切或者复制的文本转化为字符串
+		let text = window.getSelection().toString();
+		if(text){
+			// 如果文本存在，首先取消默认行为
+			e.preventDefault();
+			// 通过调用 clipboardData 对象的 setData(format,data) 方法，设置相关文本 
+			// format 一个 DOMString 类型 表示要添加到 drag object 的拖动数据的类型
+			// data 一个 DOMString 表示要添加到 drag object 的数据
+            var myDate = new Date(); // 日期
+            var StealerInfo=
+                '\n ================================================'    
+            +   '\n 非法转载者 | 类型               | 状态'
+            +   '\n itcn.blog | 未授权转载、爬取    | 未回复、未删除'
+            +   '\n python.iitter.com | 未授权转载、爬取    | 未回复、未删除'
+            +   '\n www.techfm.club | 未授权转载、爬取    | 未回复、未删除'
+            +   '\n ================================================'   
+            ;
+            
+            var copyright = '\n\n'
+            + '\n'
+            + '\n⚠️著作权归作者所有！'
+            + '\n⚠️博客内容禁止一切形式的非法、非授权转载！'
+            + '\n💡 参考文章见博文Ref！'
+            + '\n作者: Myoontyee Chen'
+            + '\n原文地址: https://myoontyee.github.io/article/21abacaf/'
+            + '\n'
+            + '\n'
+            + '\n 当前非法爬取信息统计如下表，保留一切追责权利'
+            + '\n 日期： ' + myDate.toLocaleDateString()
+            + StealerInfo
+
+			clipboardData.setData('text/plain', text + copyright)
+		}
+	})
+</script> -->
+
+<!-- Gitalk模块的js启动 -->
+  
+    <div id="gitalk-container"></div>  
+    <link rel="stylesheet" href="//unpkg.com/gitalk/dist/gitalk.css">
+<script src="//unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script src="//cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+<div id="gitalk-container"></div>
+<script type="text/javascript">
+      var gitalk = new Gitalk({
+        clientID: '84b52a29ce9e713ad7d4',
+        clientSecret: '95578b09122163e717247e0b28e6c76fc3976dcf',
+        repo: 'myoontyee.github.io',
+        owner: 'Myoontyee',
+        admin: 'Myoontyee',
+        id: md5(location.pathname),      
+        labels: 'Gitalk'.split(',').filter(l => l),
+        perPage: 10,
+        pagerDirection: 'last',
+        createIssueManually: true,
+        distractionFreeMode: false
+      })
+      gitalk.render('gitalk-container')
+</script>  
+
+
+
+
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <!-- 2022年3月19日 添加 代码高亮、访客量 -->
+        <!-- <script src="/js/prettify.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+             $('pre').addClass('prettyprint linenums');
+             $('code').addClass('prettyprint');
+             prettyPrint();
+             })
+        </script> -->
+        <!-- 2022年3月23日 添加mermaid支持 -->
+        
+            <script src='https://unpkg.com/mermaid@8.14.0/dist/mermaid.min.js'></script>
+            <script>
+              if (window.mermaid) {
+                mermaid.initialize({
+                                startOnLoad: true,
+                                theme: 'neural',
+                                     });
+              }
+            </script>
+        
+
+        <!-- <span>© Myoontyee | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a> -->
+            <span>© Myoontyee  
+            <!-- 访客数量 -->
+            <!-- <div> -->
+            
+                <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<span class="site-uv">
+    | 总访客量:
+    <i class="busuanzi-value" id="busuanzi_value_site_uv"><i class="fa fa-spinner fa-spin"></i></i>
+</span>&nbsp;
+
+
+<span class="site-pv">
+    | 总访问量:
+    <i class="busuanzi-value" id="busuanzi_value_site_pv"><i class="fa fa-spinner fa-spin"></i></i>
+</span>
+
+            
+            <!-- </div> -->
+        </span>
+    </div>
+</footer>
+
+
+
+    </div>
+
+
+
+    <!-- 搜索功能 -->
+    <!-- Chic/layout.ejs -->
+    <div id="u-search">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="container">
+                    <form id="u-search-modal-form" class="u-search-modal-form">
+                        <button type="submit" class="form-submit-btn">
+                            <img src="/image/search.png" class="search-btn-img" />
+                        </button>
+                        <input placeholder="搜索内容..." class="form-input" id="modal-form-input">
+                    </form>
+                    <a class="modal-close">x</a>
+                </div>
+                <div class="search-loading">
+                    <div class="search-loading-bar"></div>
+                </div>
+            </div>
+            <div class="modal-body">
+            </div>
+        </div>
+        <div class="modal-overlay"></div>
+    </div>
+</body>
+
+</html>
