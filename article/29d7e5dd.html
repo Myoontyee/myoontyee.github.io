@@ -576,16 +576,12 @@
 <ul>
 <li>启动<code>Docker</code>服务（我就直接打开他GUI端，因为我平常禁止他自启动）
 <ul>
-<li>
-<img src="/article/29d7e5dd/image-20220430174444975.png" class="" title="image-20220430174444975">
-</li>
+<li><img src="/article/29d7e5dd/image-20220430174444975.png" alt="image-20220430174444975"></li>
 </ul>
 </li>
 <li>打开<code>WSL</code>的<code>Bash</code>，输入<code>docker pull sharelatex/sharelatex</code>，等待<code>pull</code>完成
 <ul>
-<li>
-<img src="/article/29d7e5dd/image-20220430174449057.png" class="" title="image-20220430174449057">
-</li>
+<li><img src="/article/29d7e5dd/image-20220430174449057.png" alt="image-20220430174449057"></li>
 </ul>
 </li>
 <li>在<code>Bash</code>内输入<code>mkdir ~/sharelatex/ ~/sharelatex_data/ ~/mongo_data/ ~/redis_data/</code>创建4个文件夹到<code>\\wsl$\Ubuntu-20.04\root</code>下头
@@ -616,9 +612,7 @@
 <li>在<code>bash</code>内进入到<code>\\wsl$\Ubuntu-20.04\root\sharelatex</code>这个文件夹</li>
 <li>输入<code>docker-compose up -d</code>下载对应的东西
 <ul>
-<li>
-<img src="/article/29d7e5dd/image-20220430174456918.png" class="" title="image-20220430174456918">
-</li>
+<li><img src="/article/29d7e5dd/image-20220430174456918.png" alt="image-20220430174456918"></li>
 </ul>
 </li>
 </ul>
@@ -626,29 +620,19 @@
 <ul>
 <li>在浏览器里打开<code>http://127.0.0.1:8080/launchpad</code>注册管理员账号
 <ul>
-<li>
-<img src="/article/29d7e5dd/image-20220430174502797.png" class="" title="image-20220430174502797">
-</li>
+<li><img src="/article/29d7e5dd/image-20220430174502797.png" alt="image-20220430174502797"></li>
 </ul>
 </li>
 <li>然后可以先开个项目试试看，点<code>Start Using Overleaf Community Edition</code>→<code>New Project</code>→<code>Example Project</code>→起个你喜欢的名儿→<code>Create</code>
 <ul>
-<li>
-<img src="/article/29d7e5dd/image-20220430174508326.png" class="" title="image-20220430174508326">
-</li>
-<li>
-<img src="/article/29d7e5dd/image-20220430174512527.png" class="" title="image-20220430174512527">
-</li>
-<li>
-<img src="/article/29d7e5dd/image-20220430174521573.png" class="" title="image-20220430174521573">
-</li>
+<li><img src="/article/29d7e5dd/image-20220430174508326.png" alt="image-20220430174508326"></li>
+<li><img src="/article/29d7e5dd/image-20220430174512527.png" alt="image-20220430174512527"></li>
+<li><img src="/article/29d7e5dd/image-20220430174521573.png" alt="image-20220430174521573"></li>
 </ul>
 </li>
 <li>如下图，看着很棒，那么我们进一步配置，安装更完整的环境
 <ul>
-<li>
-<img src="/article/29d7e5dd/image-20220430174529619.png" class="" title="image-20220430174529619">
-</li>
+<li><img src="/article/29d7e5dd/image-20220430174529619.png" alt="image-20220430174529619"></li>
 </ul>
 </li>
 </ul>
@@ -674,9 +658,7 @@
 <li>上2步操作如下图
 <ul>
 <li></li>
-<li>
-<img src="/article/29d7e5dd/image-20220430174555045.png" class="" title="image-20220430174555045">
-</li>
+<li><img src="/article/29d7e5dd/image-20220430174555045.png" alt="image-20220430174555045"></li>
 </ul>
 </li>
 <li>执行以下命令，开始更新
@@ -690,9 +672,7 @@
 <li>
 <p>如下图，要蛮久的，特别那个装<code>TexLive</code>，可以睡一觉！</p>
 <ul>
-<li>
-<img src="/article/29d7e5dd/image-20220430174621694.png" class="" title="image-20220430174621694">
-</li>
+<li><img src="/article/29d7e5dd/image-20220430174621694.png" alt="image-20220430174621694"></li>
 </ul>
 </li>
 <li>
@@ -707,9 +687,7 @@
 <ul>
 <li>在<code>WSL</code>的<code>Bash</code>内输入如下指令，进入<code>sharelatex</code>这个容器的<code>bash</code>
 <ul>
-<li>
-<img src="/article/29d7e5dd/image-20220430174628371.png" class="" title="image-20220430174628371">
-</li>
+<li><img src="/article/29d7e5dd/image-20220430174628371.png" alt="image-20220430174628371"></li>
 </ul>
 </li>
 </ul>
@@ -724,9 +702,7 @@
 <ul>
 <li>在<code>Bash</code>内输入如下指令退出容器
 <ul>
-<li>
-<img src="/article/29d7e5dd/image-20220430174632990.png" class="" title="image-20220430174632990">
-</li>
+<li><img src="/article/29d7e5dd/image-20220430174632990.png" alt="image-20220430174632990"></li>
 </ul>
 </li>
 </ul>
@@ -735,9 +711,7 @@
 <li>在<code>Bash</code>内输入如下指令看一下<code>sharelatex/sharelatex</code>对应的<code>CONTAINER ID</code>
 <ul>
 <li>比如我对应的<code>CONTAINER ID</code>是<code>a4868411d7e0</code></li>
-<li>
-<img src="/article/29d7e5dd/image-20220430174637996.png" class="" title="image-20220430174637996">
-</li>
+<li><img src="/article/29d7e5dd/image-20220430174637996.png" alt="image-20220430174637996"></li>
 </ul>
 </li>
 </ul>
@@ -758,9 +732,7 @@
 <ul>
 <li>检查有没有安装成功，在<code>Bash</code>内输入以下指令，像下图这样就成了，可以上<code>Overleaf</code>里头冲浪了
 <ul>
-<li>
-<img src="/article/29d7e5dd/image-20220430174647505.png" class="" title="image-20220430174647505">
-</li>
+<li><img src="/article/29d7e5dd/image-20220430174647505.png" alt="image-20220430174647505"></li>
 </ul>
 </li>
 </ul>
@@ -769,9 +741,7 @@
 <ul>
 <li>在<code>Docker</code>的<code>Containers/Apps</code>页面，如下图，平常不用关掉，下次要用时候这4个挨个<code>START</code>就行
 <ul>
-<li>
-<img src="/article/29d7e5dd/image-20220430175936472.png" class="" title="image-20220430175936472">
-</li>
+<li><img src="/article/29d7e5dd/image-20220430175936472.png" alt="image-20220430175936472"></li>
 </ul>
 </li>
 </ul>

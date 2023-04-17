@@ -567,9 +567,9 @@
 </ul>
 <hr>
 <ul>
-<li>效果如下图</li>
+<li>效果如下图<br>
+<img src="/article/1650c0d7/image-20220329231844678.png" alt="image-20220329231844678"></li>
 </ul>
-<img src="/article/1650c0d7/image-20220329231844678.png" class="" title="image-20220329231844678">
 <hr>
 <p><strong>核心思路</strong>：</p>
 <ol>
@@ -608,8 +608,8 @@ Git Bash里执行npm install hexo-generator-search生成search.json以包含是�
 </ul>
 </li>
 </ul>
-<img src="/article/1650c0d7/image-20220329231924618.png" class="" title="image-20220329231924618">
-<img src="/article/1650c0d7/image-20220329231930397.png" class="" title="image-20220329231930397">
+<p><img src="/article/1650c0d7/image-20220329231924618.png" alt="image-20220329231924618"><br>
+<img src="/article/1650c0d7/image-20220329231930397.png" alt="image-20220329231930397"></p>
 <ul>
 <li>在<code>./themes/Chic/</code>下的<code>_config.yml</code>文件里<code>script</code>段添加如下内容
 <ul>
@@ -633,7 +633,7 @@ Git Bash里执行npm install hexo-generator-search生成search.json以包含是�
 <li>打开<code>./themes/Chic/layout/layout.ejs</code>底部，在<code>&lt;/html&gt;</code>添加以下代码，这段代码控制的内容如下</li>
 </ul>
 <figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 搜索功能 --&gt;</span><br><span class="line">&lt;!-- Chic/layout.ejs --&gt;</span><br><span class="line">&lt;div id="u-search"&gt;</span><br><span class="line">    &lt;div class="modal"&gt;</span><br><span class="line">        &lt;div class="modal-header"&gt;</span><br><span class="line">            &lt;div class="container"&gt;</span><br><span class="line">                &lt;form id="u-search-modal-form" class="u-search-modal-form"&gt;</span><br><span class="line">                    &lt;button type="submit" class="form-submit-btn"&gt;</span><br><span class="line">                        &lt;img src="&lt;%- url_for(theme.searchImg) %&gt;" class="search-btn-img" /&gt;</span><br><span class="line">                    &lt;/button&gt;</span><br><span class="line">                    &lt;input placeholder="搜索内容..." class="form-input" id="modal-form-input"&gt;</span><br><span class="line">                &lt;/form&gt;</span><br><span class="line">                &lt;a class="modal-close"&gt;x&lt;/a&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">            &lt;div class="search-loading"&gt;</span><br><span class="line">                &lt;div class="search-loading-bar"&gt;&lt;/div&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">        &lt;div class="modal-body"&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    &lt;div class="modal-overlay"&gt;&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
-<img src="/article/1650c0d7/image-20220329231940903.png" class="" title="image-20220329231940903">
+<p><img src="/article/1650c0d7/image-20220329231940903.png" alt="image-20220329231940903"></p>
 <h2 id="css"><a class="markdownIt-Anchor" href="#css"></a> css</h2>
 <ul>
 <li>在<code>./themes/Chic/source/css/_lib/</code>下新建文件<code>search.css</code>，写入以下代码</li>
@@ -676,7 +676,7 @@ Git Bash里执行npm install hexo-generator-search生成search.json以包含是�
 <li>打开<code>./themes/Chic/layout/_partial/head.ejs</code>，尾行添加以下代码：</li>
 </ul>
 <figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 搜索的部分 --&gt;</span><br><span class="line">&lt;%# search %&gt;</span><br><span class="line"></span><br><span class="line">&lt;% if(config.search &amp;&amp; config.search.enable ) { %&gt;</span><br><span class="line">    &lt;%- partial('_plugins/search.ejs') %&gt;</span><br><span class="line">&lt;% } %&gt;</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
-<img src="/article/1650c0d7/image-20220329232026029.png" class="" title="image-20220329232026029">
+<p><img src="/article/1650c0d7/image-20220329232026029.png" alt="image-20220329232026029"></p>
 <h1 id="手机端源码调整"><a class="markdownIt-Anchor" href="#手机端源码调整"></a> 手机端源码调整</h1>
 <ul>
 <li>打开<code>themes\Chic\layout\_plugins\search.ejs</code>，进行修改</li>

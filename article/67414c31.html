@@ -574,19 +574,19 @@
 <ul>
 <li>在<code>Git-Bash</code>内通过<code>hexo clean</code>，<code>hexo g</code>部署后，在<code>public</code>文件夹下能看到这两个文件，就算是配置成功</li>
 </ul>
-<img src="/article/67414c31/image-20220330202126175.png" class="" title="image-20220330202126175">
+<p><img src="/article/67414c31/image-20220330202126175.png" alt="image-20220330202126175"></p>
 <h1 id="推送至谷歌站长控制台"><a class="markdownIt-Anchor" href="#推送至谷歌站长控制台"></a> 推送至谷歌站长控制台</h1>
 <ul>
 <li>打开<a target="_blank" rel="noopener" href="https://search.google.com/search-console">谷歌站长控制台</a>，点击<code>站点地图</code>→在Blog地址后输入<code>sitemap.xml</code>，下下图是一个示例→点击提交→过1、2天or1周左右，<code>状态</code>会显示<code>成功</code></li>
 </ul>
-<img src="/article/67414c31/image-20220330202134454.png" class="" title="image-20220330202134454">
-<img src="/article/67414c31/image-20220330202142231.png" class="" title="image-20220330202142231">
+<p><img src="/article/67414c31/image-20220330202134454.png" alt="image-20220330202134454"></p>
+<p><img src="/article/67414c31/image-20220330202142231.png" alt="image-20220330202142231"></p>
 <h1 id="状态出现无法获取-cloudnt-fetch咋办"><a class="markdownIt-Anchor" href="#状态出现无法获取-cloudnt-fetch咋办"></a> 状态出现无法获取、Cloudn’t Fetch咋办？</h1>
 <h2 id="网址检查"><a class="markdownIt-Anchor" href="#网址检查"></a> 网址检查</h2>
 <ul>
 <li>首先要确保提交的网址没有问题，可以通过<code>网址检查</code>→输入网址（sitemap的网址，比如<code>https://myoontyee.github.io/sitemap.xml</code>）→<code>测试实际网址</code>，如果没问题，那就走下面的办法，如果有问题…那就对应调整问题…看看不是大小写啊，<code>https</code>打成<code>http</code>，或者多打了一个斜杆<code>/</code>啥的</li>
 </ul>
-<img src="/article/67414c31/image-20220330202156089.png" class="" title="image-20220330202156089">
+<p><img src="/article/67414c31/image-20220330202156089.png" alt="image-20220330202156089"></p>
 <h2 id="开始给谷歌邦邦两拳"><a class="markdownIt-Anchor" href="#开始给谷歌邦邦两拳"></a> 开始给谷歌邦邦两拳</h2>
 <ul>
 <li>显示这个的原因，是因为目前谷歌的控制台，即便他正在爬取，也给你显示无法获取，所以你不晓得到底是正在爬取，还是网址出了别的啥问题</li>
@@ -596,7 +596,7 @@
 <ul>
 <li>直接在Blog源码所在文件夹里搜索，挨个改</li>
 </ul>
-<img src="/article/67414c31/image-20220330202207917.png" class="" title="image-20220330202207917">
+<p><img src="/article/67414c31/image-20220330202207917.png" alt="image-20220330202207917"></p>
 <ul>
 <li><code>robot.txt</code>是用来定义爬取规则的，所以如果你<code>robot.txt</code>里头有以下内容，都要删掉，下面相当于告诉谷歌这些东西不准爬</li>
 </ul>
@@ -606,12 +606,12 @@
 <ul>
 <li>打开<a target="_blank" rel="noopener" href="https://www.xml-sitemaps.com/">xml-sitemaps</a>→输入网址，如下图，输的是Blog网址，如我的是<code>https://myoontyee.github.io</code>→点<code>START</code></li>
 </ul>
-<img src="/article/67414c31/image-20220330202256213.png" class="" title="image-20220330202256213">
+<p><img src="/article/67414c31/image-20220330202256213.png" alt="image-20220330202256213"></p>
 <ul>
 <li>点<code>VIEW SITEMAP DETAILS</code>→点<code>DOWNLOAD YOUR XML SITEMAP FILE</code>下载到Blog源码根目录下的<code>public</code>文件夹内→在<code>Git-Bash</code>内<code>hexo d</code>部署到网站上→在<a target="_blank" rel="noopener" href="https://search.google.com/search-console">谷歌站长控制台</a>提交这个sitemap对应的网址试试，比如你下载的名字是<code>sitemap_gene.xml</code>，那么此时你提交给谷歌站长控制台的网站地图就<code>https://myoontyee.github.io/sitemap_gene.xml</code>，要把我的Blog地址改成你自己的</li>
 </ul>
-<img src="/article/67414c31/image-20220330202335225.png" class="" title="image-20220330202335225">
-<img src="/article/67414c31/image-20220330202343395.png" class="" title="image-20220330202343395">
+<p><img src="/article/67414c31/image-20220330202335225.png" alt="image-20220330202335225"></p>
+<p><img src="/article/67414c31/image-20220330202343395.png" alt="image-20220330202343395"></p>
 <h3 id="提醒谷歌网站地图更新了赶紧爬取一下哎"><a class="markdownIt-Anchor" href="#提醒谷歌网站地图更新了赶紧爬取一下哎"></a> 提醒谷歌网站地图更新了，赶紧爬取一下哎</h3>
 <ul>
 <li>在你的浏览器输入以下网址</li>
@@ -625,7 +625,7 @@
 <ul>
 <li>我隔了2-3天才成功…</li>
 </ul>
-<img src="/article/67414c31/image-20220330202406086.png" class="" title="image-20220330202406086">
+<p><img src="/article/67414c31/image-20220330202406086.png" alt="image-20220330202406086"></p>
 <h1 id="ref"><a class="markdownIt-Anchor" href="#ref"></a> Ref</h1>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://ahrefs.com/blog/zh/google-index/">10个让谷歌索引网站的方法（真实可行）</a></li>
