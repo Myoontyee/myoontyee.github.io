@@ -14,7 +14,7 @@
 
 
 
-<title>Hexo + Chic如何添在link处加新的icon（svg）图标 | Myoontyee | MSF: Hi’CT &amp; Robotic</title>
+<title>Hexo + Chic如何添在link处加新的icon（svg）图标 | Myoontyee | HiCT &amp; Robotic</title>
 
 
 
@@ -565,7 +565,7 @@
 <li>运行，预览</li>
 </ul>
 <hr>
-<h1>挑icon，下载并放到对应文件夹</h1>
+<h1 id="挑icon下载并放到对应文件夹"><a class="markdownIt-Anchor" href="#挑icon下载并放到对应文件夹"></a> 挑icon，下载并放到对应文件夹</h1>
 <ul>
 <li>打开<a target="_blank" rel="noopener" href="https://www.iconfont.cn">iconfont+</a>，登录后搜索想要的icon→选中喜欢的→<code>添加入库</code>→去购物车→<code>下载代码</code></li>
 </ul>
@@ -577,7 +577,7 @@
 <li>进入<code>themes\Chic\source\fonts</code>，解压上面下载的压缩包至该路径下，可以起名为<code>iconfont2</code></li>
 </ul>
 <img src="/article/9a3fd1d/image-20220315201723107.png" class="" title="image-20220315201723107">
-<h1>看iconfont代码，进行配置</h1>
+<h1 id="看iconfont代码进行配置"><a class="markdownIt-Anchor" href="#看iconfont代码进行配置"></a> 看iconfont代码，进行配置</h1>
 <ul>
 <li><code>iconfont2</code>文件夹下有个文件，<code>demo_index.html</code>，相对路径是<code>themes\Chic\source\fonts\iconfont2\demo_index.html</code>，双击打开这个文件→在浏览器中打开→点击<code>Font class</code>→查看代码，为下下图画红色箭头的部分
 <ul>
@@ -609,12 +609,12 @@
 <li>打开<code>themes\Chic\_config.yml</code>，在<code>links</code>内添加对应的内容，比如下面内容</li>
 </ul>
 <figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">links:</span><br><span class="line">  jianshu: https://github.com/</span><br><span class="line">  csdn: https://github.com/</span><br></pre></td></tr></tbody></table></figure>
-<h1>部署预览</h1>
+<h1 id="部署预览"><a class="markdownIt-Anchor" href="#部署预览"></a> 部署预览</h1>
 <ul>
 <li>打开<code>Git-Bash</code>，输入<code>hexo clean</code>，<code>hexo s -g</code>，进入<code>localhost:4000</code>看一下页面，可以正常使用这些新添加的icon了</li>
 </ul>
 <img src="/article/9a3fd1d/image-20220315201758140.png" class="" title="image-20220315201758140">
-<h1>Ref</h1>
+<h1 id="ref"><a class="markdownIt-Anchor" href="#ref"></a> Ref</h1>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://github.com/Siricee/hexo-theme-Chic/issues/5">关于文章标题 markdown语法 “##”关键字创建的标题，为什么渲染后的页面还会出现“#”？</a></li>
 <li><a target="_blank" rel="noopener" href="https://github.com/Siricee/hexo-theme-Chic/issues/69">关于图标iconfont的疑惑</a></li>

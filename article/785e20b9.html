@@ -14,7 +14,7 @@
 
 
 
-<title>Hexo + Chic busuanzi未显示阅读字数、时长等情况下的等待图标添加（旋转菊花等） | Myoontyee | MSF: Hi’CT &amp; Robotic</title>
+<title>Hexo + Chic busuanzi未显示阅读字数、时长等情况下的等待图标添加（旋转菊花等） | Myoontyee | HiCT &amp; Robotic</title>
 
 
 
@@ -562,12 +562,12 @@
 <hr>
 <p><strong>核心思路</strong>：引入<strong>font-awesome</strong>字体，调用<code>fa-spinner</code>旋转小菊花</p>
 <hr>
-<h1>引用样式</h1>
+<h1 id="引用样式"><a class="markdownIt-Anchor" href="#引用样式"></a> 引用样式</h1>
 <ul>
 <li>用代码编辑器（如<code>Visual Studio Code</code>）打开<code>themes\Chic\_config.yml</code>，将等待logo的样式进行全局引用</li>
 </ul>
 <figure class="highlight yml"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># stylesheets loaded in the &lt;head&gt;</span></span><br><span class="line"><span class="attr">stylesheets:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">/css/style.css</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">//cdn.bootcss.com/font-awesome/4.3.0/css/font-awesome.min.css</span> <span class="comment"># 访客量的旋转等待logo</span></span><br></pre></td></tr></tbody></table></figure>
-<h1>调整样式</h1>
+<h1 id="调整样式"><a class="markdownIt-Anchor" href="#调整样式"></a> 调整样式</h1>
 <ul>
 <li>用代码编辑器打开<code>themes\Chic\layout\_plugins\site-visitor.ejs</code>，按如下内容调整样式</li>
 </ul>
@@ -587,12 +587,12 @@
 </tbody></table>
 </div>
 ​	
-<h1>最终样式</h1>
+<h1 id="最终样式"><a class="markdownIt-Anchor" href="#最终样式"></a> 最终样式</h1>
 <ul>
 <li>如下图</li>
 </ul>
 <img src="/article/785e20b9/image-20220327213431115.png" class="" title="image-20220327213431115">
-<h1>Ref</h1>
+<h1 id="ref"><a class="markdownIt-Anchor" href="#ref"></a> Ref</h1>
 <ul>
 <li><a target="_blank" rel="noopener" href="http://ibruce.info/2015/04/04/busuanzi/">不蒜子</a></li>
 </ul>

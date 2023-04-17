@@ -14,7 +14,7 @@
 
 
 
-<title>Visual Studio Code如何编译插件源码？二次开发咋搞？ | Myoontyee | MSF: Hi’CT &amp; Robotic</title>
+<title>Visual Studio Code如何编译插件源码？二次开发咋搞？ | Myoontyee | HiCT &amp; Robotic</title>
 
 
 
@@ -570,12 +570,12 @@
 <li>通过<code>.vsix</code>给<code>Visual Studio Code</code>装插件</li>
 </ul>
 <hr>
-<h1>装必备插件</h1>
+<h1 id="装必备插件"><a class="markdownIt-Anchor" href="#装必备插件"></a> 装必备插件</h1>
 <ul>
 <li>打开<code>Bash</code>（我用的<code>Git-Bash</code>），输入如下指令</li>
 </ul>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g yo generator-code</span><br></pre></td></tr></tbody></table></figure>
-<h2 id="你要有源码不用干这步：自己初始化一个项目，你也可以yo一下"><a class="header-anchor" href="#你要有源码不用干这步：自己初始化一个项目，你也可以yo一下">﹣</a>你要有源码不用干这步：自己初始化一个项目，你也可以yo一下</h2>
+<h2 id="你要有源码不用干这步自己初始化一个项目你也可以yo一下"><a class="markdownIt-Anchor" href="#你要有源码不用干这步自己初始化一个项目你也可以yo一下"></a> 你要有源码不用干这步：自己初始化一个项目，你也可以yo一下</h2>
 <ul>
 <li>你如果想自己搞一个新的插件项目，你就在<code>Bash</code>输入如下指令
 <ul>
@@ -629,7 +629,7 @@
 <img src="/article/abf71111/image-20220429151221355.png" class="" title="image-20220429151221355">
 </li>
 </ul>
-<h1>yarn</h1>
+<h1 id="yarn"><a class="markdownIt-Anchor" href="#yarn"></a> yarn</h1>
 <ul>
 <li>不装可能报错，在<code>Bash</code>里输入如下指令装<code>yarn</code>
 <ul>
@@ -638,7 +638,7 @@
 </li>
 </ul>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g yarn</span><br></pre></td></tr></tbody></table></figure>
-<h1>vsce</h1>
+<h1 id="vsce"><a class="markdownIt-Anchor" href="#vsce"></a> vsce</h1>
 <ul>
 <li>在<code>Bash</code>内输入如下指令安装<code>vsce</code>
 <ul>
@@ -649,7 +649,7 @@
 </ul>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g vsce</span><br></pre></td></tr></tbody></table></figure>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --global vsce</span><br></pre></td></tr></tbody></table></figure>
-<h1>编译出.vsix</h1>
+<h1 id="编译出vsix"><a class="markdownIt-Anchor" href="#编译出vsix"></a> 编译出.vsix</h1>
 <ul>
 <li>进入你搞到的插件源码所在目录，如下图，在<code>Bash</code>内输入如下指令即可得到<code>.vsix</code>文件
 <ul>
@@ -673,7 +673,7 @@
 </ul>
 </li>
 </ul>
-<h1>给Visual Studio Code装插件</h1>
+<h1 id="给visual-studio-code装插件"><a class="markdownIt-Anchor" href="#给visual-studio-code装插件"></a> 给Visual Studio Code装插件</h1>
 <ul>
 <li>打开<code>Visual Studio Code</code>，点<code>扩展</code>→<code>···</code>→<code>从VSIX安装...</code>→选他→<code>安装</code>→安装成功后右下角会有提示，你也能在<code>扩展</code>里找到他
 <ul>
@@ -689,7 +689,7 @@
 </ul>
 </li>
 </ul>
-<h1>Ref</h1>
+<h1 id="ref"><a class="markdownIt-Anchor" href="#ref"></a> Ref</h1>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://www.npmjs.com/package/vsce">vsce</a></li>
 <li><a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000038553748">记一次前端"vscode插件编写实战"超详细的分享会(建议收藏哦)(上篇)</a></li>

@@ -14,7 +14,7 @@
 
 
 
-<title>WSL + Visual Studio Code 配置 Geant4 | Myoontyee | MSF: Hi’CT &amp; Robotic</title>
+<title>WSL + Visual Studio Code 配置 Geant4 | Myoontyee | HiCT &amp; Robotic</title>
 
 
 
@@ -560,14 +560,14 @@
 <p><strong>创建时间</strong>：2022年3月18日22:33:08<br>
 <strong>最新更新</strong>：2022年3月19日10:54:04</p>
 <hr>
-<h1>Visual Studio Code配置WSL</h1>
+<h1 id="visual-studio-code配置wsl"><a class="markdownIt-Anchor" href="#visual-studio-code配置wsl"></a> Visual Studio Code配置WSL</h1>
 <p>具体见<a href="./495264bf.html">WSL + Visual Studio Code + Anaconda配置方案</a></p>
-<h2 id="VS-Code装Remote-WSL插件"><a class="header-anchor" href="#VS-Code装Remote-WSL插件">﹣</a>VS Code装Remote - WSL插件</h2>
+<h2 id="vs-code装remote-wsl插件"><a class="markdownIt-Anchor" href="#vs-code装remote-wsl插件"></a> VS Code装Remote - WSL插件</h2>
 <ul>
 <li>打开<code>VS Code</code>，点击<code>扩展</code>→搜索<code>Remote - WSL</code>→点<code>安装</code></li>
 </ul>
 <img src="/article/430dd3f2/image-20220319095546037.png" class="" title="image-20220319095546037">
-<h2 id="通过VS-Code进入WSL，装插件"><a class="header-anchor" href="#通过VS-Code进入WSL，装插件">﹣</a>通过VS Code进入WSL，装插件</h2>
+<h2 id="通过vs-code进入wsl装插件"><a class="markdownIt-Anchor" href="#通过vs-code进入wsl装插件"></a> 通过VS Code进入WSL，装插件</h2>
 <ul>
 <li>注意从这一步起，<code>VS Code</code>一直是链接<code>WSL</code>的状态，左下角得如图
 <ul>
@@ -581,7 +581,7 @@
 <li>注意此处打开的文件夹，可以从Windows下进入（默认打开是<code>\\wsl$\Ubuntu-20.04</code>），可以从下图侧进入</li>
 </ul>
 <img src="/article/430dd3f2/image-20220319095816041.png" class="" title="image-20220319095816041">
-<h1>安装库</h1>
+<h1 id="安装库"><a class="markdownIt-Anchor" href="#安装库"></a> 安装库</h1>
 <ul>
 <li>在<code>WSL</code>内的某一特定文件夹，安装如下拓展
 <ul>
@@ -618,13 +618,13 @@
 | <pre><code>&#123;<br>    "configurations": [<br>        &#123;<br>            "name": "Win32",<br>            "includePath": [<br>                "$&#123;workspaceFolder&#125;/**"<br>            ],<br>            "defines": [<br>                "_DEBUG",<br>                "UNICODE",<br>                "_UNICODE"<br>            ],<br>            "cStandard": "c17",<br>            "cppStandard": "c++17",<br>            "intelliSenseMode": "windows-msvc-x64"<br>        &#125;<br>    ],<br>    "version": 4<br>&#125;<br></code></pre> | <pre><code>&#123;<br>    "configurations": [<br>        &#123;<br>            "name": "Win32",<br>            "browse": &#123;<br>                "path": [<br>                    "$&#123;workspaceFolder&#125;/src",                                       // 链接source<br>                    "$&#123;workspaceFolder&#125;/include",                                   // 链接include<br>                    "/mnt/d/Geant4/main/geant4.10.07.p02/install/include/Geant4"    // 链接Geant4头文件<br><br>                ],<br>                "limitSymbolsToIncludedHeaders": true<br>            &#125;,<br>            "includePath": [<br>                "$&#123;workspaceFolder&#125;/src",                                       // 链接source<br>                "$&#123;workspaceFolder&#125;/include",                                   // 链接include<br>                "/mnt/d/Geant4/main/geant4.10.07.p02/install/include/Geant4"    // 链接Geant4头文件<br><br>            ],<br>            // "defines": [<br>            //     "_DEBUG",<br>            //     "UNICODE",<br>            //     "_UNICODE"<br>            // ],<br>            "defines": [<br>            ],<br>            "cStandard": "c17",<br>            "cppStandard": "c++17",<br>            // "intelliSenseMode": "windows-msvc-x64"<br>            "intelliSenseMode": "clang-x64"<br>        &#125;<br>    ],<br>    "version": 4<br>&#125;<br></code></pre> |
 
 </table> </div> -->
-<h1>配置完成</h1>
+<h1 id="配置完成"><a class="markdownIt-Anchor" href="#配置完成"></a> 配置完成</h1>
 <ul>
 <li>配置完成后代开代码，有自动补全，且库引用正常</li>
 </ul>
 <img src="/article/430dd3f2/image-20220319095847313.png" class="" title="image-20220319095847313">
 <img src="/article/430dd3f2/image-20220319095856462.png" class="" title="image-20220319095856462">
-<h1>Ref</h1>
+<h1 id="ref"><a class="markdownIt-Anchor" href="#ref"></a> Ref</h1>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://www.bilibili.com/read/cv6037918">VS Code中添加Geant4、Root的外部库</a></li>
 </ul>

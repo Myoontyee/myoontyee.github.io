@@ -14,7 +14,7 @@
 
 
 
-<title>WSL + Geant4 配置 C++ boost库，配置外部库也可参考 | Myoontyee | MSF: Hi’CT &amp; Robotic</title>
+<title>WSL + Geant4 配置 C++ boost库，配置外部库也可参考 | Myoontyee | HiCT &amp; Robotic</title>
 
 
 
@@ -574,7 +574,7 @@
 <ul>
 <li>目前我<code>string</code>分割是用<code>boost</code>库搞的，没库苦手啥都干不动啊…从头写要老命了，效率又丢人，说出去都不好意思，那好吧，那就发挥聪明才智让Geant4能调用<code>C++</code>的外部库呗！</li>
 </ul>
-<h1>背景</h1>
+<h1 id="背景"><a class="markdownIt-Anchor" href="#背景"></a> 背景</h1>
 <ul>
 <li>下面这大段话来自<code>Ref</code>，简单来说就是<code>Boost</code>库真的很<code>Boost</code>，能<code>Boost</code>我的代码</li>
 </ul>
@@ -590,7 +590,7 @@
 <p>Boost 的发布采用 Boost Software License，这是一个不同于 GPL 和 Apache 的非常宽松的许可证，该许可证允许库用户将 Boost 用于任何用途，既鼓励非商业用途，也鼓励商业用途。用户无须支付任何费用，不受任何限制，即可轻松享有 Boost 的全部功能。</p>
 <p>Boost 官方于 2019 年 12 月发布的 1.72 版本，共包含 160 余个库/组件，涵盖字符串与文本处理、容器、迭代器、算法、图像处理、模板元编程、并发编程等多个领域，使用 Boost，将大大增强 C++ 的功能和表现力。</p>
 </blockquote>
-<h1>下载部署库</h1>
+<h1 id="下载部署库"><a class="markdownIt-Anchor" href="#下载部署库"></a> 下载部署库</h1>
 <ul>
 <li>从<a target="_blank" rel="noopener" href="https://www.boost.org/users/download/">Boost官网下载页面</a>下载如下其中一个，我下的是<code>boost_1_78_0.zip</code></li>
 </ul>
@@ -602,11 +602,11 @@
 <ul>
 <li>部署位置1、2按本机设置来</li>
 </ul>
-<h2 id="部署位置1"><a class="header-anchor" href="#部署位置1">﹣</a>部署位置1</h2>
+<h2 id="部署位置1"><a class="markdownIt-Anchor" href="#部署位置1"></a> 部署位置1</h2>
 <img src="/article/fc9e9061/image-20220405103131137.png" class="" title="image-20220405103131137">
-<h2 id="部署位置2"><a class="header-anchor" href="#部署位置2">﹣</a>部署位置2</h2>
+<h2 id="部署位置2"><a class="markdownIt-Anchor" href="#部署位置2"></a> 部署位置2</h2>
 <img src="/article/fc9e9061/image-20220405141333931.png" class="" title="image-20220405141333931">
-<h1>调用</h1>
+<h1 id="调用"><a class="markdownIt-Anchor" href="#调用"></a> 调用</h1>
 <ul>
 <li>在你的Geant4内调用它，比如我要做字符串分割，那么我可以按如下指令调用</li>
 </ul>
@@ -615,12 +615,12 @@
 <li>可以按如下方式使用</li>
 </ul>
 <figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ===========================================================================</span></span><br><span class="line"><span class="comment">// 2022年4月5日</span></span><br><span class="line"><span class="comment">// 字符串分割，分割小数点前的整数部分</span></span><br><span class="line"><span class="comment">// ===========================================================================</span></span><br><span class="line"><span class="comment">// 按字符分割string</span></span><br><span class="line">std::string str = std::<span class="built_in">to_string</span>((<span class="type">double</span>)((fTargetAngle/deg)));</span><br><span class="line">std::vector&lt;std::string&gt; strs;</span><br><span class="line">boost::<span class="built_in">split</span>(strs, str, boost::<span class="built_in">is_any_of</span>(<span class="string">"."</span>));</span><br><span class="line"><span class="comment">// ===========================================================================</span></span><br></pre></td></tr></tbody></table></figure>
-<h1>编译</h1>
+<h1 id="编译"><a class="markdownIt-Anchor" href="#编译"></a> 编译</h1>
 <ul>
 <li>按正常情况编译即可，即进入<code>.\build</code>文件夹，在<code>Bash</code>（如<code>WSL</code>）内输入<code>cmake ..</code>，<code>make -jN</code>（<code>N</code>是线程数，按需输入，我的电脑是<code>make -j16</code>），编译成功！</li>
 </ul>
 <img src="/article/fc9e9061/image-20220405103137475.png" class="" title="image-20220405103137475">
-<h1>Ref</h1>
+<h1 id="ref"><a class="markdownIt-Anchor" href="#ref"></a> Ref</h1>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41854911/article/details/118440683">boost库在visual studio、DevC++和vscode上的环境配置</a></li>
 </ul>

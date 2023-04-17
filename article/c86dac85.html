@@ -14,7 +14,7 @@
 
 
 
-<title>Geant4、C++定义全局变量，如何把所有的参数都定义在头文件里？如何使用一个文件存放项目里所有参数？如何传递全局参数？——以Geant4传递射线出射坐标为例 | Myoontyee | MSF: Hi’CT &amp; Robotic</title>
+<title>Geant4、C++定义全局变量，如何把所有的参数都定义在头文件里？如何使用一个文件存放项目里所有参数？如何传递全局参数？——以Geant4传递射线出射坐标为例 | Myoontyee | HiCT &amp; Robotic</title>
 
 
 
@@ -589,7 +589,7 @@
 </li>
 </ul>
 <hr>
-<h1>基本思路与概念</h1>
+<h1 id="基本思路与概念"><a class="markdownIt-Anchor" href="#基本思路与概念"></a> 基本思路与概念</h1>
 <ul>
 <li>例子
 <ul>
@@ -638,8 +638,8 @@
 </ul>
 </li>
 </ul>
-<h1>魔改exampleB5实现射线位置传递</h1>
-<h2 id="声明变量"><a class="header-anchor" href="#声明变量">﹣</a>声明变量</h2>
+<h1 id="魔改exampleb5实现射线位置传递"><a class="markdownIt-Anchor" href="#魔改exampleb5实现射线位置传递"></a> 魔改exampleB5实现射线位置传递</h1>
+<h2 id="声明变量"><a class="markdownIt-Anchor" href="#声明变量"></a> 声明变量</h2>
 <ul>
 <li>用代码编辑器打开<code>include/B5Constants.hh</code>，添加以下内容</li>
 </ul>
@@ -648,7 +648,7 @@
 <li>用代码编辑器打开<code>include/B5PrimaryGeneratorAction.hh</code>，在<code>#include</code>各种库下方，<code>class B5PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction</code>上方添加以下内容</li>
 </ul>
 <figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// =============================================================================</span></span><br><span class="line"><span class="comment">// 传递变量</span></span><br><span class="line"><span class="comment">// =============================================================================</span></span><br><span class="line"><span class="comment">// 2022年4月7日</span></span><br><span class="line"><span class="comment">// 首次添加</span></span><br><span class="line"><span class="comment">// 粒子出射位置的x、y、z坐标</span></span><br><span class="line"><span class="comment">// =============================================================================</span></span><br><span class="line"><span class="keyword">extern</span> G4double Primary_worldpos_x;</span><br><span class="line"><span class="keyword">extern</span> G4double Primary_worldpos_y;</span><br><span class="line"><span class="keyword">extern</span> G4double Primary_worldpos_z;</span><br><span class="line"><span class="comment">// =============================================================================</span></span><br></pre></td></tr></tbody></table></figure>
-<h2 id="定义变量"><a class="header-anchor" href="#定义变量">﹣</a>定义变量</h2>
+<h2 id="定义变量"><a class="markdownIt-Anchor" href="#定义变量"></a> 定义变量</h2>
 <ul>
 <li>
 <p>用代码编辑器打开<code>src/B5PrimaryGeneratorAction.cc</code>，添加修改以下内容</p>
@@ -681,7 +681,7 @@
 </td>
 </tr></tbody></table>
 </div>
-<h2 id="初始化表格"><a class="header-anchor" href="#初始化表格">﹣</a>初始化表格</h2>
+<h2 id="初始化表格"><a class="markdownIt-Anchor" href="#初始化表格"></a> 初始化表格</h2>
 <ul>
 <li>用代码编辑器打开<code>src/B5RunAction.cc</code>，在<code>B5RunAction::B5RunAction(B5EventAction* eventAction) : G4UserRunAction(), fEventAction(eventAction)</code>内添加以下内容
 <ul>
@@ -690,19 +690,19 @@
 </li>
 </ul>
 <figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 2022年4月7日</span></span><br><span class="line"><span class="comment">// 射线出射位置</span></span><br><span class="line">analysisManager-&gt;<span class="built_in">CreateNtupleDColumn</span>(<span class="string">"Primary_pox_x"</span>);   <span class="comment">// column Id = 26</span></span><br><span class="line">analysisManager-&gt;<span class="built_in">CreateNtupleDColumn</span>(<span class="string">"Primary_pox_y"</span>);   <span class="comment">// column Id = 27</span></span><br><span class="line">analysisManager-&gt;<span class="built_in">CreateNtupleDColumn</span>(<span class="string">"Primary_pox_z"</span>);   <span class="comment">// column Id = 28</span></span><br></pre></td></tr></tbody></table></figure>
-<h2 id="输出进-root"><a class="header-anchor" href="#输出进-root">﹣</a>输出进.root</h2>
+<h2 id="输出进root"><a class="markdownIt-Anchor" href="#输出进root"></a> 输出进.root</h2>
 <ul>
 <li>用代码编辑器打开<code>src/B5EventAction.cc</code>，在<code>void B5EventAction::EndOfEventAction(const G4Event *event)</code>对应位置添加以下内容</li>
 </ul>
 <figure class="highlight c++"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// columns 26-28</span></span><br><span class="line"><span class="comment">// 出射粒子 位置</span></span><br><span class="line"><span class="comment">// 下面这个输出的注释，当你需要确认参数是否传递过来，可以取消下面这个注释，检查效果</span></span><br><span class="line"><span class="comment">// G4cout  &lt;&lt; "=================================" &lt;&lt; G4endl</span></span><br><span class="line"><span class="comment">//         &lt;&lt; "Primary_pox_x(mm) : " &lt;&lt; (Primary_worldpos_x/mm) &lt;&lt; G4endl</span></span><br><span class="line"><span class="comment">//         &lt;&lt; "Primary_pox_y(mm) : " &lt;&lt; (Primary_worldpos_y/mm) &lt;&lt; G4endl</span></span><br><span class="line"><span class="comment">//         &lt;&lt; "Primary_pox_z(mm) : " &lt;&lt; (Primary_worldpos_z/mm) &lt;&lt; G4endl</span></span><br><span class="line"><span class="comment">//         &lt;&lt; "=================================" &lt;&lt; G4endl;</span></span><br><span class="line"><span class="comment">// 下面这个对应的是Column Id，我是26-28</span></span><br><span class="line">analysisManager-&gt;<span class="built_in">FillNtupleDColumn</span>(<span class="number">26</span>, (Primary_worldpos_x));</span><br><span class="line">analysisManager-&gt;<span class="built_in">FillNtupleDColumn</span>(<span class="number">27</span>, (Primary_worldpos_y));</span><br><span class="line">analysisManager-&gt;<span class="built_in">FillNtupleDColumn</span>(<span class="number">28</span>, (Primary_worldpos_z));</span><br></pre></td></tr></tbody></table></figure>
-<h2 id="输出效果"><a class="header-anchor" href="#输出效果">﹣</a>输出效果</h2>
+<h2 id="输出效果"><a class="markdownIt-Anchor" href="#输出效果"></a> 输出效果</h2>
 <img src="/article/c86dac85/image-20220407154648659.png" class="" title="image-20220407154648659">
-<h2 id="结果"><a class="header-anchor" href="#结果">﹣</a>结果</h2>
+<h2 id="结果"><a class="markdownIt-Anchor" href="#结果"></a> 结果</h2>
 <ul>
 <li>你就可以把这几个数据传递到输出的<code>.root</code>文件里了！</li>
 <li>读取<code>.root</code>文件见<a href="./b20a8a22.html">Python如何基于uproot库读取.root文件，如何查看其内部数据，如何将其转化为DataFrame</a></li>
 </ul>
-<h1>Ref</h1>
+<h1 id="ref"><a class="markdownIt-Anchor" href="#ref"></a> Ref</h1>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/m1109048058/article/details/79485064">c++多个文件中如何共用一个全局变量</a></li>
 </ul>

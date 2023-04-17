@@ -14,7 +14,7 @@
 
 
 
-<title>WSL + Visual Studio Code + Anaconda配置方案 | Myoontyee | MSF: Hi’CT &amp; Robotic</title>
+<title>WSL + Visual Studio Code + Anaconda配置方案 | Myoontyee | HiCT &amp; Robotic</title>
 
 
 
@@ -564,14 +564,14 @@
 <li>选对应的内核，运行代码</li>
 </ul>
 <hr>
-<h1>WSL、VS Code与Anaconda安装</h1>
+<h1 id="wsl-vs-code与anaconda安装"><a class="markdownIt-Anchor" href="#wsl-vs-code与anaconda安装"></a> WSL、VS Code与Anaconda安装</h1>
 <p>暂略</p>
-<h1>VS Code装Remote - WSL插件</h1>
+<h1 id="vs-code装remote-wsl插件"><a class="markdownIt-Anchor" href="#vs-code装remote-wsl插件"></a> VS Code装Remote - WSL插件</h1>
 <ul>
 <li>打开<code>VS Code</code>，点击<code>扩展</code>→搜索<code>Remote - WSL</code>→点<code>安装</code></li>
 </ul>
 <img src="/article/495264bf/image-20220314171447853.png" class="" title="image-20220314171447853">
-<h1>通过VS Code进入WSL，装插件</h1>
+<h1 id="通过vs-code进入wsl装插件"><a class="markdownIt-Anchor" href="#通过vs-code进入wsl装插件"></a> 通过VS Code进入WSL，装插件</h1>
 <ul>
 <li>注意从这一步起，<code>VS Code</code>一直是链接<code>WSL</code>的状态，左下角得如图
 <ul>
@@ -586,7 +586,7 @@
 <img src="/article/495264bf/image-20220314171500828.png" class="" title="image-20220314171500828">
 <img src="/article/495264bf/image-20220314171505678.png" class="" title="image-20220314171505678">
 <img src="/article/495264bf/image-20220314171510233-16472493965071.png" class="" title="image-20220314171510233">
-<h1>设置Jupyter插件</h1>
+<h1 id="设置jupyter插件"><a class="markdownIt-Anchor" href="#设置jupyter插件"></a> 设置Jupyter插件</h1>
 <ul>
 <li>设置<code>Python</code>插件，点击<code>管理</code>→<code>扩展设置</code>→找到<code>Python &gt; Auto Complete: Extra Paths</code>→在<code>settings.json</code>中编辑→输入如下指令
 <ul>
@@ -597,7 +597,7 @@
 <figure class="highlight json"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="punctuation">{</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> <span class="attr">"[python]"</span><span class="punctuation">:</span> <span class="punctuation">{</span><span class="punctuation">}</span><span class="punctuation">,</span></span><br><span class="line"></span><br><span class="line"> <span class="attr">"python.condaPath"</span><span class="punctuation">:</span> <span class="string">"/mnt/d/Anaconda/main/python.exe"</span><span class="punctuation">,</span> </span><br><span class="line"></span><br><span class="line"><span class="punctuation">}</span></span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
 <img src="/article/495264bf/image-20220314171518194.png" class="" title="image-20220314171518194">
 <img src="/article/495264bf/image-20220314171522337.png" class="" title="image-20220314171522337">
-<h1>选择对应的内核</h1>
+<h1 id="选择对应的内核"><a class="markdownIt-Anchor" href="#选择对应的内核"></a> 选择对应的内核</h1>
 <ul>
 <li>点击右上角（或直接运行代码块），选择对应的内核</li>
 </ul>
@@ -607,7 +607,7 @@
 <li>配置完成，即可顺利运行代码</li>
 </ul>
 <img src="/article/495264bf/image-20220314171536004.png" class="" title="image-20220314171536004">
-<h1>Ref</h1>
+<h1 id="ref"><a class="markdownIt-Anchor" href="#ref"></a> Ref</h1>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/40378960">机器学习Python编程环境：VSCode+Anaconda</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.cxybb.com/article/qq_45480755/104613117">anaconda+vscode+wsl 配置python运行环境_@（一.一）@的博客-程序员宝宝</a></li>

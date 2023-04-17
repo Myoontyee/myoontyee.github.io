@@ -14,7 +14,7 @@
 
 
 
-<title>Hexo安装+个人网站建立+推送至GitHub | Myoontyee | MSF: Hi’CT &amp; Robotic</title>
+<title>Hexo安装+个人网站建立+推送至GitHub | Myoontyee | HiCT &amp; Robotic</title>
 
 
 
@@ -563,7 +563,7 @@
 <p><strong>报错信息</strong>：GitHub无法访问，报403错误</p>
 <p>解决方法见<a href="./7faf135d.html">Git-Bash，WSL2内GitHub无法访问、443 Operation timed out的解决办法</a></p>
 <hr>
-<h1>在Windows下部署Git</h1>
+<h1 id="在windows下部署git"><a class="markdownIt-Anchor" href="#在windows下部署git"></a> 在Windows下部署Git</h1>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://git-scm.com/">Git下载地址</a></li>
 <li>或可以在下载GitHub-Desktop时，会一并安装</li>
@@ -674,7 +674,7 @@
 </ul>
 </blockquote>
 <img src="/article/4f595d21/image-20220328223258723.png" class="" title="image-20220328223258723">
-<h1>在Windows下部署Node.js</h1>
+<h1 id="在windows下部署nodejs"><a class="markdownIt-Anchor" href="#在windows下部署nodejs"></a> 在Windows下部署Node.js</h1>
 <blockquote>
 <p>此部分内容，部分图片来自<code>蜡笔小柯南（CSDN）</code>，链接见Ref</p>
 </blockquote>
@@ -701,7 +701,7 @@
 </ul>
 <img src="/article/4f595d21/image-20220328223426298.png" class="" title="image-20220328223426298">
 <img src="/article/4f595d21/image-20220328223432826.png" class="" title="image-20220328223432826">
-<h1>Hexo部署</h1>
+<h1 id="hexo部署"><a class="markdownIt-Anchor" href="#hexo部署"></a> Hexo部署</h1>
 <ul>
 <li>
 <p>先做好这两步</p>
@@ -728,7 +728,7 @@
 </li>
 </ul>
 <figure class="highlight powershell"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo<span class="literal">-deployer-git</span> <span class="literal">--save</span></span><br></pre></td></tr></tbody></table></figure>
-<h1>GitHub新建含GitHub Pages的代码仓</h1>
+<h1 id="github新建含github-pages的代码仓"><a class="markdownIt-Anchor" href="#github新建含github-pages的代码仓"></a> GitHub新建含GitHub Pages的代码仓</h1>
 <p>[[如何使用GitHub搭建个人网站，博客，blog？]]</p>
 <ul>
 <li>
@@ -765,7 +765,7 @@
 <p>通过<code>Git-Bash</code>进入空文件夹，将上述代码仓<code>git clone</code>到本地对应路径</p>
 </li>
 </ul>
-<h1>本地创建个人blog环境</h1>
+<h1 id="本地创建个人blog环境"><a class="markdownIt-Anchor" href="#本地创建个人blog环境"></a> 本地创建个人blog环境</h1>
 <ul>
 <li>
 <p>记得要完成这个[[Windows Terminal如何以管理员模式打开对应的Bash？]]</p>
@@ -795,13 +795,13 @@
 </li>
 <li>对根目录下配置文件<code>_config.yml</code>进行配置，此处仅讲必要的设置，<code>title</code>等个性化设置可以自行摸索，设置完记得<code>Ctrl</code>+<code>S</code>保存
 <ul>
-<li><code>url: </code>后填写<code>GitHub Pages</code>的<code>publish site</code>，见GitHub代码仓→<code>Settings</code>→<code>Pages</code>，记住此处的<code>Source</code>要正确选择<code>branch</code></li>
-<li><code>theme: </code>后填写你选中的主题的项目名，比如此处是<code>Chic</code></li>
-<li><code>deploy: </code>后新建3行
+<li><code>url:</code>后填写<code>GitHub Pages</code>的<code>publish site</code>，见GitHub代码仓→<code>Settings</code>→<code>Pages</code>，记住此处的<code>Source</code>要正确选择<code>branch</code></li>
+<li><code>theme:</code>后填写你选中的主题的项目名，比如此处是<code>Chic</code></li>
+<li><code>deploy:</code>后新建3行
 <ul>
-<li><code>type: </code>填写<code>git</code></li>
-<li><code>repo: </code>填写你代码仓的地址</li>
-<li><code>branch: </code>填写对应的分支，这个分支用于<code>hexo</code>上传网页源码用
+<li><code>type:</code>填写<code>git</code></li>
+<li><code>repo:</code>填写你代码仓的地址</li>
+<li><code>branch:</code>填写对应的分支，这个分支用于<code>hexo</code>上传网页源码用
 <ul>
 <li>注意我们这边有2种上传，一种是<code>hexo d</code>，一种是<code>git push</code>
 <ul>
@@ -829,9 +829,9 @@
 </ul>
 <img src="/article/4f595d21/image-20220328223739971.png" class="" title="image-20220328223739971">
 <img src="/article/4f595d21/image-20220328223748149.png" class="" title="image-20220328223748149">
-<h1>分支备份源码思路</h1>
+<h1 id="分支备份源码思路"><a class="markdownIt-Anchor" href="#分支备份源码思路"></a> 分支备份源码思路</h1>
 <p><a href="./f338e400.html">GitHub+Hexo的个人博客，blog，GitHub Page如何实现一个分支作为博客源码，一个分支用于全部源码备份？</a></p>
-<h1>Ref</h1>
+<h1 id="ref"><a class="markdownIt-Anchor" href="#ref"></a> Ref</h1>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xueweisuoyong/p/11914045.html">Windows系统Git安装教程（详解Git安装过程）</a></li>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/Small_Yogurt/article/details/104968169">Node.js最新最详细安装教程（2020）</a></li>

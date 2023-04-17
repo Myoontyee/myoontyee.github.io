@@ -14,7 +14,7 @@
 
 
 
-<title>有部分文件夹不想push到GitHub上应如何设置？ | Myoontyee | MSF: Hi’CT &amp; Robotic</title>
+<title>有部分文件夹不想push到GitHub上应如何设置？ | Myoontyee | HiCT &amp; Robotic</title>
 
 
 
@@ -563,7 +563,7 @@
 <p><strong>Problem Description</strong>：How should I set some folders that I don’t want to push to GitHub?</p>
 <p><strong>核心思路</strong>：<code>git touch .gitignore</code>后，在<code>.gitignore</code>里写规则</p>
 <hr>
-<h1>.gitignore创建与配置</h1>
+<h1 id="gitignore创建与配置"><a class="markdownIt-Anchor" href="#gitignore创建与配置"></a> .gitignore创建与配置</h1>
 <ul>
 <li>打开<code>Git-Bash</code>，进入对应文件夹的根目录，输入以下指令<code>git touch .gitignore</code>，在当前目录创建一个新的<code>.gitignore</code>文件
 <ul>
@@ -577,21 +577,21 @@
 <li>双击打开<code>.gitignore</code>，编写你需要采纳的规则，包括不要push的文件夹、文件类型，例外的文件夹、文件，写完后保存，下面是一个示例</li>
 </ul>
 <figure class="highlight text"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// 忽略这个文件夹，即这个文件夹下所有东西不push</span><br><span class="line">Folder_ignore/**</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 忽略非代码</span><br><span class="line">*.csv</span><br><span class="line">*.xlsx</span><br><span class="line">*.root</span><br><span class="line">*.zip</span><br><span class="line">*.7z</span><br><span class="line">*.png</span><br><span class="line">*.jpg</span><br><span class="line"></span><br><span class="line">// 不忽略Folder_ignore文件夹下的.png文件</span><br><span class="line">!Folder_ignore/*.png</span><br></pre></td></tr></tbody></table></figure>
-<h2 id="将文件添加到Git配置"><a class="header-anchor" href="#将文件添加到Git配置">﹣</a>将文件添加到Git配置</h2>
+<h2 id="将文件添加到git配置"><a class="markdownIt-Anchor" href="#将文件添加到git配置"></a> 将文件添加到Git配置</h2>
 <ul>
 <li>如果你不是通过<code>git touch</code>创建的<code>.gitignore</code>，你可以在<code>Git-Bash</code>内进入代码仓路径，然后通过如下语句将<code>.gitignore</code>添加到Git配置</li>
 </ul>
 <figure class="highlight bash"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global core.excludesfile ~/.gitignore</span><br></pre></td></tr></tbody></table></figure>
-<h1>看配置成了没</h1>
+<h1 id="看配置成了没"><a class="markdownIt-Anchor" href="#看配置成了没"></a> 看配置成了没</h1>
 <ul>
 <li>打开<code>Git-Bash</code>，进入这个文件夹，输入<code>git status</code>，在<code>Untracked files</code>可以看到你配置是否生效，下图是以另一个代码仓为例，单纯为了表示大概在这个位置</li>
 </ul>
 <img src="/article/4ef81417/image-20220406231841367.png" class="" title="image-20220406231841367">
-<h1>push上去</h1>
+<h1 id="push上去"><a class="markdownIt-Anchor" href="#push上去"></a> push上去</h1>
 <ul>
 <li>成功了之后，<code>git add .</code>，<code>git commit -m</code>打注释，<code>git tag</code>打标签，<code>git push</code>传上去</li>
 </ul>
-<h1>Ref</h1>
+<h1 id="ref"><a class="markdownIt-Anchor" href="#ref"></a> Ref</h1>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://www.myfreax.com/gitignore-ignoring-files-in-git/">如何使用.gitignore忽略Git中的文件和目录</a></li>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/sunxiaoju/article/details/86495234">git忽略某个目录或文件不上传</a></li>
