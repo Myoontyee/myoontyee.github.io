@@ -14,7 +14,7 @@
 
 
 
-<title>范数是什么含义？有什么实际用途？对范数的理解？ | Myoontyee | MSF: Hi`CT &amp; Robotic</title>
+<title>范数是什么含义？有什么实际用途？对范数的理解？ | Myoontyee | MSF: Hi’CT &amp; Robotic</title>
 
 
 
@@ -602,7 +602,7 @@
 <p><strong>Problem Description</strong>：What does norm mean? What is the practical use? Understanding of norm?</p>
 <p><strong>核心思路</strong>：范数就是在求距离，只不过是不同场景里的距离</p>
 <hr>
-<h1 id="背景是什么"><a class="markdownIt-Anchor" href="#背景是什么"></a> 背景，是什么？</h1>
+<h1>背景，是什么？</h1>
 <hr>
 <p><strong>概念</strong>：</p>
 <ul>
@@ -623,8 +623,8 @@
 <p>举一个简单的例子，一个二维度的欧氏几何空间$ \mathbb{R}^{2} $就有欧氏范数。在这个向量空间的元素（譬如：(3,7)）常常在笛卡尔坐标系统被画成一个从原点出发的箭号。每一个向量的欧氏范数就是箭号的长度。</p>
 <p>拥有范数的向量空间就是赋范向量空间。同样，拥有半范数的向量空间就是赋半范向量空间。</p>
 </blockquote>
-<h2 id="分别是什么"><a class="markdownIt-Anchor" href="#分别是什么"></a> 分别是什么？</h2>
-<h3 id="零范数"><a class="markdownIt-Anchor" href="#零范数"></a> 零范数</h3>
+<h2 id="分别是什么？"><a class="header-anchor" href="#分别是什么？">﹣</a>分别是什么？</h2>
+<h3 id="零范数"><a class="header-anchor" href="#零范数">﹣</a>零范数</h3>
 <hr>
 <p><strong>简单来说</strong>：$ L_{0} $ 范数是指向量中非0的元素的个数</p>
 <hr>
@@ -632,17 +632,16 @@
 <ul>
 <li>矩阵的L0范数就是非0元素的个数，通常用它来表示稀疏，L0范数越小，0元素越多，也就越稀疏。</li>
 </ul>
-<p class="katex-block katex-error" title="ParseError: KaTeX parse error: No such environment: equation at position 7: \begin{̲e̲q̲u̲a̲t̲i̲o̲n̲}̲\label{eq1}
-\| …">\begin{equation}\label{eq1}
-\| \mathbf{ x } \|_{0} = \lim _{ p \rightarrow 0 } \| \mathbf{ x } \|_{ p }^{ p } = \lim_{ p \rightarrow 0 } \sum_{ k=1 }^{ m}\left| x_{ k }\right|^{ p } = \#\left\{ i: x _{ i } \neq 0 \right\} 
-\end{equation}</p>
+<p>$$\begin{equation}\label{eq1}<br>
+| \mathbf{ x } |<em>{0} = \lim <em>{ p \rightarrow 0 } | \mathbf{ x } |</em>{ p }^{ p } = \lim</em>{ p \rightarrow 0 } \sum_{ k=1 }^{ m}\left| x_{ k }\right|^{ p } = #\left{ i: x _{ i } \neq 0 \right}<br>
+\end{equation}$$</p>
 <ul>
 <li>如下图所示，p 趋近于0时，函数就只有在$ x=0 $的时候等于0，其他的位置都为1。下图纵轴是元素的取值</li>
 <li>也就是说，$ L_{0} $ -Norm可以用于表达一个向量/矩阵的稀疏性，且是非凸函数。</li>
 </ul>
 <img src="/article/21abacaf/image-20220405211346473.png" class="" title="image-20220405211346473">
 </blockquote>
-<h3 id="一范数"><a class="markdownIt-Anchor" href="#一范数"></a> 一范数</h3>
+<h3 id="一范数"><a class="header-anchor" href="#一范数">﹣</a>一范数</h3>
 <hr>
 <p><strong>简单来说</strong>：$ L_{1} $就是算城市区块最短距离的，只能走区块四周的街或者路，算他总共有多长</p>
 <hr>
@@ -650,33 +649,29 @@
 <p>一范数又称绝对值范数，是在由实数或虚数构成的一维向量空间中的范数。绝对值范数是曼哈顿范数的特殊形式。</p>
 </blockquote>
 <p><strong>算法</strong>：</p>
-<p><span class="katex-error" title="ParseError: KaTeX parse error: No such environment: equation at position 7: \begin{̲e̲q̲u̲a̲t̲i̲o̲n̲}̲ \|x\|_{1}=\sum…">\begin{equation} \|x\|_{1}=\sum_{i=1}^{N}\left|x_{i}\right|\end{equation}</span></p>
+<p>$\begin{equation} |x|<em>{1}=\sum</em>{i=1}^{N}\left|x_{i}\right|\end{equation}$</p>
 <p><strong>概念</strong>：</p>
 <ul>
 <li>一范数是向量元素绝对值之和</li>
 </ul>
-<h3 id="二范数"><a class="markdownIt-Anchor" href="#二范数"></a> 二范数</h3>
+<h3 id="二范数"><a class="header-anchor" href="#二范数">﹣</a>二范数</h3>
 <hr>
 <p><strong>简单来说</strong>：$ L_{2} $就是通常我们口中的距离，空中直线距离</p>
 <hr>
-<p>二范数又称欧几里德范数，在n维欧几里德空间 $ \mathbb{R}^{n} $ 上，向量 $ \boldsymbol{x}=\left(x_{1}, x_{2}, \ldots, x_{n}\right)^{\mathrm{T}} $ 的最符合直觉的长度由以下公式给出</p>
-<p class="katex-block katex-error" title="ParseError: KaTeX parse error: No such environment: equation at position 7: \begin{̲e̲q̲u̲a̲t̲i̲o̲n̲}̲ \|\boldsymbol{…">\begin{equation} \|\boldsymbol{x}\|_{2} = \sqrt{x_{1}^{2}+\cdots+x_{n}^{2}} \end{equation}
-</p>
-<h3 id="无穷范数"><a class="markdownIt-Anchor" href="#无穷范数"></a> 无穷范数</h3>
+<p>二范数又称欧几里德范数，在n维欧几里德空间 $ \mathbb{R}^{n} $ 上，向量 $ \boldsymbol{x}=\left(x_{1}, x_{2}, \ldots, x_{n}\right)^{\mathrm{T}} $ 的最符合直觉的长度由以下公式给出<br>
+$$\begin{equation} |\boldsymbol{x}|<em>{2} = \sqrt{x</em>{1}<sup>{2}+\cdots+x_{n}</sup>{2}} \end{equation}$$</p>
+<h3 id="无穷范数"><a class="header-anchor" href="#无穷范数">﹣</a>无穷范数</h3>
 <hr>
 <p><strong>简单来说</strong>：$ L_{-\infty} $ 是向量的所有元素的绝对值中最小的，$ L_{+\infty} $ 是向量的所有元素的绝对值中最大的</p>
 <hr>
 <p><strong>逻辑推导</strong>：</p>
-<p>最常用的范数是p-范数，即对 $ x=\left[x_{1}, x_{2}, \cdots, x_{n}\right]^{\mathrm{T}} $ ，有</p>
-<p class="katex-block katex-error" title="ParseError: KaTeX parse error: No such environment: equation at position 7: \begin{̲e̲q̲u̲a̲t̲i̲o̲n̲}̲ \|x\|_{p}=\lef…">\begin{equation} \|x\|_{p}=\left(\left|x_{1}\right|^{p}+\left|x_{2}\right|^{p}+\cdots+\left|x_{n}\right|^{p}\right)^{\frac{1}{p}} \end{equation}
-</p>
-<p>当p取无穷大时，该取值只与其中元素的最大值有关</p>
-<p class="katex-block katex-error" title="ParseError: KaTeX parse error: No such environment: equation at position 7: \begin{̲e̲q̲u̲a̲t̲i̲o̲n̲}̲ \|x\| _{+\inft…">\begin{equation} \|x\| _{+\infty}=\max \left(\left|x_{1}\right|,\left|x_{2}\right|, \ldots,\left|x_{n}\right|\right) \end{equation}
-</p>
-<p>当p取无穷小时，该取值只与其中元素的最小值有关</p>
-<p class="katex-block katex-error" title="ParseError: KaTeX parse error: No such environment: equation at position 7: \begin{̲e̲q̲u̲a̲t̲i̲o̲n̲}̲ \|x\| _{-\inft…">\begin{equation} \|x\| _{-\infty}=\min \left(\left|x_{1}\right|,\left|x_{2}\right|, \ldots,\left|x_{n}\right|\right) \end{equation}
-</p>
-<h3 id="它们的关系"><a class="markdownIt-Anchor" href="#它们的关系"></a> 它们的关系？</h3>
+<p>最常用的范数是p-范数，即对 $ x=\left[x_{1}, x_{2}, \cdots, x_{n}\right]^{\mathrm{T}} $ ，有<br>
+$$\begin{equation} |x|<em>{p}=\left(\left|x</em>{1}\right|<sup>{p}+\left|x_{2}\right|</sup>{p}+\cdots+\left|x_{n}\right|<sup>{p}\right)</sup>{\frac{1}{p}} \end{equation}$$</p>
+<p>当p取无穷大时，该取值只与其中元素的最大值有关<br>
+$$\begin{equation} |x| <em>{+\infty}=\max \left(\left|x</em>{1}\right|,\left|x_{2}\right|, \ldots,\left|x_{n}\right|\right) \end{equation}$$</p>
+<p>当p取无穷小时，该取值只与其中元素的最小值有关<br>
+$$\begin{equation} |x| <em>{-\infty}=\min \left(\left|x</em>{1}\right|,\left|x_{2}\right|, \ldots,\left|x_{n}\right|\right) \end{equation}$$</p>
+<h3 id="它们的关系？"><a class="header-anchor" href="#它们的关系？">﹣</a>它们的关系？</h3>
 <ul>
 <li>
 <p>下图中</p>
@@ -692,8 +687,7 @@
 </ul>
 </li>
 </ul>
-<p class="katex-block katex-error" title="ParseError: KaTeX parse error: No such environment: equation at position 7: \begin{̲e̲q̲u̲a̲t̲i̲o̲n̲}̲ d(x, y)=\left|…">\begin{equation} d(x, y)=\left|x_{1}-x_{2}\right|+\left|y_{1}-y_{2}\right| \end{equation}
-</p>
+<p>$$\begin{equation} d(x, y)=\left|x_{1}-x_{2}\right|+\left|y_{1}-y_{2}\right| \end{equation}$$</p>
 <ul>
 <li>要注意的是，曼哈顿距离依赖座标系统的旋转，而非系统在座标轴上的平移或映射</li>
 <li>曼哈顿距离的命名原因是从规划为方型建筑区块的城市（如曼哈顿）间，最短的行车路径而来（忽略曼哈顿的单向车道以及只存在于3、14大道的斜向车道）。任何往东三区块、往北六区块的的路径一定最少要走九区块，没有其他捷径。</li>
@@ -710,7 +704,7 @@
 </ul>
 </li>
 </ul>
-<h1 id="为什么为啥这么起名"><a class="markdownIt-Anchor" href="#为什么为啥这么起名"></a> 为什么？为啥这么起名？</h1>
+<h1>为什么？为啥这么起名？</h1>
 <hr>
 <p><strong>简单来说</strong>：“范”指代范围、规范之意，范数有点像我“铸造”矩阵用的模体的参数（长宽高、工艺等），所以范数取的是矩阵的各种特性</p>
 <hr>
@@ -721,9 +715,9 @@
 </ul>
 <img src="/article/21abacaf/image-20220405212216965.png" class="" title="image-20220405212216965">
 </blockquote>
-<h1 id="怎么用举个例子"><a class="markdownIt-Anchor" href="#怎么用举个例子"></a> 怎么用？举个例子？</h1>
-<h2 id="python函数"><a class="markdownIt-Anchor" href="#python函数"></a> Python函数</h2>
-<h3 id="nplinalgnorm"><a class="markdownIt-Anchor" href="#nplinalgnorm"></a> np.linalg.norm</h3>
+<h1>怎么用？举个例子？</h1>
+<h2 id="Python函数"><a class="header-anchor" href="#Python函数">﹣</a>Python函数</h2>
+<h3 id="np-linalg-norm"><a class="header-anchor" href="#np-linalg-norm">﹣</a>np.linalg.norm</h3>
 <ul>
 <li>linalg=linear+algebra，norm 则表示范数</li>
 <li>手册表示的接口<code>norm(x, ord=None, axis=None, keepdims=False)</code>
@@ -770,7 +764,7 @@
 </tr>
 </tbody>
 </table>
-<h1 id="ref"><a class="markdownIt-Anchor" href="#ref"></a> Ref</h1>
+<h1>Ref</h1>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/wangdong2017/article/details/81297654">python求向量的三种范式</a></li>
 <li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/devilmaycry812839668/p/9352814.html">python 库 Numpy 中如何求取向量范数 np.linalg.norm(求范数)（向量的第二范数为传统意义上的向量长度），（如何求取向量的单位向量）</a></li>

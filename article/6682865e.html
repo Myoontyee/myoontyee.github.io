@@ -14,7 +14,7 @@
 
 
 
-<title>Python如何识别NaN | Myoontyee | MSF: Hi`CT &amp; Robotic</title>
+<title>Python如何识别NaN | Myoontyee | MSF: Hi’CT &amp; Robotic</title>
 
 
 
@@ -565,13 +565,13 @@
 <p><strong>输入</strong>：数值<br>
 <strong>输出</strong>：<code>bool</code>值，<code>true</code>或者<code>false</code></p>
 <hr>
-<h1 id="分块"><a class="markdownIt-Anchor" href="#分块"></a> 分块</h1>
-<h2 id="导入库"><a class="markdownIt-Anchor" href="#导入库"></a> 导入库</h2>
+<h1>分块</h1>
+<h2 id="导入库-v2"><a class="header-anchor" href="#导入库-v2">﹣</a>导入库</h2>
 <ul>
 <li>调用<code>numpy</code>库</li>
 </ul>
 <figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br></pre></td></tr></tbody></table></figure>
-<h2 id="进行判别"><a class="markdownIt-Anchor" href="#进行判别"></a> 进行判别</h2>
+<h2 id="进行判别"><a class="header-anchor" href="#进行判别">﹣</a>进行判别</h2>
 <ul>
 <li>如果<code>Num</code>是<code>NaN</code>，返回<code>true</code></li>
 </ul>
@@ -585,9 +585,9 @@
 </li>
 </ul>
 <figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">np.isnan(Num)</span><br></pre></td></tr></tbody></table></figure>
-<h1 id="整体代码"><a class="markdownIt-Anchor" href="#整体代码"></a> 整体代码</h1>
+<h1>整体代码</h1>
 <figure class="highlight python"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 导入库</span></span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># 进行判别</span></span><br><span class="line"><span class="comment"># 方式1</span></span><br><span class="line">Num == np.nan</span><br><span class="line"></span><br><span class="line"><span class="comment"># 方式2</span></span><br><span class="line"><span class="comment"># 无法处理小数</span></span><br><span class="line">np.isnan(Num)</span><br></pre></td></tr></tbody></table></figure>
-<h1 id="ref"><a class="markdownIt-Anchor" href="#ref"></a> Ref</h1>
+<h1>Ref</h1>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/944700/how-can-i-check-for-nan-values">How can I check for NaN values?</a></li>
 </ul>

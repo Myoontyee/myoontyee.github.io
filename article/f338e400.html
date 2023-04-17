@@ -14,7 +14,7 @@
 
 
 
-<title>GitHub+Hexo的个人博客，blog，GitHub Page如何实现一个分支作为博客源码，一个分支用于全部源码备份？ | Myoontyee | MSF: Hi`CT &amp; Robotic</title>
+<title>GitHub+Hexo的个人博客，blog，GitHub Page如何实现一个分支作为博客源码，一个分支用于全部源码备份？ | Myoontyee | MSF: Hi’CT &amp; Robotic</title>
 
 
 
@@ -565,13 +565,13 @@
 <p>2.配置好blog源码的_config.yml文件与.git下的config文件</p>
 <p>3.配置GitHub Pages的Source</p>
 <hr>
-<h1 id="建分支用于源码备份"><a class="markdownIt-Anchor" href="#建分支用于源码备份"></a> 建分支（用于源码备份）</h1>
+<h1>建分支（用于源码备份）</h1>
 <ul>
 <li>打开代码仓，分支→在输入栏里输入一个新的分支名→点<code>Create</code>，<strong>这个分支要用于源码备份</strong></li>
 </ul>
 <img src="/article/f338e400/image-20220329172411508.png" class="" title="image-20220329172411508">
 <img src="/article/f338e400/image-20220329172431773.png" class="" title="image-20220329172431773">
-<h1 id="配置blog源码根目录文件"><a class="markdownIt-Anchor" href="#配置blog源码根目录文件"></a> 配置Blog源码根目录文件</h1>
+<h1>配置Blog源码根目录文件</h1>
 <ul>
 <li>打开<strong>Blog源码根目录</strong>下的<code>_config.yml</code>文件，拉到最底下，<code>deploy</code>下添加新的一行<code>branch</code>，输入你想使用的<code>branch</code>，比如<code>master</code>
 <ul>
@@ -580,7 +580,7 @@
 </li>
 </ul>
 <img src="/article/f338e400/image-20220329172438452.png" class="" title="image-20220329172438452">
-<h1 id="配置git文件下的config文件"><a class="markdownIt-Anchor" href="#配置git文件下的config文件"></a> 配置.git文件下的config文件</h1>
+<h1>配置.git文件下的config文件</h1>
 <ul>
 <li>简单粗暴的方法，进入代码仓→<code>Branch</code>→换成你刚刚建的那个分支→<code>Code</code>→复制</li>
 </ul>
@@ -595,12 +595,12 @@
 <li>接下来把<code>clone</code>过来的.git文件夹，直接覆盖掉你放<strong>Blog源码根目录</strong>下的.git文件夹</li>
 <li>最后可以<code>git add .</code>与<code>git push</code>做个测试</li>
 </ul>
-<h1 id="github-pages的source配置"><a class="markdownIt-Anchor" href="#github-pages的source配置"></a> GitHub Pages的Source配置</h1>
+<h1>GitHub Pages的Source配置</h1>
 <ul>
 <li>浏览器打开代码仓，进入<code>Settings</code>→<code>Pages</code>→<code>Source</code>→选中你前面想用作页面显示的<code>Branch</code>，此处是<code>master</code>→<code>Save</code></li>
 </ul>
 <img src="/article/f338e400/image-20220329172503786.png" class="" title="image-20220329172503786">
-<h1 id="参考"><a class="markdownIt-Anchor" href="#参考"></a> 参考</h1>
+<h1>参考</h1>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_39800144/article/details/78205617">git clone 指定分支 拉代码</a></li>
 </ul>

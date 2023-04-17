@@ -14,7 +14,7 @@
 
 
 
-<title>可视化配置教程，WSL1与WSL2如何配置可视化？Geant4在WSL1与WSL2内如何实现可视化？ | Myoontyee | MSF: Hi`CT &amp; Robotic</title>
+<title>可视化配置教程，WSL1与WSL2如何配置可视化？Geant4在WSL1与WSL2内如何实现可视化？ | Myoontyee | MSF: Hi’CT &amp; Robotic</title>
 
 
 
@@ -466,14 +466,14 @@
                         
                             <span class="post-count">
                             📑字数:
-                            <a href="">557</a>  
+                            <a href="">713</a>  
                             </span>
                         
 
                         
                             <span class="post-count">
                             ⏱️阅读时长:
-                            <a href="">2min</a>  
+                            <a href="">3min</a>  
                             </span>
                         
 
@@ -491,7 +491,7 @@
 
         <div class="post-content">
                 <strong>💡 参考文章见Ref，感谢提供思路！</strong>
-            <br><strong>🗺️当前这篇博文地址：https://myoontyee.github.io/article/c7d01a74.html</strong>
+            <br><strong>🗺️当前这篇博文地址：https://myoontyee.github.io/article/%E5%8F%AF%E8%A7%86%E5%8C%96%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B%EF%BC%8CWSL1%E4%B8%8EWSL2%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%E5%8F%AF%E8%A7%86%E5%8C%96%EF%BC%9FGeant4%E5%9C%A8WSL1%E4%B8%8EWSL2%E5%86%85%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%8F%AF%E8%A7%86%E5%8C%96%EF%BC%9F.html</strong>
             <br><strong>⚠️警告：博客文章禁止一切形式的非授权非法转载！</strong>
             <br><strong>⚠️Attention: All forms of unauthorized illegal reposts are prohibited !</strong> 
             <ul>
@@ -502,8 +502,8 @@
 <ul>
 <li>下载并安装VcXsrv，<a target="_blank" rel="noopener" href="https://sourceforge.net/projects/vcxsrv/">下载地址</a></li>
 </ul>
-<p>![Pasted image 20211217235353](./c7d01a74/Pasted image 20211217235353.png)</p>
-<p>![Pasted image 20211217235403](./c7d01a74/Pasted image 20211217235403.png)</p>
+<p>![Pasted image 20211217235353](可视化配置教程，WSL1与WSL2如何配置可视化？Geant4在WSL1与WSL2内如何实现可视化？/Pasted image 20211217235353.png)</p>
+<p>![Pasted image 20211217235403](可视化配置教程，WSL1与WSL2如何配置可视化？Geant4在WSL1与WSL2内如何实现可视化？/Pasted image 20211217235403.png)</p>
 <ul>
 <li>安装完成后的设置如下
 <ul>
@@ -511,13 +511,13 @@
 </ul>
 </li>
 </ul>
-<p>![Pasted image 20211217235633](./c7d01a74/Pasted image 20211217235633.png)<br>
-![Pasted image 20211217235514](./c7d01a74/Pasted image 20211217235514.png)</p>
+<p>![Pasted image 20211217235633](可视化配置教程，WSL1与WSL2如何配置可视化？Geant4在WSL1与WSL2内如何实现可视化？/Pasted image 20211217235633.png)<br>
+![Pasted image 20211217235514](可视化配置教程，WSL1与WSL2如何配置可视化？Geant4在WSL1与WSL2内如何实现可视化？/Pasted image 20211217235514.png)</p>
 <figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">title:报以下错误解决办法见下</span><br><span class="line"></span><br><span class="line">Authorization required, but no authorization protocol specified</span><br><span class="line">Error: Can't open display</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
 <ul>
 <li>
 <p>打开Xlaunch，注意要勾选<strong>Disable access control</strong>，其他为默认选项<br>
-![Pasted image 20211217235619](./c7d01a74/Pasted image 20211217235619.png)</p>
+![Pasted image 20211217235619](可视化配置教程，WSL1与WSL2如何配置可视化？Geant4在WSL1与WSL2内如何实现可视化？/Pasted image 20211217235619.png)</p>
 </li>
 <li>
 <p>安装Ubuntu桌面环境</p>
@@ -540,7 +540,7 @@
 <li>WSL 2在<code>bash</code>内通过如下指令进行，将图像信息打印到对应窗口</li>
 </ul>
 <figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export DISPLAY=`cat /etc/resolv.conf | grep nameserver | awk '{print $2}'`:0</span><br></pre></td></tr></tbody></table></figure>
-<p>![Pasted image 20211218090542](./c7d01a74/Pasted image 20211218090542.png)</p>
+<p>![Pasted image 20211218090542](可视化配置教程，WSL1与WSL2如何配置可视化？Geant4在WSL1与WSL2内如何实现可视化？/Pasted image 20211218090542.png)</p>
 <ul>
 <li>也可以通过以下指令将export内容输入到<code>.bashrc</code></li>
 </ul>
@@ -700,7 +700,7 @@
             + '\n⚠️博客内容禁止一切形式的非法、非授权转载！'
             + '\n💡 参考文章见博文Ref！'
             + '\n作者: Myoontyee Chen'
-            + '\n原文地址: https://myoontyee.github.io/article/c7d01a74.html'
+            + '\n原文地址: https://myoontyee.github.io/article/%E5%8F%AF%E8%A7%86%E5%8C%96%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B%EF%BC%8CWSL1%E4%B8%8EWSL2%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%E5%8F%AF%E8%A7%86%E5%8C%96%EF%BC%9FGeant4%E5%9C%A8WSL1%E4%B8%8EWSL2%E5%86%85%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E5%8F%AF%E8%A7%86%E5%8C%96%EF%BC%9F.html'
             + '\n'
             + '\n'
             + '\n 当前非法爬取信息统计如下表，保留一切追责权利'

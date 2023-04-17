@@ -14,7 +14,7 @@
 
 
 
-<title>Hexo + Chic实现打赏按钮，鼠标移动、浮过去会显示对应图片 | Myoontyee | MSF: Hi`CT &amp; Robotic</title>
+<title>Hexo + Chic实现打赏按钮，鼠标移动、浮过去会显示对应图片 | Myoontyee | MSF: Hi’CT &amp; Robotic</title>
 
 
 
@@ -573,7 +573,7 @@
 </li>
 </ul>
 <hr>
-<h1 id="设置样式"><a class="markdownIt-Anchor" href="#设置样式"></a> 设置样式</h1>
+<h1>设置样式</h1>
 <ul>
 <li>在<code>themes\Chic\layout\_page\post.ejs</code>内的对应位置，如<code>&lt;section class="post-tags"&gt;</code>的如下代码块下方</li>
 </ul>
@@ -589,11 +589,11 @@
 <ul>
 <li>记得要在<code>themes\Chic\source\image</code>文件夹下放置对应的图片</li>
 </ul>
-<h1 id="设置css样式"><a class="markdownIt-Anchor" href="#设置css样式"></a> 设置CSS样式</h1>
+<h1>设置CSS样式</h1>
 <ul>
 <li>打开<code>themes\Chic\source\css\_lib\</code>，创建<code>reward.css</code>，写入以下内容
 <ul>
-<li>其中<code>/* border-style: solid; */</code>这一句要注释掉，因为会影响别的布局，并最终导致无法对齐</li>
+<li>其中<code>/* border-style: solid; */ </code>这一句要注释掉，因为会影响别的布局，并最终导致无法对齐</li>
 </ul>
 </li>
 </ul>
@@ -603,14 +603,14 @@
 </ul>
 <figure class="highlight css"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="selector-class">.sponser_img</span>{</span><br><span class="line"></span><br><span class="line"> <span class="attribute">display</span>: none;</span><br><span class="line"></span><br><span class="line"> <span class="attribute">width</span>: <span class="number">0px</span>;</span><br><span class="line"></span><br><span class="line"> <span class="attribute">height</span>: <span class="number">0px</span>;</span><br><span class="line"></span><br><span class="line"> <span class="attribute">background</span>: <span class="built_in">rgb</span>(<span class="number">255</span>, <span class="number">255</span>, <span class="number">255</span>);</span><br><span class="line"></span><br><span class="line"> <span class="attribute">border-radius</span>:<span class="number">13px</span>;</span><br><span class="line"></span><br><span class="line"> <span class="attribute">border-color</span>: <span class="built_in">rgb</span>(<span class="number">228</span>, <span class="number">228</span>, <span class="number">228</span>);</span><br><span class="line"></span><br><span class="line"> <span class="attribute">border-width</span>: <span class="number">1.2px</span>;</span><br><span class="line"></span><br><span class="line"> <span class="attribute">border-style</span>: solid;</span><br><span class="line"></span><br><span class="line"> <span class="attribute">float</span>: none;</span><br><span class="line"></span><br><span class="line"> <span class="attribute">position</span>: relative;</span><br><span class="line"></span><br><span class="line"> <span class="attribute">top</span>: -<span class="number">400px</span>;</span><br><span class="line"></span><br><span class="line"> <span class="comment">/* left: -250px; */</span></span><br><span class="line"></span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
 <figure class="highlight css"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 用于鼠标移过以后显示窗口 */</span></span><br><span class="line"></span><br><span class="line"><span class="selector-class">.sponser_btn</span><span class="selector-pseudo">:hover</span> + <span class="selector-class">.sponser_img</span>{</span><br><span class="line"></span><br><span class="line"> <span class="attribute">display</span>: block;</span><br><span class="line"></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
-<h1 id="调用样式"><a class="markdownIt-Anchor" href="#调用样式"></a> 调用样式</h1>
+<h1>调用样式</h1>
 <ul>
 <li>打开<code>themes\Chic\source\css\style.styl</code>，在最下方添加</li>
 </ul>
 <figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">// 赞助</span><br><span class="line">@import "_lib/reward.css"</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
-<h1 id="效果"><a class="markdownIt-Anchor" href="#效果"></a> 效果</h1>
+<h1>效果</h1>
 <img src="/article/cb001f78/image-20220330201017016.png" class="" title="image-20220330201017016">
-<h1 id="ref"><a class="markdownIt-Anchor" href="#ref"></a> Ref</h1>
+<h1>Ref</h1>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_31878883/article/details/83418447">CSS 画一条横线/竖线</a></li>
 <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/FungLeo/article/details/50056111">Css 详细解读定位属性 position 以及参数</a></li>

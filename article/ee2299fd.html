@@ -14,7 +14,7 @@
 
 
 
-<title>Geant4 提示 adding row has failed 解决办法 | Myoontyee | MSF: Hi`CT &amp; Robotic</title>
+<title>Geant4 提示 adding row has failed 解决办法 | Myoontyee | MSF: Hi’CT &amp; Robotic</title>
 
 
 
@@ -566,7 +566,7 @@
 <p><strong>Problem Description</strong>：Geant4 prompts <code>adding row has failed</code> solution</p>
 <p><strong>核心思路</strong>：<code>column</code>这个表头名字缩短点就行，比如<code>worldPos_LD_2_EmCal_Hits</code>改成<code>LD.2_Hits</code></p>
 <hr>
-<h1 id="背景故事"><a class="markdownIt-Anchor" href="#背景故事"></a> 背景故事</h1>
+<h1>背景故事</h1>
 <ul>
 <li>我代码写的开开心心的，列数＞19列就报错，说没法添加新的行</li>
 <li>一开始以为是哪里限定了<code>ntuple</code>的最大列数，但是19这个数字又怪怪的，搜源码又搜不到</li>
@@ -577,7 +577,7 @@
 <li>好家伙，然后我才头一次正式复现了我的BUG，发现是<strong>列名太长的问题</strong></li>
 <li>Well，总之大家也明白解决方法了，如果不太明白，可以看下面的具体操作</li>
 </ul>
-<h1 id="报错信息"><a class="markdownIt-Anchor" href="#报错信息"></a> 报错信息</h1>
+<h1>报错信息</h1>
 <ul>
 <li>报错信息如下
 <ul>
@@ -607,7 +607,7 @@
 </ul>
 </li>
 </ul>
-<h1 id="解决办法"><a class="markdownIt-Anchor" href="#解决办法"></a> 解决办法</h1>
+<h1>解决办法</h1>
 <ul>
 <li>核心问题是表头的名字太长了，估计超出了啥变量类型的上限，溢出了，炸了</li>
 <li>原本的列名如下
@@ -638,7 +638,7 @@
 </td>
 </tr></tbody></table>
 </div>
-<h1 id="ref"><a class="markdownIt-Anchor" href="#ref"></a> Ref</h1>
+<h1>Ref</h1>
 <ul>
 <li><a target="_blank" rel="noopener" href="https://geant4-forum.web.cern.ch/t/when-columns-id-19-addntuplerow-gets-failed/7698/5">When columns ID &gt;19 , AddNtupleRow gets failed!</a></li>
 </ul>
